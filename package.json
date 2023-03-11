@@ -25,6 +25,6 @@
   "homepage": "https://github.com/KristjanESPERANTO/MMM-OneCallWeather#readme",
   "dependencies": {
     "axios": "^0.26.0",
-    "moment": "^2.29.1"
+    "moment": "^2.29.4"
   }
 }
