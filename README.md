@@ -1,6 +1,10 @@
 # MMM-OneCallWeather
 
-This is another weather module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror). It is based somewhat around <https://github.com/jharttech/MMM-weatherforecast> and the default 'weather' app. This version has been edited to allow the days of the week to span left to right, each with its own weather icon and details.
+This is a weather module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror). It displays the weather forecast for the coming week - spanning from left to right, each day with its own icon and details,like the minimum and maximum temperature.
+
+It is based somewhat around <https://github.com/jharttech/MMM-weatherforecast> and the default 'weather' app.
+
+The software is designed around a display in Celsius and miles per hour, but should work in a multitude of units.
 
 The app uses data from the currently-free source of openweathermap.org, using their one-call API - <https://openweathermap.org/api/one-call-api>.
 
@@ -39,18 +43,25 @@ Go to <https://openweathermap.org/api> and subscribe to One Call API. Its free t
 
 Go to <https://www.latlong.net/> and figure out where you want the forecast for. There are plenty of ways of figuring out your location, and you just need a decimal format of your position. 52N 010W becomes 52.0 -10.0 on the two lines in your config.
 
-## Notes
+## Icon sets
 
-Icons used in this module were created by:
+You can use any of your own icons but you will have to rename them to the weather items shown on openweather. There are only 9 types of weather that the API currently shows (2025) and they are shown on <https://openweathermap.org/weather-conditions>. With some different icons for day and night you should have 18 icons in each folder, some of which will just be copies.
 
-VClouds Weather Icons
+The module comes with two sets of icons:
+
+### 4a: VClouds Weather Icons
+
 Created and copyrighted by VClouds - <http://vclouds.deviantart.com/>
 
 The icons are free to use for Non-Commercial use and can be found at icons DA page - <http://vclouds.deviantart.com/gallery/#/d2ynulp>
 
-Note: You can use any of your own icons but you will have to rename them to the weather items shown on openweather. There are only 9 types of weather that the API currently shows (2021) and they are shown on <https://openweathermap.org/weather-conditions>. With some different icons for day and night you should have 18 icons in each folder, some of which will just be copies.
+File format is `PNG`.
 
-This module displays the weather forecast for the coming week, including an an icon to display the current conditions, the minimum temperature and the maximum temperature. The software is designed around a display in Celsius and miles per hour, but should work in a multitude of units. I found that the openweathermap information is a bit crude in that you cant have Fahrenheit and metres per second, or celsius and miles per hour, hence this code. Its a bit clunky.
+### 4b: Open Weather Weather Icons
+
+Created by Ivan Vilanculo - <https://github.com/isneezy/open-weather-icons> - [MIT License](icons/4b/LICENSE.md).
+
+File format is `SVG`.
 
 ## Configuration
 
@@ -62,9 +73,10 @@ To use this module, add it to the modules array in the `config/config.js` file:
     position: "top_right",
     // Best results in bottom_bar region due to horizontal default layout and icon sizes.
     config: {
-      latitude: "51.500149", // Longitude from https://www.latlong.net/
+      latitude: "51.500149",  // Longitude from https://www.latlong.net/
       longitude: "-0.126240", // Longitude from https://www.latlong.net/ - is West + is East of London
-      apikey: "YOUR_API_KEY" // openweathermap.org API key
+      apikey: "YOUR_API_KEY", // openweathermap.org API key
+      iconset: "4a",          // Icon set to use.
     }
   },
 ```
@@ -86,7 +98,7 @@ The following properties can be configured:
 | `updateInterval`             | How often does the content needs to be fetched? (Milliseconds) <br><br> **Possible values:** `1000` - `86400000` <br> **Default value:** `600000` (10 minutes). The free subscription level currently allows a call every 2 minutes.                                                                                                                                            |
 | `animationSpeed`             | Speed of the update animation. (Milliseconds) <br><br> **Possible values:** `0` - `5000` <br> **Default value:** `1000` (1 second)                                                                                                                                                                                                                                              |
 | `lang`                       | The language of the days. <br><br> **Possible values:** `en`, `nl`, `ru`, etc ... <br> **Default value:** uses value of _config.language_                                                                                                                                                                                                                                       |
-| `iconset`                    | The icon set to use.<br><br> **Possible values:** `4a`, `3c` or any other folder of icons in the MMM-OneCallWeather/icons folder.<br> **Default value:** `4a`.`                                                                                                                                                                                                                 |
+| `iconset`                    | The icon set to use.<br><br> **Possible values:** `4a`, `4b` or any other folder of icons in the MMM-OneCallWeather/icons folder.<br> **Default value:** `4a`.                                                                                                                                                                                                                  |
 | `iconsetFormat`              | The format of the symbols in the above iconset folders. The module can't parse the filetype of the icons so you have to tell it what type it is. MagicMirror is pretty flexible with image types. If you have some funky icons try them out<br><br> **Possible values:** `png`, `svg` or any other image file type.<br> **Default value:** `png`.                               |
 | `decimalSymbol`              | The decimal symbol to use.<br><br> **Possible values:** `.`, `,` or any other symbol.<br> **Default value:** `.`                                                                                                                                                                                                                                                                |
 | `fade`                       | Fade the future events to black. (Gradient) <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`                                                                                                                                                                                                                                                      |

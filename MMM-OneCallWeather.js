@@ -396,7 +396,7 @@ Module.register("MMM-OneCallWeather", {
 
         windIcon = document.createElement("img");
         windIcon.className = "wi wi-strong-wind dimmed";
-        windIcon.src = "modules/MMM-OneCallWeather/windicon/windblow.png";
+        windIcon.src = "modules/MMM-OneCallWeather/windicon/windblow.svg";
 
         small.appendChild(windIcon);
 
@@ -438,10 +438,11 @@ Module.register("MMM-OneCallWeather", {
         weatherIcon.style.maxHeight = "80px";
         weatherIcon.style.width = "auto";
         weatherIcon.style.verticalAlign = "middle";
-        weatherIcon.style.transform = "translate(40px, -20px)"; // scale(2)
+        weatherIcon.style.marginRight = "20px";
+        weatherIcon.style.marginLeft = "20px";
         large.appendChild(weatherIcon);
 
-        currTemperature = document.createElement("span");
+        currTemperature = document.createElement("div");
         currTemperature.className = "large bright";
 
         if (this.config.tempUnits === "f") {
@@ -453,6 +454,7 @@ Module.register("MMM-OneCallWeather", {
           currTemperature.innerHTML = ` ${currentWeather.temperature}${degreeLabel}`;
         }
         currTemperature.style.verticalAlign = "middle";
+        currTemperature.style.right = "0px";
 
         large.appendChild(currTemperature);
 
@@ -520,7 +522,6 @@ Module.register("MMM-OneCallWeather", {
           const maxTempCell = document.createElement("td");
           maxTempCell.innerHTML = dailyForecast.maxTemperature + degreeLabel;
           maxTempCell.className = "align-center bright max-temp";
-          // maxTempCell.style.paddingRight="10px";
           row.appendChild(maxTempCell);
 
           const minTempCell = document.createElement("td");
@@ -532,7 +533,7 @@ Module.register("MMM-OneCallWeather", {
           windIconCell.className = "bright weather-icon";
           windIcon = document.createElement("span");
           const windIconImg = document.createElement("img");
-          windIconImg.src = "modules/MMM-OneCallWeather/windicon/winddisc.png";
+          windIconImg.src = "modules/MMM-OneCallWeather/windicon/winddisc.svg";
 
           windIconImg.style.position = "absolute"; // absolute
           windIconImg.style.transform = `rotate(${dailyForecast.windDirection}deg) `;
@@ -582,7 +583,7 @@ Module.register("MMM-OneCallWeather", {
 
         windIcon = document.createElement("img");
         windIcon.className = "wi wi-strong-wind dimmed";
-        windIcon.src = "modules/MMM-OneCallWeather/windicon/windblow.png";
+        windIcon.src = "modules/MMM-OneCallWeather/windicon/windblow.svg";
 
         small.appendChild(windIcon);
 
@@ -633,7 +634,8 @@ Module.register("MMM-OneCallWeather", {
         weatherIcon.style.maxHeight = "80px";
         weatherIcon.style.width = "auto";
         weatherIcon.style.verticalAlign = "middle";
-        weatherIcon.style.transform = "translate(40px, -20px)"; // scale(2)
+        weatherIcon.style.marginRight = "20px";
+        weatherIcon.style.marginLeft = "20px";
         large.appendChild(weatherIcon);
 
         currTemperature = document.createElement("span");
@@ -732,7 +734,7 @@ Module.register("MMM-OneCallWeather", {
           windIconCell.className = "bright weather-icon";
           windIcon = document.createElement("span");
           const windIconImg = document.createElement("img");
-          windIconImg.src = "modules/MMM-OneCallWeather/windicon/winddisc.png";
+          windIconImg.src = "modules/MMM-OneCallWeather/windicon/winddisc.svg";
 
           windIconImg.style.transform = `rotate(${dailyForecast.windDirection}deg)`;
           windIconImg.style.display = "inline";
@@ -742,14 +744,13 @@ Module.register("MMM-OneCallWeather", {
 
           const windTextCell = document.createElement("tr");
           windTextCell.className = "bright weather-icon";
-          const ws = document.createElement("P");
+          const ws = document.createElement("p");
           ws.innerText = dailyForecast.windSpeed;
 
           // ws.innerText =  (dailyForecast.windSpeed * 2.237).toFixed(0);
           ws.style.color = "black";
           ws.style.position = "relative"; // absolute
-          ws.style.top = "-55px";
-          ws.style.left = "6px";
+          ws.style.top = "-58px";
           ws.style.textAlign = "center";
           windTextCell.appendChild(ws);
           row.appendChild(windTextCell);
@@ -898,24 +899,24 @@ Module.register("MMM-OneCallWeather", {
    */
   convertWeatherType (weatherType) {
     const weatherTypes = {
-      "01d": "day-sunny",
-      "02d": "day-few-cloudy",
-      "03d": "day-scattered-cloudy",
-      "04d": "day-broken-cloudy",
-      "09d": "day-showers",
+      "01d": "day-clear-sky",
+      "02d": "day-few-clouds",
+      "03d": "day-scattered-clouds",
+      "04d": "day-broken-clouds",
+      "09d": "day-shower-rain",
       "10d": "day-rain",
       "11d": "day-thunderstorm",
       "13d": "day-snow",
-      "50d": "day-fog",
-      "01n": "night-clear",
-      "02n": "night-few-cloudy",
-      "03n": "night-scattered-cloudy",
-      "04n": "night-broken-cloudy",
-      "09n": "night-showers",
+      "50d": "day-mist",
+      "01n": "night-clear-sky",
+      "02n": "night-few-clouds",
+      "03n": "night-scattered-clouds",
+      "04n": "night-broken-clouds",
+      "09n": "night-shower-rain",
       "10n": "night-rain",
       "11n": "night-thunderstorm",
       "13n": "night-snow",
-      "50n": "night-fog"
+      "50n": "night-mist"
     };
 
     return Object.hasOwn(weatherTypes, weatherType)
