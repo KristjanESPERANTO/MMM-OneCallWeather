@@ -283,15 +283,6 @@ Module.register("MMM-OneCallWeather", {
       days};
   },
 
-  // Override getHeader method.
-  getHeader () {
-    if (this.config.appendLocationNameToHeader) {
-      return `${this.data.header} ${this.fetchedLocationName}`;
-    }
-
-    return this.data.header;
-  },
-
   // Override dom generator.
   getDom () {
     const wrapper = document.createElement("div");
@@ -320,8 +311,8 @@ Module.register("MMM-OneCallWeather", {
     let dailyForecast;
     let hCellData;
     let hRowData;
-    let large;
-    let small;
+    let largeWeatherIcon;
+    let windContainer;
     let spacer;
     let weatherIcon;
     let windyDirection;
@@ -387,22 +378,21 @@ Module.register("MMM-OneCallWeather", {
         currentWeather = this.forecast.current[0];
         currentRow1 = document.createElement("tr");
         currentCell1 = document.createElement("td");
-        // currentCell.style.columnSpan = "all";
         currentCell1.colSpan = "6";
         currentCell1.className = "current";
 
-        small = document.createElement("div");
-        small.className = "normal medium";
+        windContainer = document.createElement("div");
+        windContainer.className = "wind-container normal medium";
 
         windIcon = document.createElement("img");
-        windIcon.className = "wi wi-strong-wind dimmed";
-        windIcon.src = "modules/MMM-OneCallWeather/windicon/windblow.svg";
+        windIcon.className = "wi wind-icon dimmed";
+        windIcon.src = "modules/MMM-OneCallWeather/icons/8a/wind.svg";
 
-        small.appendChild(windIcon);
+        windContainer.appendChild(windIcon);
 
         windySpeed = document.createElement("span");
         windySpeed.innerHTML = ` ${currentWeather.windSpeed}`;
-        small.appendChild(windySpeed);
+        windContainer.appendChild(windySpeed);
 
         if (this.config.showWindDirection) {
           windyDirection = document.createElement("sup");
@@ -413,13 +403,13 @@ Module.register("MMM-OneCallWeather", {
           } else {
             windyDirection.innerHTML = ` ${this.cardinalWindDirection(currentWeather.windDirection)}`; // + currentWeather.windDirection;
           }
-          small.appendChild(windyDirection);
+          windContainer.appendChild(windyDirection);
         }
         spacer = document.createElement("span");
         spacer.innerHTML = "&nbsp;";
-        small.appendChild(spacer);
+        windContainer.appendChild(spacer);
 
-        currentCell1.appendChild(small);
+        currentCell1.appendChild(windContainer);
         currentRow1.appendChild(currentCell1);
         table.appendChild(currentRow1);
 
@@ -428,19 +418,13 @@ Module.register("MMM-OneCallWeather", {
         currentCell2.colSpan = "6";
         currentCell2.className = "current";
 
-        large = document.createElement("div");
-        large.className = "light";
+        largeWeatherIcon = document.createElement("div");
+        largeWeatherIcon.className = "large-weather-icon-container light";
 
         weatherIcon = document.createElement("img");
         weatherIcon.className = `wi weathericon wi-${currentWeather.weatherIcon}`;
         weatherIcon.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${currentWeather.weatherIcon}.${this.config.iconsetFormat}`;
-        weatherIcon.style.cssFloat = "left";
-        weatherIcon.style.maxHeight = "80px";
-        weatherIcon.style.width = "auto";
-        weatherIcon.style.verticalAlign = "middle";
-        weatherIcon.style.marginRight = "20px";
-        weatherIcon.style.marginLeft = "20px";
-        large.appendChild(weatherIcon);
+        largeWeatherIcon.appendChild(weatherIcon);
 
         currTemperature = document.createElement("div");
         currTemperature.className = "large bright";
@@ -456,9 +440,9 @@ Module.register("MMM-OneCallWeather", {
         currTemperature.style.verticalAlign = "middle";
         currTemperature.style.right = "0px";
 
-        large.appendChild(currTemperature);
+        largeWeatherIcon.appendChild(currTemperature);
 
-        currentCell2.appendChild(large);
+        currentCell2.appendChild(largeWeatherIcon);
         currentRow2.appendChild(currentCell2);
         table.appendChild(currentRow2);
 
@@ -468,8 +452,8 @@ Module.register("MMM-OneCallWeather", {
         currentCell3.className = "current";
 
         if (this.config.showFeelsLike && this.config.onlyTemp === false) {
-          small = document.createElement("div");
-          small.className = "small dimmed";
+          windContainer = document.createElement("div");
+          windContainer.className = "wind-container small dimmed";
 
           const currFeelsLike = document.createElement("span");
           currFeelsLike.className = "small dimmed";
@@ -481,11 +465,11 @@ Module.register("MMM-OneCallWeather", {
           } else {
             currFeelsLike.innerHTML = `${this.translate("FEELS_LIKE")} ${currentWeather.feelsLikeTemp}${degreeLabel}`;
           }
-          small.appendChild(currFeelsLike);
-          currentCell1.appendChild(small);
+          windContainer.appendChild(currFeelsLike);
+          currentCell1.appendChild(windContainer);
         }
 
-        currentCell3.appendChild(small);
+        currentCell3.appendChild(windContainer);
         currentRow3.appendChild(currentCell3);
         table.appendChild(currentRow3);
 
@@ -494,6 +478,7 @@ Module.register("MMM-OneCallWeather", {
           dailyForecast = this.forecast.days[i];
 
           const row = document.createElement("tr");
+          row.style.textAlign = "center";
 
           if (this.config.colored) {
             row.className = "colored";
@@ -521,12 +506,12 @@ Module.register("MMM-OneCallWeather", {
 
           const maxTempCell = document.createElement("td");
           maxTempCell.innerHTML = dailyForecast.maxTemperature + degreeLabel;
-          maxTempCell.className = "align-center bright max-temp";
+          maxTempCell.className = "bright max-temp";
           row.appendChild(maxTempCell);
 
           const minTempCell = document.createElement("td");
           minTempCell.innerHTML = dailyForecast.minTemperature + degreeLabel;
-          minTempCell.className = "align-center min-temp";
+          minTempCell.className = "min-temp";
           row.appendChild(minTempCell);
 
           const windIconCell = document.createElement("td");
@@ -535,11 +520,10 @@ Module.register("MMM-OneCallWeather", {
           const windIconImg = document.createElement("img");
           windIconImg.src = "modules/MMM-OneCallWeather/windicon/winddisc.svg";
 
-          windIconImg.style.position = "absolute"; // absolute
+          windIconImg.style.position = "absolute";
           windIconImg.style.transform = `rotate(${dailyForecast.windDirection}deg) `;
-          windIconImg.style.textAlign = "center";
-          windIconImg.style.marginLeft = "10px";
-          windIconImg.style.marginTop = "-27px";
+          windIconImg.style.marginLeft = "0.1rem";
+          windIconImg.style.marginTop = "-1.1rem";
 
           windIcon.appendChild(windIconImg);
           windIconCell.appendChild(windIcon);
@@ -548,8 +532,8 @@ Module.register("MMM-OneCallWeather", {
           const windTextCell = document.createElement("td");
           windTextCell.className = "bright weather-icon";
           windTextCell.innerText = dailyForecast.windSpeed;
-          windTextCell.style.position = "relative"; // absolute
-          windTextCell.style.color = "red";
+          windTextCell.style.position = "relative";
+          windTextCell.style.color = "black";
 
           row.appendChild(windTextCell);
 
@@ -574,18 +558,17 @@ Module.register("MMM-OneCallWeather", {
         currentWeather = this.forecast.current[0];
         currentRow1 = document.createElement("tr");
         currentCell1 = document.createElement("td");
-        // currentCell.style.columnSpan = "all";
         currentCell1.colSpan = this.config.maxDailiesToShow;
         currentCell1.className = "current";
 
-        small = document.createElement("div");
-        small.className = "normal medium";
+        windContainer = document.createElement("div");
+        windContainer.className = "wind-container normal medium";
 
         windIcon = document.createElement("img");
-        windIcon.className = "wi wi-strong-wind dimmed";
-        windIcon.src = "modules/MMM-OneCallWeather/windicon/windblow.svg";
+        windIcon.className = "wi wind-icon dimmed";
+        windIcon.src = "modules/MMM-OneCallWeather/icons/8a/wind.svg";
 
-        small.appendChild(windIcon);
+        windContainer.appendChild(windIcon);
 
         windySpeed = document.createElement("span");
         if (this.config.useBeaufortInCurrent) {
@@ -594,7 +577,7 @@ Module.register("MMM-OneCallWeather", {
         } else {
           windySpeed.innerHTML = ` ${currentWeather.windSpeed}`;
         }
-        small.appendChild(windySpeed);
+        windContainer.appendChild(windySpeed);
 
         if (this.config.showWindDirection) {
           windyDirection = document.createElement("sup");
@@ -605,13 +588,13 @@ Module.register("MMM-OneCallWeather", {
           } else {
             windyDirection.innerHTML = ` ${this.cardinalWindDirection(currentWeather.windDirection)}`; // + currentWeather.windDirection;
           }
-          small.appendChild(windyDirection);
+          windContainer.appendChild(windyDirection);
         }
         spacer = document.createElement("span");
         spacer.innerHTML = "&nbsp;";
-        small.appendChild(spacer);
+        windContainer.appendChild(spacer);
 
-        currentCell1.appendChild(small);
+        currentCell1.appendChild(windContainer);
         currentRow1.appendChild(currentCell1);
         table.appendChild(currentRow1);
 
@@ -620,8 +603,8 @@ Module.register("MMM-OneCallWeather", {
         currentCell2.colSpan = this.config.maxDailiesToShow;
         currentCell2.className = "current";
 
-        large = document.createElement("div");
-        large.className = "light";
+        largeWeatherIcon = document.createElement("div");
+        largeWeatherIcon.className = "large-weather-icon-container light";
 
         if (this.config.decimalSymbol === "") {
           this.config.decimalSymbol = ".";
@@ -630,13 +613,7 @@ Module.register("MMM-OneCallWeather", {
         weatherIcon = document.createElement("img");
         weatherIcon.className = `wi weathericon wi-${currentWeather.weatherIcon}`;
         weatherIcon.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${currentWeather.weatherIcon}.${this.config.iconsetFormat}`;
-        weatherIcon.style.cssFloat = "left";
-        weatherIcon.style.maxHeight = "80px";
-        weatherIcon.style.width = "auto";
-        weatherIcon.style.verticalAlign = "middle";
-        weatherIcon.style.marginRight = "20px";
-        weatherIcon.style.marginLeft = "20px";
-        large.appendChild(weatherIcon);
+        largeWeatherIcon.appendChild(weatherIcon);
 
         currTemperature = document.createElement("span");
         currTemperature.className = "large bright";
@@ -650,9 +627,9 @@ Module.register("MMM-OneCallWeather", {
         }
         currTemperature.style.verticalAlign = "middle";
 
-        large.appendChild(currTemperature);
+        largeWeatherIcon.appendChild(currTemperature);
 
-        currentCell2.appendChild(large);
+        currentCell2.appendChild(largeWeatherIcon);
         currentRow2.appendChild(currentCell2);
         table.appendChild(currentRow2);
 
@@ -662,16 +639,16 @@ Module.register("MMM-OneCallWeather", {
         currentCell3.className = "current";
 
         if (this.config.showFeelsLike && this.config.onlyTemp === false) {
-          small = document.createElement("div");
-          small.className = "small dimmed";
+          windContainer = document.createElement("div");
+          windContainer.className = "wind-container small dimmed";
           const currFeelsLike = document.createElement("span");
           currFeelsLike.className = "small dimmed";
           currFeelsLike.innerHTML = `${this.translate("FEELS_LIKE")} ${currentWeather.feelsLikeTemp}${degreeLabel}`; // + "<BR>Last update" +  moment(currentWeather.date, "X").format("LT");
 
-          small.appendChild(currFeelsLike);
-          currentCell1.appendChild(small);
+          windContainer.appendChild(currFeelsLike);
+          currentCell1.appendChild(windContainer);
         }
-        currentCell3.appendChild(small);
+        currentCell3.appendChild(windContainer);
         currentRow3.appendChild(currentCell3);
         table.appendChild(currentRow3);
 
@@ -715,7 +692,7 @@ Module.register("MMM-OneCallWeather", {
           const maxTempCell = document.createElement("tr");
 
           maxTempCell.innerHTML = dailyForecast.maxTemperature + degreeLabel;
-          maxTempCell.className = "align-center bright max-temp";
+          maxTempCell.className = "bright max-temp";
           row.appendChild(maxTempCell);
 
           const minTempCell = document.createElement("tr");
@@ -727,7 +704,7 @@ Module.register("MMM-OneCallWeather", {
           } else {
             minTempCell.innerHTML = dailyForecast.minTemperature + degreeLabel;
           }
-          minTempCell.className = "align-center min-temp";
+          minTempCell.className = "min-temp";
           row.appendChild(minTempCell);
 
           const windIconCell = document.createElement("tr");
@@ -744,15 +721,11 @@ Module.register("MMM-OneCallWeather", {
 
           const windTextCell = document.createElement("tr");
           windTextCell.className = "bright weather-icon";
-          const ws = document.createElement("p");
-          ws.innerText = dailyForecast.windSpeed;
+          const windSpeed = document.createElement("p");
+          windSpeed.className = "wind-speed";
+          windSpeed.innerText = dailyForecast.windSpeed;
 
-          // ws.innerText =  (dailyForecast.windSpeed * 2.237).toFixed(0);
-          ws.style.color = "black";
-          ws.style.position = "relative"; // absolute
-          ws.style.top = "-58px";
-          ws.style.textAlign = "center";
-          windTextCell.appendChild(ws);
+          windTextCell.appendChild(windSpeed);
           row.appendChild(windTextCell);
 
           if (this.config.showRainAmount) {
@@ -929,7 +902,7 @@ Module.register("MMM-OneCallWeather", {
    * Converts m2 to beaufort (windspeed).
    *
    * see:
-   *  http://www.spc.noaa.gov/faq/tornado/beaufort.html
+   *  https://www.spc.noaa.gov/faq/tornado/beaufort.html
    *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
    *
    * argument ms number - Windspeed in m/s.
