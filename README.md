@@ -58,11 +58,33 @@ The module comes with four sets of icons
 - Source: <https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045>
 - File format: PNG
 
+##### Examples
+
+<div style="background-color: black; padding: 10px;">
+  <img src="icons/4a/01d.png" alt="01d" style="width:50px;">
+  <img src="icons/4a/02d.png" alt="02d" style="width:50px;">
+  <img src="icons/4a/02n.png" alt="02n" style="width:50px;">
+  <img src="icons/4a/09d.png" alt="09d" style="width:50px;">
+  <img src="icons/4a/11d.png" alt="11d" style="width:50px;">
+  <img src="icons/4a/13n.png" alt="13n" style="width:50px;">
+</div>
+
 #### 8a: Weather Icons Static
 
 - Source: <https://github.com/Makin-Things/weather-icons>
 - License: [MIT](icons/8a/LICENSE.md)
 - File format: SVG
+
+##### Examples
+
+<div style="background-color: black; padding: 10px;">
+  <img src="icons/8a/01d.svg" alt="01d" style="width:50px;">
+  <img src="icons/8a/02d.svg" alt="02d" style="width:50px;">
+  <img src="icons/8a/02n.svg" alt="02n" style="width:50px;">
+  <img src="icons/8a/09d.svg" alt="09d" style="width:50px;">
+  <img src="icons/8a/11d.svg" alt="11d" style="width:50px;">
+  <img src="icons/8a/13n.svg" alt="13n" style="width:50px;">
+</div>
 
 #### 8b: Open Weather Weather Icons
 
@@ -70,11 +92,33 @@ The module comes with four sets of icons
 - License: [MIT](icons/8b/LICENSE.md).
 - File format: SVG
 
+##### Examples
+
+<div style="background-color: black; padding: 10px;">
+  <img src="icons/8b/01d.svg" alt="01d" style="width:50px;">
+  <img src="icons/8b/02d.svg" alt="02d" style="width:50px;">
+  <img src="icons/8b/02n.svg" alt="02n" style="width:50px;">
+  <img src="icons/8b/09d.svg" alt="09d" style="width:50px;">
+  <img src="icons/8b/11d.svg" alt="11d" style="width:50px;">
+  <img src="icons/8b/13n.svg" alt="13n" style="width:50px;">
+</div>
+
 #### 9a: Weather Icons Animated
 
 - Source: <https://github.com/Makin-Things/weather-icons>
 - License: [MIT](icons/9a/LICENSE.md)
 - File format: SVG
+
+##### Examples
+
+<div style="background-color: black; padding: 10px;">
+  <img src="icons/9a/01d.svg" alt="01d" style="width:50px;">
+  <img src="icons/9a/02d.svg" alt="02d" style="width:50px;">
+  <img src="icons/9a/02n.svg" alt="02n" style="width:50px;">
+  <img src="icons/9a/09d.svg" alt="09d" style="width:50px;">
+  <img src="icons/9a/11d.svg" alt="11d" style="width:50px;">
+  <img src="icons/9a/13n.svg" alt="13n" style="width:50px;">
+</div>
 
 ## Configuration
 
