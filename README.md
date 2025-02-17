@@ -16,7 +16,7 @@ Since the original author of the module, [Captsi](https://github.com/Captsi), is
 
 ## Screenshot
 
-![Example: Default layout](screenshot.png)<br>_Typical view of weather_
+![Example: Default layout](screenshot.png)
 
 ## Installation
 
@@ -89,7 +89,7 @@ The module comes with four sets of icons
 #### 8b: Open Weather Weather Icons
 
 - Source: <https://github.com/isneezy/open-weather-icons>
-- License: [MIT](icons/8b/LICENSE.md).
+- License: [MIT](icons/8b/LICENSE.md)
 - File format: SVG
 
 ##### Examples
@@ -134,6 +134,7 @@ To use this module, add it to the modules array in the `config/config.js` file:
       longitude: "-0.126240", // Longitude from https://www.latlong.net/
       apikey: "YOUR_API_KEY", // openweathermap.org API key
       iconset: "9a",          // Icon set to use.
+      iconsetFormat: "svg",   // File format of the icons.
     }
   },
 ```
