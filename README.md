@@ -47,21 +47,34 @@ Go to <https://www.latlong.net/> and figure out where you want the forecast for.
 
 You can use any of your own icons but you will have to rename them to the weather items shown on openweather. There are only 9 types of weather that the API currently shows (2025) and they are shown on <https://openweathermap.org/weather-conditions>. With some different icons for day and night you should have 18 icons in each folder, some of which will just be copies.
 
-The module comes with two sets of icons:
+### Built-in icon sets
 
-### 4a: VClouds Weather Icons
+The module comes with four sets of icons
 
-Created and copyrighted by VClouds - <http://vclouds.deviantart.com/>
+#### 4a: VClouds Weather Icons
 
-The icons are free to use for Non-Commercial use and can be found at icons DA page - <http://vclouds.deviantart.com/gallery/#/d2ynulp>
+- Author: Created and copyrighted by VClouds <https://www.deviantart.com/vclouds>
+- License: [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/). The icons are free to use for Non-Commercial use.
+- Source: <https://www.deviantart.com/vclouds/art/VClouds-Weather-Icons-179152045>
+- File format: PNG
 
-File format is `PNG`.
+#### 8a: Weather Icons Static
 
-### 4b: Open Weather Weather Icons
+- Source: <https://github.com/Makin-Things/weather-icons>
+- License: [MIT](icons/8a/LICENSE.md)
+- File format: SVG
 
-Created by Ivan Vilanculo - <https://github.com/isneezy/open-weather-icons> - [MIT License](icons/4b/LICENSE.md).
+#### 8b: Open Weather Weather Icons
 
-File format is `SVG`.
+- Source: <https://github.com/isneezy/open-weather-icons>
+- License: [MIT](icons/8b/LICENSE.md).
+- File format: SVG
+
+#### 9a: Weather Icons Animated
+
+- Source: <https://github.com/Makin-Things/weather-icons>
+- License: [MIT](icons/9a/LICENSE.md)
+- File format: SVG
 
 ## Configuration
 
@@ -71,12 +84,12 @@ To use this module, add it to the modules array in the `config/config.js` file:
   {
     module: "MMM-OneCallWeather",
     position: "top_right",
-    // Best results in bottom_bar region due to horizontal default layout and icon sizes.
+    header: "Weather in London",
     config: {
       latitude: "51.500149",  // Longitude from https://www.latlong.net/
-      longitude: "-0.126240", // Longitude from https://www.latlong.net/ - is West + is East of London
+      longitude: "-0.126240", // Longitude from https://www.latlong.net/
       apikey: "YOUR_API_KEY", // openweathermap.org API key
-      iconset: "4a",          // Icon set to use.
+      iconset: "9a",          // Icon set to use.
     }
   },
 ```
@@ -93,17 +106,16 @@ The following properties can be configured:
 | `apiVersion`                 | The OpenWeatherMap API version to use.<br><br> **Default value:** `3.0`                                                                                                                                                                                                                                                                                                         |
 | `units`                      | What units to use. Specified by config.js <br><br> **Possible values:** `config.units` = Specified by config.js, `default` = Kelvin, `metric` = Celsius, `imperial` =Fahrenheit <br> **Default value:** `config.units`                                                                                                                                                          |
 | `roundTemp`                  | Round temperature values to nearest integer. <br><br> **Possible values:** `true` (round to integer) or `false` (display exact value with decimal point) <br> **Default value:** `false`                                                                                                                                                                                        |
-| `layout`                     | Define whether layout should be horizontal or vertical. Specified by config.js <br><br> **Possible values:** `"horizontal"` , `"vertical"` or `"default"` <br> **Default value:** `"default"` <br> This value is optional. By default the weatherforecast module display in a hybrid format. The vertical option is OK too. Some work still needs to be done on pretty formats. |
+| `layout`                     | Define whether layout should be horizontal or vertical. <br><br> **Possible values:** `"vertical"` or `"default"` <br> **Default value:** `"default"` <br> This value is optional. By default the weatherforecast module display in a hybrid format. The vertical option is OK too. Some work still needs to be done on pretty formats. |
 | `showRainAmount`             | Should the predicted rain amount be displayed? <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false` <br> This value is optional. By default the weatherforecast module will not display the predicted amount of rain.                                                                                                                                |
 | `updateInterval`             | How often does the content needs to be fetched? (Milliseconds) <br><br> **Possible values:** `1000` - `86400000` <br> **Default value:** `600000` (10 minutes). The free subscription level currently allows a call every 2 minutes.                                                                                                                                            |
 | `animationSpeed`             | Speed of the update animation. (Milliseconds) <br><br> **Possible values:** `0` - `5000` <br> **Default value:** `1000` (1 second)                                                                                                                                                                                                                                              |
 | `lang`                       | The language of the days. <br><br> **Possible values:** `en`, `nl`, `ru`, etc ... <br> **Default value:** uses value of _config.language_                                                                                                                                                                                                                                       |
-| `iconset`                    | The icon set to use.<br><br> **Possible values:** `4a`, `4b` or any other folder of icons in the MMM-OneCallWeather/icons folder.<br> **Default value:** `4a`.                                                                                                                                                                                                                  |
+| `iconset`                    | The icon set to use.<br><br> **Possible values:** `4a`, `8a`, `8b` or `9a` any other folder of icons in the MMM-OneCallWeather/icons folder.<br> **Default value:** `4a`.                                                                                                                                                                                                                  |
 | `iconsetFormat`              | The format of the symbols in the above iconset folders. The module can't parse the filetype of the icons so you have to tell it what type it is. MagicMirror is pretty flexible with image types. If you have some funky icons try them out<br><br> **Possible values:** `png`, `svg` or any other image file type.<br> **Default value:** `png`.                               |
 | `decimalSymbol`              | The decimal symbol to use.<br><br> **Possible values:** `.`, `,` or any other symbol.<br> **Default value:** `.`                                                                                                                                                                                                                                                                |
 | `fade`                       | Fade the future events to black. (Gradient) <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`                                                                                                                                                                                                                                                      |
 | `initialLoadDelay`           | The initial delay before loading. If you have multiple modules that use the same API key, you might want to delay one of the requests. (Milliseconds) <br><br> **Possible values:** `1000` - `5000` <br> **Default value:** `2500` (2.5 seconds delay. This delay is used to keep the OpenWeather API happy.)                                                                   |
-| `appendLocationNameToHeader` | If set to `true`, the returned location name will be appended to the header of the module, if the header is enabled. This is mainly interesting when using calender based weather. <br><br> **Default value:** `true`                                                                                                                                                           |
 | `tableClass`                 | Name of the classes issued from `main.css`. <br><br> **Possible values:** xsmall, small, medium, large, xlarge. <br> **Default value:** _small._                                                                                                                                                                                                                                |
 | `colored`                    | If set 'colored' to true the min-temp get a blue tone and the max-temp get a red tone. <br><br> **Default value:** `true`                                                                                                                                                                                                                                                       |
 

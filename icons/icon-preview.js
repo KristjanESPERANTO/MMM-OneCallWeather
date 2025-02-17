@@ -1,6 +1,8 @@
 const iconSets = {
-  "4a": "DarkSky",
-  "4b": "OpenWeatherMap"
+  "4a": "VClouds",
+  "8a": "Weather Icons Static",
+  "8b": "OpenWeatherMap",
+  "9a": "Weather Icons Animated"
 };
 
 const weatherTypes = {
@@ -43,9 +45,10 @@ Object.keys(iconSets).forEach((iconSetName) => {
     const icon = document.createElement("img");
     icon.src = `${iconSetName}/${iconName}${fileExtension}`;
     icon.alt = weatherTypes[iconName];
+    icon.title = weatherTypes[iconName];
     iconContainer.appendChild(icon);
     const iconTitle = document.createElement("p");
-    iconTitle.innerHTML = `${iconName} - ${weatherTypes[iconName]}`;
+    iconTitle.innerHTML = `${iconName}`;
     iconTitle.style.textAlign = "center";
     iconContainer.appendChild(iconTitle);
     iconSet.appendChild(iconContainer);
