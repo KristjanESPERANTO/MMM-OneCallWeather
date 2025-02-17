@@ -20,7 +20,7 @@ Since the original author of the module, [Captsi](https://github.com/Captsi), is
 
 ## Installation
 
-In your terminal, go to your MagicMirror's module folder:
+In your terminal, go to your MagicMirror's module directory:
 
 ```sh
 cd ~/MagicMirror/modules
@@ -45,7 +45,7 @@ Go to <https://www.latlong.net/> and figure out where you want the forecast for.
 
 ## Icon sets
 
-You can use any of your own icons but you will have to rename them to the weather items shown on openweather. There are only 9 types of weather that the API currently shows (2025) and they are shown on <https://openweathermap.org/weather-conditions>. With some different icons for day and night you should have 18 icons in each folder, some of which will just be copies.
+You can use any of your own icons but you will have to rename them to the weather items shown on openweather. There are only 9 types of weather that the API currently shows (2025) and they are shown on <https://openweathermap.org/weather-conditions>. With some different icons for day and night you should have 18 icons in each directory, some of which will just be copies.
 
 ### Built-in icon sets
 
@@ -156,8 +156,8 @@ The following properties can be configured:
 | `updateInterval`   | How often does the content needs to be fetched? (Milliseconds) <br><br> **Possible values:** `1000` - `86400000` <br> **Default value:** `600000` (10 minutes). The free subscription level currently allows a call every 2 minutes.                                                                                                                                            |
 | `animationSpeed`   | Speed of the update animation. (Milliseconds) <br><br> **Possible values:** `0` - `5000` <br> **Default value:** `1000` (1 second)                                                                                                                                                                                                                                              |
 | `lang`             | The language of the days. <br><br> **Possible values:** `en`, `nl`, `ru`, etc ... <br> **Default value:** uses value of _config.language_                                                                                                                                                                                                                                       |
-| `iconset`          | The icon set to use.<br><br> **Possible values:** `4a`, `8a`, `8b` or `9a` any other folder of icons in the MMM-OneCallWeather/icons folder.<br> **Default value:** `4a`.                                                                                                                                                                                                       |
-| `iconsetFormat`    | The format of the symbols in the above iconset folders. The module can't parse the filetype of the icons so you have to tell it what type it is. MagicMirror is pretty flexible with image types. If you have some funky icons try them out<br><br> **Possible values:** `png`, `svg` or any other image file type.<br> **Default value:** `png`.                               |
+| `iconset`          | The icon set to use.<br><br> **Possible values:** `4a`, `8a`, `8b` or `9a` any other directory of icons in the MMM-OneCallWeather/icons directory.<br> **Default value:** `4a`.                                                                                                                                                                                                       |
+| `iconsetFormat`    | The format of the symbols in the above iconset directories. The module can't parse the filetype of the icons so you have to tell it what type it is. MagicMirror is pretty flexible with image types. If you have some funky icons try them out<br><br> **Possible values:** `png`, `svg` or any other image file type.<br> **Default value:** `png`.                               |
 | `decimalSymbol`    | The decimal symbol to use.<br><br> **Possible values:** `.`, `,` or any other symbol.<br> **Default value:** `.`                                                                                                                                                                                                                                                                |
 | `fade`             | Fade the future events to black. (Gradient) <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true`                                                                                                                                                                                                                                                      |
 | `initialLoadDelay` | The initial delay before loading. If you have multiple modules that use the same API key, you might want to delay one of the requests. (Milliseconds) <br><br> **Possible values:** `1000` - `5000` <br> **Default value:** `2500` (2.5 seconds delay. This delay is used to keep the OpenWeather API happy.)                                                                   |
