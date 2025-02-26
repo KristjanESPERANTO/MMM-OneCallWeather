@@ -25,7 +25,6 @@
   "scripts": {
     "lint": "eslint && markdownlint . --ignore node_modules && prettier --check .",
     "lint:fix": "eslint --fix && markdownlint . --ignore node_modules --fix && prettier --write .",
-    "release": "npx bumpp --no-push",
     "test": "npm run lint && npm run test:spelling",
     "test:spelling": "cspell ."
   },

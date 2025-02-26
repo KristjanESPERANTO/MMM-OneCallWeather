@@ -195,6 +195,5 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 - `npm run lint` - Run linting and formatter checks.
 - `npm run lint:fix` - Fix linting and formatter issues.
-- `npm run release` - Bump version for release.
 - `npm run test` - Run linting and formatter checks + run spelling check.
 - `npm run test:spelling` - Run spelling check.
