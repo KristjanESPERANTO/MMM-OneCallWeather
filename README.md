@@ -58,18 +58,18 @@ npm ci
 To use this module, add it to the modules array in the `config/config.js` file:
 
 ```javascript
-  {
-    module: "MMM-OneCallWeather",
-    position: "top_right",
-    header: "Weather in London",
-    config: {
-      latitude: "51.500149",  // Longitude from https://www.latlong.net/
-      longitude: "-0.126240", // Longitude from https://www.latlong.net/
-      apikey: "YOUR_API_KEY", // openweathermap.org API key
-      iconset: "9a",          // Icon set to use.
-      iconsetFormat: "svg",   // File format of the icons.
-    }
-  },
+    {
+      module: "MMM-OneCallWeather",
+      position: "top_right",
+      header: "Weather in London",
+      config: {
+        latitude: "51.500149",  // Longitude from https://www.latlong.net/
+        longitude: "-0.126240", // Longitude from https://www.latlong.net/
+        apikey: "YOUR_API_KEY", // openweathermap.org API key
+        iconset: "9a",          // Icon set to use.
+        iconsetFormat: "svg",   // File format of the icons.
+      }
+    },
 ```
 
 ### Configuration options
