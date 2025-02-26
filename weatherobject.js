@@ -42,7 +42,7 @@ class WeatherObject {
   }
 
   nextSunAction () {
-    return moment().isBetween(this.sunrise, this.sunset)
+    return dayjs().isBetween(this.sunrise, this.sunset)
       ? "sunset"
       : "sunrise";
   }

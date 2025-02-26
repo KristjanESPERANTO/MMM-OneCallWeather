@@ -65,7 +65,13 @@ Module.register("MMM-OneCallWeather", {
 
   // Define required scripts.
   getScripts () {
-    return ["moment.js", "weatherobject.js"];
+    return [
+      this.file("node_modules/dayjs/dayjs.min.js"),
+      this.file("node_modules/dayjs/plugin/isBetween.js"),
+      this.file("node_modules/dayjs/plugin/utc.js"),
+      this.file(`node_modules/dayjs/locale/${config.language}.js`),
+      "weatherobject.js"
+    ];
   },
 
   // Define required CSS files.
@@ -85,7 +91,9 @@ Module.register("MMM-OneCallWeather", {
   start () {
     Log.info(`Starting module: ${this.name}`);
     // Set locale.
-    moment.locale(config.language);
+    dayjs.locale(config.language);
+    dayjs.extend(window.dayjs_plugin_isBetween);
+    dayjs.extend(window.dayjs_plugin_utc);
     this.forecast = [];
     this.loaded = false;
     this.scheduleUpdate(this.config.initialLoadDelay);
@@ -144,12 +152,12 @@ Module.register("MMM-OneCallWeather", {
 
     if (Object.hasOwn(data, "current")) {
       const currently = {
-        date: moment(data.current.dt, "X").utcOffset(data.timezone_offset / 60),
-        dayOfWeek: moment(data.current.dt, "X").format("ddd"),
+        date: dayjs.unix(data.current.dt).utcOffset(data.timezone_offset / 60),
+        dayOfWeek: dayjs.unix(data.current.dt).format("ddd"),
         windSpeed: (data.current.wind_speed * wsfactor).toFixed(0),
         windDirection: data.current.wind_deg,
-        sunrise: moment(data.current.sunrise, "X").utcOffset(data.timezone_offset / 60),
-        sunset: moment(data.current.sunset, "X").utcOffset(data.timezone_offset / 60),
+        sunrise: dayjs.unix(data.current.sunrise).utcOffset(data.timezone_offset / 60),
+        sunset: dayjs.unix(data.current.sunset).utcOffset(data.timezone_offset / 60),
         temperature: this.roundValue(data.current.temp),
         weatherIcon: data.current.weather[0].icon,
         weatherType: this.convertWeatherType(data.current.weather[0].icon),
@@ -201,7 +209,7 @@ Module.register("MMM-OneCallWeather", {
         }
 
         forecastData = {
-          date: moment(hour.dt, "X").utcOffset(data.timezone_offset / 60),
+          date: dayjs.unix(hour.dt).utcOffset(data.timezone_offset / 60),
           temperature: hour.temp,
           humidity: hour.humidity,
           windSpeed: hour.wind_speed,
@@ -252,10 +260,10 @@ Module.register("MMM-OneCallWeather", {
         //
 
         forecastData = {
-          dayOfWeek: moment(day.dt, "X").format("ddd"),
-          date: moment(day.dt, "X").utcOffset(data.timezone_offset / 60),
-          sunrise: moment(day.sunrise, "X").utcOffset(data.timezone_offset / 60),
-          sunset: moment(day.sunset, "X").utcOffset(data.timezone_offset / 60),
+          dayOfWeek: dayjs.unix(day.dt).format("ddd"),
+          date: dayjs.unix(day.dt).utcOffset(data.timezone_offset / 60),
+          sunrise: dayjs.unix(day.sunrise).utcOffset(data.timezone_offset / 60),
+          sunset: dayjs.unix(day.sunset).utcOffset(data.timezone_offset / 60),
           minTemperature: this.roundValue(day.temp.min),
           maxTemperature: this.roundValue(day.temp.max),
           humidity: day.humidity,
@@ -352,7 +360,7 @@ Module.register("MMM-OneCallWeather", {
         for (let h = 0; h < this.config.maxHourliesToShow; h += 1) {
           const hourlyForecast = this.forecast.hours[h];
           const lineOfData = document.createElement("div");
-          lineOfData.innerHTML = `${moment(hourlyForecast.date, "X").format("hhmm")}&nbsp ${
+          lineOfData.innerHTML = `${dayjs.unix(hourlyForecast.date).format("hhmm")}&nbsp ${
             hourlyForecast.temperature
           }${degreeLabel}&nbsp ${hourlyForecast.windSpeed.toFixed(0)}&nbsp ${this.cardinalWindDirection(hourlyForecast.windDirection)}&nbsp ${hourlyForecast.weatherType}<BR>`;
           hCellData.appendChild(lineOfData);
@@ -643,7 +651,7 @@ Module.register("MMM-OneCallWeather", {
           windContainer.className = "wind-container small dimmed";
           const currFeelsLike = document.createElement("span");
           currFeelsLike.className = "small dimmed";
-          currFeelsLike.innerHTML = `${this.translate("FEELS_LIKE")} ${currentWeather.feelsLikeTemp}${degreeLabel}`; // + "<BR>Last update" +  moment(currentWeather.date, "X").format("LT");
+          currFeelsLike.innerHTML = `${this.translate("FEELS_LIKE")} ${currentWeather.feelsLikeTemp}${degreeLabel}`; // + "<BR>Last update" +  dayjs.unix(currentWeather.date).format("LT");
 
           windContainer.appendChild(currFeelsLike);
           currentCell1.appendChild(windContainer);
