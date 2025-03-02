@@ -1,19 +1,19 @@
-.day,
-.max-temp,
-.min-temp,
-.wind-speed {
+.MMM-OneCallWeather .day,
+.MMM-OneCallWeather .max-temp,
+.MMM-OneCallWeather .min-temp,
+.MMM-OneCallWeather .wind-speed {
   text-align: center;
 }
 
-.colored > .max-temp {
+.MMM-OneCallWeather .colored > .max-temp {
   color: #ff5f5f;
 }
 
-.colored > .min-temp {
+.MMM-OneCallWeather .colored > .min-temp {
   color: #5f5fff;
 }
 
-.weathericon {
+.MMM-OneCallWeather .weathericon {
   align-items: center;
   display: flex;
   float: left;
@@ -25,17 +25,17 @@
   margin-right: 20px;
 }
 
-.weather-icon > span > img {
+.MMM-OneCallWeather .weather-icon > span > img {
   min-width: 2rem;
   margin: 0 0.1rem;
 }
 
-.large-weather-icon-container,
+.MMM-OneCallWeather .large-weather-icon-container,
 .wind-container {
   text-align: center;
 }
 
-.wind-speed {
+.MMM-OneCallWeather .wind-speed {
   color: black;
   position: relative;
   top: -58px;
