@@ -1,12 +1,25 @@
 import eslintPluginImport from "eslint-plugin-import-x";
 import eslintPluginJs from "@eslint/js";
+import eslintPluginMarkdown from "@eslint/markdown";
 import eslintPluginStylistic from "@stylistic/eslint-plugin";
 import globals from "globals";
 
 const config = [
   eslintPluginImport.flatConfigs.recommended,
   eslintPluginJs.configs.all,
-  eslintPluginStylistic.configs.all,
+  ...eslintPluginMarkdown.configs.recommended,
+  {
+    "files": ["**/*.md"],
+    "language": "markdown/gfm",
+    "plugins": {
+      eslintPluginMarkdown
+    },
+    "rules": {
+      "logical-assignment-operators": "off",
+      "max-lines-per-function": "off",
+      "no-irregular-whitespace": "off"
+    }
+  },
   {
     "files": ["**/*.js"],
     "languageOptions": {
@@ -21,7 +34,11 @@ const config = [
       },
       "sourceType": "commonjs"
     },
+    "plugins": {
+      ...eslintPluginStylistic.configs.all.plugins
+    },
     "rules": {
+      ...eslintPluginStylistic.configs.all.rules,
       "@stylistic/array-element-newline": ["error", "consistent"],
       "@stylistic/dot-location": ["error", "property"],
       "@stylistic/function-call-argument-newline": ["error", "consistent"],
@@ -58,7 +75,11 @@ const config = [
       },
       "sourceType": "module"
     },
+    "plugins": {
+      ...eslintPluginStylistic.configs.all.plugins
+    },
     "rules": {
+      ...eslintPluginStylistic.configs.all.rules,
       "@stylistic/array-element-newline": "off",
       "@stylistic/indent": ["error", 2],
       "@stylistic/padded-blocks": ["error", "never"],
