@@ -20,8 +20,6 @@ Module.register("MMM-OneCallWeather", {
     updateInterval: 10 * 60 * 1000, // every 10 minutes
     animationSpeed: 1000,
     updateFadeSpeed: 500,
-    lang: config.language,
-    language: config.language,
     requestDelay: 0,
 
     decimalSymbol: ".",
@@ -65,13 +63,7 @@ Module.register("MMM-OneCallWeather", {
 
   // Define required scripts.
   getScripts () {
-    return [
-      this.file("node_modules/dayjs/dayjs.min.js"),
-      this.file("node_modules/dayjs/plugin/isBetween.js"),
-      this.file("node_modules/dayjs/plugin/utc.js"),
-      this.file(`node_modules/dayjs/locale/${config.language}.js`),
-      "weatherobject.js"
-    ];
+    return ["weatherobject.js"];
   },
 
   // Define required CSS files.
@@ -90,10 +82,6 @@ Module.register("MMM-OneCallWeather", {
   // Define start sequence.
   start () {
     Log.info(`Starting module: ${this.name}`);
-    // Set locale.
-    dayjs.locale(config.language);
-    dayjs.extend(window.dayjs_plugin_isBetween);
-    dayjs.extend(window.dayjs_plugin_utc);
     this.forecast = [];
     this.loaded = false;
     this.scheduleUpdate(this.config.initialLoadDelay);
@@ -121,21 +109,17 @@ Module.register("MMM-OneCallWeather", {
       latitude: this.config.latitude,
       longitude: this.config.longitude,
       units: this.config.units,
-      language: this.config.language,
       requestDelay: this.config.requestDelay
     });
   },
-  // Log.debug("node received");
 
   socketNotificationReceived (notification, payload) {
-    // Log.debug("got some data back");
-
     if (notification === "OPENWEATHER_ONECALL_DATA") {
       // process weather data
       data = payload;
       this.forecast = this.processOnecall(data);
       this.loaded = true;
-      this.updateDom(); // this.config.updateFadeSpeed
+      this.updateDom();
       this.scheduleUpdate();
     }
   },
@@ -152,12 +136,12 @@ Module.register("MMM-OneCallWeather", {
 
     if (Object.hasOwn(data, "current")) {
       const currently = {
-        date: dayjs.unix(data.current.dt).utcOffset(data.timezone_offset / 60),
-        dayOfWeek: dayjs.unix(data.current.dt).format("ddd"),
+        date: new Date((data.current.dt + data.timezone_offset) * 1000),
+        dayOfWeek: new Intl.DateTimeFormat(config.language, {weekday: "short"}).format(data.current.dt),
         windSpeed: (data.current.wind_speed * wsfactor).toFixed(0),
         windDirection: data.current.wind_deg,
-        sunrise: dayjs.unix(data.current.sunrise).utcOffset(data.timezone_offset / 60),
-        sunset: dayjs.unix(data.current.sunset).utcOffset(data.timezone_offset / 60),
+        sunrise: new Date((data.current.sunrise + data.timezone_offset) * 1000),
+        sunset: new Date((data.current.sunset + data.timezone_offset) * 1000),
         temperature: this.roundValue(data.current.temp),
         weatherIcon: data.current.weather[0].icon,
         weatherType: this.convertWeatherType(data.current.weather[0].icon),
@@ -166,8 +150,9 @@ Module.register("MMM-OneCallWeather", {
         precipitation: current.rain + current.snow
       };
       current.push(currently);
+      Log.debug(`current weather is ${JSON.stringify(currently)}`);
     }
-    // Log.debug("current weather is " + JSON.stringify(currently));
+
     let weather = new WeatherObject(
       this.config.units,
       this.config.tempUnits,
@@ -209,7 +194,7 @@ Module.register("MMM-OneCallWeather", {
         }
 
         forecastData = {
-          date: dayjs.unix(hour.dt).utcOffset(data.timezone_offset / 60),
+          date: new Date((hour.dt + data.timezone_offset) * 1000),
           temperature: hour.temp,
           humidity: hour.humidity,
           windSpeed: hour.wind_speed,
@@ -255,15 +240,12 @@ Module.register("MMM-OneCallWeather", {
         if (precip) {
           weather.precipitation = weather.rain + weather.snow;
         }
-        //
-
-        //
 
         forecastData = {
-          dayOfWeek: dayjs.unix(day.dt).format("ddd"),
-          date: dayjs.unix(day.dt).utcOffset(data.timezone_offset / 60),
-          sunrise: dayjs.unix(day.sunrise).utcOffset(data.timezone_offset / 60),
-          sunset: dayjs.unix(day.sunset).utcOffset(data.timezone_offset / 60),
+          dayOfWeek: new Intl.DateTimeFormat(config.language, {weekday: "short"}).format(day.dt * 1000),
+          date: new Date((day.dt + data.timezone_offset) * 1000),
+          sunrise: new Date((day.sunrise + data.timezone_offset) * 1000),
+          sunset: new Date((day.sunset + data.timezone_offset) * 1000),
           minTemperature: this.roundValue(day.temp.min),
           maxTemperature: this.roundValue(day.temp.max),
           humidity: day.humidity,
@@ -360,7 +342,7 @@ Module.register("MMM-OneCallWeather", {
         for (let h = 0; h < this.config.maxHourliesToShow; h += 1) {
           const hourlyForecast = this.forecast.hours[h];
           const lineOfData = document.createElement("div");
-          lineOfData.innerHTML = `${dayjs.unix(hourlyForecast.date).format("hhmm")}&nbsp ${
+          lineOfData.innerHTML = `${new Date(hourlyForecast.date * 1000).toLocaleTimeString()}&nbsp ${
             hourlyForecast.temperature
           }${degreeLabel}&nbsp ${hourlyForecast.windSpeed.toFixed(0)}&nbsp ${this.cardinalWindDirection(hourlyForecast.windDirection)}&nbsp ${hourlyForecast.weatherType}<BR>`;
           hCellData.appendChild(lineOfData);

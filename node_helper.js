@@ -10,12 +10,10 @@
  * Additional, this module supplies two optional parameters:
  *
  *  units - one of "metric", "imperial", or "" (blank)
- *  lang - Any of the languages OpenWeather supports, as listed here: https://openweathermap.org/api/one-call-api#multi
  */
 
 const NodeHelper = require("node_helper");
 const Log = require("logger");
-const dayjs = require("dayjs");
 
 module.exports = NodeHelper.create({
 
@@ -24,14 +22,14 @@ module.exports = NodeHelper.create({
       const self = this;
       Log.debug("[MMM-OneCallWeather] node received");
       if (config.apikey === null || config.apikey === "") {
-        Log.error(`[MMM-OneCallWeather] ${dayjs().format("D-MMM-YY HH:mm")} ** ERROR ** No API key configured. Get an API key at https://openweathermap.org/api/one-call-api`);
+        Log.error("[MMM-OneCallWeather] No API key configured. Get an API key at https://openweathermap.org/api/one-call-api");
       } else if (
         config.latitude === null ||
         config.latitude === "" ||
         config.longitude === null ||
         config.longitude === ""
       ) {
-        Log.error(`[MMM-OneCallWeather] ${dayjs().format("D-MMM-YY HH:mm")} ** ERROR ** Latitude and/or longitude not provided.`);
+        Log.error("[MMM-OneCallWeather] Latitude and/or longitude not provided.");
       } else {
         const myUrl =
           `https://api.openweathermap.org/data/${config.apiVersion}/onecall` +
@@ -60,7 +58,7 @@ module.exports = NodeHelper.create({
           })
           .catch((error) => {
             // handle error
-            Log.error(`[MMM-OneCallWeather] ${dayjs().format("D-MMM-YY HH:mm")} ** ERROR ** ${error}`);
+            Log.error(`[MMM-OneCallWeather] ${error}`);
           });
       }
     }

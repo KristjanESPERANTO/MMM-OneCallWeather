@@ -41,12 +41,6 @@ class WeatherObject {
     return windInKmh;
   }
 
-  nextSunAction () {
-    return dayjs().isBetween(this.sunrise, this.sunset)
-      ? "sunset"
-      : "sunrise";
-  }
-
   feelsLike () {
     if (this.feelsLikeTemp) {
       return this.feelsLikeTemp;

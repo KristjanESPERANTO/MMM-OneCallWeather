@@ -29,8 +29,7 @@ const config = [
         "Log": "readonly",
         "Module": "readonly",
         "WeatherObject": "readonly",
-        "config": "readonly",
-        "dayjs": "readonly"
+        "config": "readonly"
       },
       "sourceType": "commonjs"
     },

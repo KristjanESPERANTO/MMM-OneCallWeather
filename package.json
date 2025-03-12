@@ -28,9 +28,6 @@
     "test": "npm run lint && npm run test:spelling",
     "test:spelling": "cspell ."
   },
-  "dependencies": {
-    "dayjs": "^1.11.13"
-  },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
     "@eslint/markdown": "^6.3.0",
