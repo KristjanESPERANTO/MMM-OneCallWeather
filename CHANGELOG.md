@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.5.0] - 2025-03-12
+## [2.6.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.5.0...v2.6.0) - 2025-03-17
+
+### Added
+
+- Esperanto translation
+- Swedish translation
+
+### Changed
+
+- chore: Update devDependencies
+
+## [2.5.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.4.3...v2.5.0) - 2025-03-12
 
 ### Added
 
@@ -15,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Replace `dayjs` by built-in Date API. With this, the module doesn't need a dependency to run anymore.
 
-## [2.4.3] - 2025-03-12
+## [2.4.3](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.4.2...v2.4.3) - 2025-03-12
 
 ### Changed
 
@@ -25,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: Update lockfileVersion to 3
 - chore: Add @eslint/markdown
 
-## [2.4.2] - 2025-03-02
+## [2.4.2](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.4.1...v2.4.2) - 2025-03-02
 
 ### Changed
 
@@ -33,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: Add moduleName in CSS to avoid impact other module
 - chore: Add stylelint
 
-## [2.4.1] - 2025-02-26
+## [2.4.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.4.0...v2.4.1) - 2025-02-26
 
 ### Fixed
 
@@ -53,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: Remove release script
 - chore: Add workflow for automated tests
 
-## [2.4.0] - 2025-02-17
+## [2.4.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.3.0...v2.4.0) - 2025-02-17
 
 ### Changed
 
@@ -61,7 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rework icon-preview
 - Refactor and CSS fixes
 
-## [2.3.0] - 2025-02-16
+## [2.3.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.2.3...v2.3.0) - 2025-02-16
 
 ### Fixed
 
@@ -73,7 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace PNG with SVG for wind symbols
 - chore: Update devDependencies
 
-## [2.2.3] - 2024-12-10
+## [2.2.3](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.2.2...v2.2.3) - 2024-12-10
 
 ### Changed
 
@@ -82,7 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: Add Developer commands to README
 - chore: Update devDependencies
 
-## [2.2.2] - 2024-11-04
+## [2.2.2](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.2.1...v2.2.2) - 2024-11-04
 
 ### Fixed
 
@@ -99,7 +110,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: Add spell check
 - chore: Fix typos and remove comments
 
-## [2.2.1] - 2024-01-28
+## [2.2.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.1.1...v2.2.1) - 2024-01-28
 
 ### Fixed
 
@@ -110,7 +121,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimize logging
 - chore: Update devDependencies
 
-## [2.1.1] - 2024-01-01
+## [2.1.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.1.0...v2.1.1) - 2024-01-01
 
 ### Changed
 
@@ -119,7 +130,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: Update URLs in README
 - chore: Review lint process
 
-## [2.1.0] - 2023-11-04
+## [2.1.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.0.0...v2.1.0) - 2023-11-04
 
 ### Fixed
 
@@ -134,7 +145,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - chore: Install linters and update dependencies
 - chore: Handle linter issues
 
-## [2.0.0] - 2023-03-11 - Fork Release
+## [2.0.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v1.0.0...v2.0.0) - 2023-03-11 - Fork Release
 
 This is the first release of the fork maintained by KristjanESPERANTO. The fork is based on the original module from Captsi.
 
@@ -150,20 +161,6 @@ The fork was announced in an issue on the original repository: <https://github.c
 - chore: Add `.gitignore` to exclude `node_modules` from the repository
 - chore: Format code with prettier
 
-## [1.0.0] - 2021-04-16
+## [1.0.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/releases/tag/v1.0.0) - 2021-04-16
 
 Initial release
-
-[2.5.0]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.4.3...v2.5.0
-[2.4.3]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.4.2...v2.4.3
-[2.4.2]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.4.1...v2.4.2
-[2.4.1]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.4.0...v2.4.1
-[2.4.0]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.3.0...v2.4.0
-[2.3.0]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.2.3...v2.3.0
-[2.2.3]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.2.2...v2.2.3
-[2.2.2]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.2.1...v2.2.2
-[2.2.1]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.1.1...v2.2.1
-[2.1.1]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.1.0...v2.1.1
-[2.1.0]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.0.0...v2.1.0
-[2.0.0]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v1.0.0...v2.0.0
-[1.0.0]: https://github.com/KristjanESPERANTO/MMM-OneCallWeather/releases/tag/v1.0.0

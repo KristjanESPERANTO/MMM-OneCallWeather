@@ -1,7 +1,7 @@
 {
   "name": "mmm-onecallweather",
-  "version": "2.5.0",
-  "description": "Weather module for MagicMirror² using openweathermap.org One Call API",
+  "version": "2.6.0",
+  "description": "Weather module for MagicMirror² using openweathermap.org One Call API.",
   "keywords": [
     "MagicMirror",
     "weather",
