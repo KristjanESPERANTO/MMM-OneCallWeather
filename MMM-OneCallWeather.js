@@ -76,7 +76,8 @@ Module.register("MMM-OneCallWeather", {
       de: "translations/de.json",
       en: "translations/en.json",
       fr: "translations/fr.json",
-      ru: "translations/ru.json"
+      ru: "translations/ru.json",
+      sv: "translations/sv.json"
     };
   },
 
