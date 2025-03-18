@@ -33,6 +33,6 @@
     "xlarge",
     "xsmall"
   ],
-  "ignorePaths": ["node_modules/**", "translations/**", "**/*.svg"],
+  "ignorePaths": ["node_modules/**", "**/*.svg"],
   "dictionaries": ["node"]
 }

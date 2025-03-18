@@ -71,17 +71,6 @@ Module.register("MMM-OneCallWeather", {
     return ["MMM-OneCallWeather.css"];
   },
 
-  getTranslations () {
-    return {
-      de: "translations/de.json",
-      en: "translations/en.json",
-      eo: "translations/eo.json",
-      fr: "translations/fr.json",
-      ru: "translations/ru.json",
-      sv: "translations/sv.json"
-    };
-  },
-
   // Define start sequence.
   start () {
     Log.info(`Starting module: ${this.name}`);
@@ -456,7 +445,9 @@ Module.register("MMM-OneCallWeather", {
               32
             ).toFixed(0)}${degreeLabel}`;
           } else {
-            currFeelsLike.innerHTML = `${this.translate("FEELS_LIKE")} ${currentWeather.feelsLikeTemp}${degreeLabel}`;
+            const feelsLikeString = this.translate("FEELS");
+            const feelsLikeText = feelsLikeString.replace("{DEGREE}", `${currentWeather.feelsLikeTemp}${degreeLabel}`);
+            currFeelsLike.innerHTML = feelsLikeText;
           }
           windContainer.appendChild(currFeelsLike);
           currentCell1.appendChild(windContainer);
@@ -636,7 +627,9 @@ Module.register("MMM-OneCallWeather", {
           windContainer.className = "wind-container small dimmed";
           const currFeelsLike = document.createElement("span");
           currFeelsLike.className = "small dimmed";
-          currFeelsLike.innerHTML = `${this.translate("FEELS_LIKE")} ${currentWeather.feelsLikeTemp}${degreeLabel}`; // + "<BR>Last update" +  dayjs.unix(currentWeather.date).format("LT");
+          const feelsLikeString = this.translate("FEELS");
+          const feelsLikeText = feelsLikeString.replace("{DEGREE}", `${currentWeather.feelsLikeTemp}${degreeLabel}`);
+          currFeelsLike.innerHTML = feelsLikeText; // + "<BR>Last update" +  dayjs.unix(currentWeather.date).format("LT");
 
           windContainer.appendChild(currFeelsLike);
           currentCell1.appendChild(windContainer);
