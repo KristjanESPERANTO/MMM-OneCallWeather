@@ -47,7 +47,6 @@ const config = [
       "@stylistic/quote-props": ["error", "as-needed"],
       "capitalized-comments": "off",
       "complexity": "off",
-      "consistent-this": "off",
       "id-length": "off",
       "init-declarations": "off",
       "line-comment-position": "off",
@@ -58,7 +57,6 @@ const config = [
       "multiline-comment-style": "off",
       "no-inline-comments": "off",
       "no-magic-numbers": "off",
-      "no-negated-condition": "off",
       "no-ternary": "off",
       "one-var": "off",
       "sort-keys": "off",
@@ -79,14 +77,9 @@ const config = [
     },
     "rules": {
       ...eslintPluginStylistic.configs.all.rules,
-      "@stylistic/array-element-newline": "off",
+      "@stylistic/array-element-newline": ["error", "consistent"],
       "@stylistic/indent": ["error", 2],
-      "@stylistic/padded-blocks": ["error", "never"],
-      "func-style": "off",
-      "max-lines-per-function": ["error", 100],
-      "no-magic-numbers": "off",
-      "one-var": "off",
-      "prefer-destructuring": "off"
+      "no-magic-numbers": ["error", {"ignore": [2, 4, 200, 500, 1000]}]
     }
   }
 ];
