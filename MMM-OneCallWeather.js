@@ -525,12 +525,12 @@ Module.register("MMM-OneCallWeather", {
             const rainCell = document.createElement("td");
             if (Number.isNaN(dailyForecast.precipitation)) {
               rainCell.innerHTML = "";
-            } else if (config.units !== "imperial") {
-              rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
-            } else {
+            } else if (config.units === "imperial") {
               rainCell.innerHTML = `${(
                 parseFloat(dailyForecast.precipitation) / 25.4
               ).toFixed(2)} in`;
+            } else {
+              rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
             }
             rainCell.className = "align-right bright rain";
             row.appendChild(rainCell);
@@ -718,12 +718,12 @@ Module.register("MMM-OneCallWeather", {
             const rainCell = document.createElement("td");
             if (Number.isNaN(dailyForecast.precipitation)) {
               rainCell.innerHTML = "";
-            } else if (config.units !== "imperial") {
-              rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
-            } else {
+            } else if (config.units === "imperial") {
               rainCell.innerHTML = `${(
                 parseFloat(dailyForecast.precipitation) / 25.4
               ).toFixed(2)} in`;
+            } else {
+              rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
             }
             rainCell.className = "align-right bright rain";
             row.appendChild(rainCell);
