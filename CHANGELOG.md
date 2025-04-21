@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.7.0...v2.7.1) - 2025-04-21
+
+### Changed
+
+- chore: clean up ESLint rules by removing unnecessary settings and improving consistency
+- chore: update devDependencies
+- chore: update ESLint configuration to use new import plugin structure
+- docs: add 'npm install' command to developer commands section
+- refactor: invert negated conditions
+- refactor: replace 'self' with 'that' for consistency in context binding
+
 ## [2.7.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.6.0...v2.7.0) - 2025-03-18
 
 ### Changed
