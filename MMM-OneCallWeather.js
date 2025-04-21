@@ -86,10 +86,10 @@ Module.register("MMM-OneCallWeather", {
       nextLoad = delay;
     }
 
-    const self = this;
+    const that = this;
     clearTimeout(this.updateTimer);
     this.updateTimer = setTimeout(() => {
-      self.updateWeather();
+      that.updateWeather();
     }, nextLoad);
   },
 

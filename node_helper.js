@@ -19,7 +19,7 @@ module.exports = NodeHelper.create({
 
   socketNotificationReceived (notification, config) {
     if (notification === "OPENWEATHER_ONECALL_GET") {
-      const self = this;
+      const that = this;
       Log.debug("[MMM-OneCallWeather] node received");
       if (config.apikey === null || config.apikey === "") {
         Log.error("[MMM-OneCallWeather] No API key configured. Get an API key at https://openweathermap.org/api/one-call-api");
@@ -53,7 +53,7 @@ module.exports = NodeHelper.create({
           .then((data) => {
             // handle success
             Log.debug(`[MMM-OneCallWeather] got request loop ${myUrl}`);
-            self.sendSocketNotification("OPENWEATHER_ONECALL_DATA", data);
+            that.sendSocketNotification("OPENWEATHER_ONECALL_DATA", data);
             Log.debug("[MMM-OneCallWeather] sent the data back");
           })
           .catch((error) => {
