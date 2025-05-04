@@ -25,8 +25,23 @@
   "scripts": {
     "lint": "eslint && stylelint **/*.css && markdownlint . --ignore node_modules && prettier . --check",
     "lint:fix": "eslint --fix && stylelint **/*.css --fix && markdownlint . --ignore node_modules --fix && prettier . --write",
+    "prepare": "husky",
     "test": "npm run lint && npm run test:spelling",
     "test:spelling": "cspell ."
+  },
+  "lint-staged": {
+    "!(*.css|*.md)": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
+    ],
+    "*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.md": [
+      "markdownlint --ignore node_modules --fix",
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
@@ -36,6 +51,8 @@
     "eslint": "^9.25.0",
     "eslint-plugin-import-x": "^4.10.6",
     "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
     "markdownlint-cli": "^0.44.0",
     "prettier": "^3.5.3",
     "stylelint": "^16.18.0",
