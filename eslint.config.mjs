@@ -1,28 +1,18 @@
-import eslintPluginJs from "@eslint/js";
-import eslintPluginMarkdown from "@eslint/markdown";
-import eslintPluginStylistic from "@stylistic/eslint-plugin";
+import css from "@eslint/css";
+import {defineConfig} from "eslint/config";
 import globals from "globals";
-import {flatConfigs as importConfigs} from "eslint-plugin-import-x";
+import {flatConfigs as importX} from "eslint-plugin-import-x";
+import js from "@eslint/js";
+import json from "@eslint/json";
+import markdown from "@eslint/markdown";
+import stylistic from "@stylistic/eslint-plugin";
 
-const config = [
-  eslintPluginJs.configs.all,
-  importConfigs.recommended,
-  ...eslintPluginMarkdown.configs.recommended,
-  {
-    "files": ["**/*.md"],
-    "language": "markdown/gfm",
-    "plugins": {
-      eslintPluginMarkdown
-    },
-    "rules": {
-      "logical-assignment-operators": "off",
-      "max-lines-per-function": "off",
-      "no-irregular-whitespace": "off"
-    }
-  },
+export default defineConfig([
+  {"files": ["**/*.css"], "languageOptions": {"tolerant": true}, "plugins": {css}, "language": "css/css", "extends": ["css/recommended"], "rules": {"css/use-baseline": ["error", {"available": "newly"}]}},
   {
     "files": ["**/*.js"],
     "languageOptions": {
+      "ecmaVersion": "latest",
       "globals": {
         ...globals.browser,
         ...globals.node,
@@ -30,19 +20,17 @@ const config = [
         "Module": "readonly",
         "WeatherObject": "readonly",
         "config": "readonly"
-      },
-      "sourceType": "commonjs"
+      }
     },
-    "plugins": {
-      ...eslintPluginStylistic.configs.all.plugins
-    },
+    "plugins": {js, stylistic},
+    "extends": [importX.recommended, "js/all", "stylistic/all"],
     "rules": {
-      ...eslintPluginStylistic.configs.all.rules,
       "@stylistic/array-element-newline": ["error", "consistent"],
       "@stylistic/dot-location": ["error", "property"],
       "@stylistic/function-call-argument-newline": ["error", "consistent"],
       "@stylistic/indent": ["error", 2],
       "@stylistic/lines-around-comment": "off",
+      "@stylistic/no-multi-spaces": ["error", {"ignoreEOLComments": true}],
       "@stylistic/padded-blocks": ["error", "never"],
       "@stylistic/quote-props": ["error", "as-needed"],
       "capitalized-comments": "off",
@@ -72,16 +60,17 @@ const config = [
       },
       "sourceType": "module"
     },
-    "plugins": {
-      ...eslintPluginStylistic.configs.all.plugins
-    },
+    "plugins": {js, stylistic},
+    "extends": [importX.recommended, "js/all", "stylistic/all"],
     "rules": {
-      ...eslintPluginStylistic.configs.all.rules,
       "@stylistic/array-element-newline": ["error", "consistent"],
       "@stylistic/indent": ["error", 2],
-      "no-magic-numbers": ["error", {"ignore": [2, 4, 200, 500, 1000]}]
+      "@stylistic/object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
+      "import-x/no-unresolved": ["error", {"ignore": ["eslint/config"]}],
+      "no-magic-numbers": ["error", {"ignore": [2, 4, 200, 500, 1000]}],
+      "sort-keys": "off"
     }
-  }
-];
-
-export default config;
+  },
+  {"files": ["**/*.json"], "ignores": ["package-lock.json"], "plugins": {json}, "extends": ["json/recommended"], "language": "json/json"},
+  {"files": ["**/*.md"], "plugins": {markdown}, "extends": ["markdown/recommended"], "language": "markdown/gfm"}
+]);
