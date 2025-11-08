@@ -36,6 +36,7 @@ Module.register("MMM-OneCallWeather", {
     maxDailiesToShow: 6,
     colored: true,
     roundTemp: true,
+    displayMode: "both-vertical", // "both-vertical", "both-horizontal", "current-only", "forecast-only"
 
     labelOrdinals: [
       "N",
@@ -513,7 +514,7 @@ Module.register("MMM-OneCallWeather", {
           }
         }
         break;
-      case "default":
+      case "default": {
         // eslint-disable-next-line prefer-destructuring
         currentWeather = this.forecast.current[0];
         currentRow1 = document.createElement("tr");
@@ -613,33 +614,50 @@ Module.register("MMM-OneCallWeather", {
         currentRow3.appendChild(currentCell3);
         table.appendChild(currentRow3);
 
+        // Handle display modes
+        if (this.config.displayMode === "current-only") {
+          return table;
+        }
+
+        // Create separate forecast table
+        const forecastTable = document.createElement("table");
+        forecastTable.className = "forecast-table small";
+
+        // Same structure for both layouts - days as columns
+        const dayRow = document.createElement("tr");
+        const iconRow = document.createElement("tr");
+        const maxTempRow = document.createElement("tr");
+        const minTempRow = document.createElement("tr");
+        const windRow = document.createElement("tr");
+        const rainRow = this.config.showRainAmount
+          ? document.createElement("tr")
+          : null;
+
         for (let j = 0; j < this.config.maxDailiesToShow; j += 1) {
-          // Log.debug("count of data length " + this.forecast.days.length);
           dailyForecast = this.forecast.days[j];
 
-          const row = document.createElement("td");
-          row.className = "default-column";
-
-          if (this.config.colored) {
-            row.className += " colored";
-          }
-          table.appendChild(row);
-
-          const dayCell = document.createElement("tr");
+          // Day cell
+          const dayCell = document.createElement("td");
           dayCell.className = "day";
+          if (this.config.colored) {
+            dayCell.className += " colored";
+          }
           dayCell.innerHTML = dailyForecast.dayOfWeek;
-          row.appendChild(dayCell);
+          dayRow.appendChild(dayCell);
 
-          const iconCell = document.createElement("tr");
+          // Icon cell
+          const iconCell = document.createElement("td");
           iconCell.className = "bright weather-icon";
+          if (this.config.colored) {
+            iconCell.className += " colored";
+          }
           const icon = document.createElement("span");
           const iconImg = document.createElement("img");
           iconImg.className = "forecast-icon";
           iconImg.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${dailyForecast.weatherIcon}.${this.config.iconsetFormat}`;
-
           icon.appendChild(iconImg);
           iconCell.appendChild(icon);
-          row.appendChild(iconCell);
+          iconRow.appendChild(iconCell);
 
           if (
             this.config.decimalSymbol === "" ||
@@ -648,13 +666,17 @@ Module.register("MMM-OneCallWeather", {
             this.config.decimalSymbol = ".";
           }
 
-          const maxTempCell = document.createElement("tr");
-
+          // Max temp cell
+          const maxTempCell = document.createElement("td");
           maxTempCell.innerHTML = dailyForecast.maxTemperature + degreeLabel;
           maxTempCell.className = "bright max-temp";
-          row.appendChild(maxTempCell);
+          if (this.config.colored) {
+            maxTempCell.className += " colored";
+          }
+          maxTempRow.appendChild(maxTempCell);
 
-          const minTempCell = document.createElement("tr");
+          // Min temp cell
+          const minTempCell = document.createElement("td");
           if (this.config.tempUnits === "f") {
             minTempCell.innerHTML = ` ${(
               dailyForecast.minTemperature * (9 / 5) +
@@ -664,13 +686,21 @@ Module.register("MMM-OneCallWeather", {
             minTempCell.innerHTML = dailyForecast.minTemperature + degreeLabel;
           }
           minTempCell.className = "min-temp";
-          row.appendChild(minTempCell);
+          if (this.config.colored) {
+            minTempCell.className += " colored";
+          }
+          minTempRow.appendChild(minTempCell);
 
-          const windCell = document.createElement("tr");
+          // Wind cell
+          const windCell = document.createElement("td");
           windCell.className = "bright weather-icon";
+          if (this.config.colored) {
+            windCell.className += " colored";
+          }
           windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection));
-          row.appendChild(windCell);
+          windRow.appendChild(windCell);
 
+          // Rain cell
           if (this.config.showRainAmount) {
             const rainCell = document.createElement("td");
             if (Number.isNaN(dailyForecast.precipitation)) {
@@ -683,12 +713,41 @@ Module.register("MMM-OneCallWeather", {
               rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
             }
             rainCell.className = "align-right bright rain";
-            row.appendChild(rainCell);
+            if (this.config.colored) {
+              rainCell.className += " colored";
+            }
+            rainRow.appendChild(rainCell);
           }
         }
 
-        break;
+        // Append all rows to forecast table
+        forecastTable.appendChild(dayRow);
+        forecastTable.appendChild(iconRow);
+        forecastTable.appendChild(maxTempRow);
+        forecastTable.appendChild(minTempRow);
+        forecastTable.appendChild(windRow);
+        if (this.config.showRainAmount) {
+          forecastTable.appendChild(rainRow);
+        }
+
+        // Handle forecast-only mode
+        if (this.config.displayMode === "forecast-only") {
+          return forecastTable;
+        }
+
+        // Create container with both current weather and forecast
+        const weatherContainer = document.createElement("div");
+        weatherContainer.className = this.config.displayMode === "both-horizontal"
+          ? "weather-layout-horizontal"
+          : "weather-layout-vertical";
+
+        weatherContainer.appendChild(table);
+        weatherContainer.appendChild(forecastTable);
+
+        return weatherContainer;
+      }
     }
+
     return table;
   },
 

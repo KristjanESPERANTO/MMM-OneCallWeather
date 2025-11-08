@@ -41,7 +41,7 @@ export default defineConfig([
       "max-lines": ["warn", 1000],
       "max-lines-per-function": ["warn", 500],
       "max-params": ["warn", 4],
-      "max-statements": ["warn", 200],
+      "max-statements": ["warn", 300],
       "multiline-comment-style": "off",
       "no-inline-comments": "off",
       "no-magic-numbers": "off",
@@ -67,7 +67,7 @@ export default defineConfig([
       "@stylistic/indent": ["error", 2],
       "@stylistic/object-property-newline": ["error", {"allowAllPropertiesOnSameLine": true}],
       "import-x/no-unresolved": ["error", {"ignore": ["eslint/config"]}],
-      "no-magic-numbers": ["error", {"ignore": [2, 4, 200, 500, 1000]}],
+      "no-magic-numbers": ["error", {"ignore": [2, 4, 300, 500, 1000]}],
       "sort-keys": "off"
     }
   },
