@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.7.3...v3.0.0) - 2025-11-09
+
+### Added
+
+- feat: new configuration options for explicit layout control:
+  - `showCurrent` (boolean): Show/hide current weather section (default: `true`)
+  - `showForecast` (boolean): Show/hide forecast section (default: `true`)
+  - `forecastLayout` ("columns" | "rows"): Days as table columns or rows (default: `"columns"`)
+  - `arrangement` ("vertical" | "horizontal"): Position forecast below or next to current weather (default: `"vertical"`)
+
+### Changed
+
+- chore: update actions/checkout to v5 in automated tests workflow
+- chore: update actions/setup-node to v6 in automated tests workflow
+- chore: update devDependencies
+- docs: update README with new screenshots for all layout combinations
+- refactor: extract current weather block to helper method
+- refactor: implement native CSS nesting
+- refactor: modernize CSS with custom properties and improved organization
+- refactor: remove unused WeatherObject class
+- refactor: replace SVG wind icon with pure CSS compass design
+
+### Removed
+
+- **BREAKING**: removed `layout` configuration option
+  - Migration: `layout: "vertical"` → `forecastLayout: "rows"`
+  - Migration: `layout: "horizontal"` → not directly mapped, was legacy option
+  - Migration: `layout: "default"` → `forecastLayout: "columns"` (default)
+
+### Fixed
+
+- fix: center wind speed within direction icon for all resolutions
+- fix: colored temperature option now works for both column and row layouts
+
 ## [2.7.3](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v2.7.2...v2.7.3) - 2025-06-10
 
 ### Changed
