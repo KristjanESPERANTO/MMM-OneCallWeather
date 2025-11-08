@@ -1,4 +1,44 @@
+/* stylelint-disable-next-line selector-class-pattern */
 .MMM-OneCallWeather {
+  /* CSS Custom Properties for easy theming and maintenance */
+  --color-temp-max: #ff5f5f;
+  --color-temp-min: #5f5fff;
+  --icon-size-forecast: 2.75rem;
+  --icon-size-large: 4rem;
+  --wind-badge-size-small: 2.4em;
+  --wind-badge-size-medium: 2.8em;
+  --wind-badge-size-large: 3.2em;
+  --wind-compass-size: 1.2em;
+  --wind-compass-opacity: 0.7;
+  --wind-arrow-opacity: 0.85;
+  --gap-icon-temp: 1rem;
+  --gap-weather-icon: 0.1rem;
+
+  /* ==========================================================================
+     Layout & Structure
+     ========================================================================== */
+
+  table {
+    border-collapse: collapse;
+  }
+
+  /* Horizontal layout cell alignment */
+  .horizontal-cell {
+    text-align: left;
+  }
+
+  /* Vertical layout row alignment */
+  .vertical-row {
+    text-align: center;
+  }
+
+  /* Default layout: vertical columns */
+  .default-column {
+    text-align: center;
+    vertical-align: top;
+  }
+
+  /* Common centered elements */
   .day,
   .max-temp,
   .min-temp,
@@ -6,29 +46,51 @@
     text-align: center;
   }
 
+  /* ==========================================================================
+     Temperature Colors
+     ========================================================================== */
+
   .colored > .max-temp {
-    color: #ff5f5f;
+    color: var(--color-temp-max);
   }
 
   .colored > .min-temp {
-    color: #5f5fff;
+    color: var(--color-temp-min);
   }
 
+  /* ==========================================================================
+     Weather Icons
+     ========================================================================== */
+
   .weathericon {
-    align-items: center;
     display: flex;
-    float: left;
-    height: 4rem;
+    align-items: center;
     justify-content: center;
+    height: var(--icon-size-large);
     width: auto;
-    vertical-align: middle;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-inline: 20px;
   }
 
   .weather-icon > span > img {
     min-width: 2rem;
-    margin: 0 0.1rem;
+    margin: 0 var(--gap-weather-icon);
+  }
+
+  .forecast-icon {
+    height: auto;
+    max-width: var(--icon-size-forecast);
+    display: inline;
+  }
+
+  /* ==========================================================================
+     Current Weather Display
+     ========================================================================== */
+
+  .large-weather-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-icon-temp);
   }
 
   .large-weather-icon-container,
@@ -36,27 +98,31 @@
     text-align: center;
   }
 
-  /* Wind badge: compass-style direction indicator */
+  /* ==========================================================================
+     Wind Badge - CSS Compass
+     ========================================================================== */
+
   .wind-badge {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.8em;
-    height: 2.8em;
+    width: var(--wind-badge-size-medium);
+    height: var(--wind-badge-size-medium);
     line-height: 1;
   }
 
+  /* Compass circle */
   .wind-compass {
     position: absolute;
-    width: 1.2em;
-    height: 1.2em;
+    width: var(--wind-compass-size);
+    height: var(--wind-compass-size);
     border: 2px solid currentcolor;
     border-radius: 50%;
-    opacity: 0.7;
+    opacity: var(--wind-compass-opacity);
   }
 
-  /* Direction arrow/triangle - outside the circle */
+  /* Direction arrow positioned outside circle */
   .wind-compass::after {
     content: "";
     position: absolute;
@@ -68,9 +134,10 @@
     border-left: 0.35em solid transparent;
     border-right: 0.35em solid transparent;
     border-bottom: 0.65em solid currentcolor;
-    opacity: 0.85;
+    opacity: var(--wind-arrow-opacity);
   }
 
+  /* Wind speed value centered in badge */
   .wind-badge .wind-value {
     position: relative;
     font-weight: 900;
@@ -79,22 +146,26 @@
     z-index: 1;
   }
 
-  /* Size adjustments based on table class */
+  /* ==========================================================================
+     Responsive Wind Badge Sizes
+     ========================================================================== */
+
   .small .wind-badge {
-    width: 2.4em;
-    height: 2.4em;
+    width: var(--wind-badge-size-small);
+    height: var(--wind-badge-size-small);
   }
 
   .medium .wind-badge {
-    width: 2.8em;
-    height: 2.8em;
+    width: var(--wind-badge-size-medium);
+    height: var(--wind-badge-size-medium);
   }
 
   .large .wind-badge {
-    width: 3.2em;
-    height: 3.2em;
+    width: var(--wind-badge-size-large);
+    height: var(--wind-badge-size-large);
   }
 
+  /* Font size adjustments */
   .small .wind-badge .wind-value {
     font-size: 0.65em;
   }
@@ -105,13 +176,5 @@
 
   .large .wind-badge .wind-value {
     font-size: 0.75em;
-  }
-
-  .small .wind-compass::before {
-    font-size: 0.6em;
-  }
-
-  .large .wind-compass::before {
-    font-size: 0.7em;
   }
 }

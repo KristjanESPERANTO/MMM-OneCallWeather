@@ -301,7 +301,6 @@ Module.register("MMM-OneCallWeather", {
     let windIcon;
     let windySpeed;
     table.className = this.config.tableClass;
-    table.style.borderCollapse = "collapse";
 
     let degreeLabel = "°";
     if (this.config.scale) {
@@ -329,7 +328,7 @@ Module.register("MMM-OneCallWeather", {
         Log.debug(`count of data length ${this.forecast.hours.length}`);
         hRowData = document.createElement("tr");
         hCellData = document.createElement("td");
-        hCellData.style.textAlign = "left";
+        hCellData.className = "horizontal-cell";
 
         for (let h = 0; h < this.config.maxHourliesToShow; h += 1) {
           const hourlyForecast = this.forecast.hours[h];
@@ -419,8 +418,6 @@ Module.register("MMM-OneCallWeather", {
         } else {
           currTemperature.innerHTML = ` ${currentWeather.temperature}${degreeLabel}`;
         }
-        currTemperature.style.verticalAlign = "middle";
-        currTemperature.style.right = "0px";
 
         largeWeatherIcon.appendChild(currTemperature);
 
@@ -462,10 +459,10 @@ Module.register("MMM-OneCallWeather", {
           dailyForecast = this.forecast.days[i];
 
           const row = document.createElement("tr");
-          row.style.textAlign = "center";
+          row.className = "vertical-row";
 
           if (this.config.colored) {
-            row.className = "colored";
+            row.className += " colored";
           }
           table.appendChild(row);
 
@@ -478,12 +475,9 @@ Module.register("MMM-OneCallWeather", {
           iconCell.className = "bright weather-icon";
           const icon = document.createElement("span");
           const iconImg = document.createElement("img");
+          iconImg.className = "forecast-icon";
           iconImg.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${dailyForecast.weatherIcon}.${this.config.iconsetFormat}`;
 
-          iconImg.style.height = "auto";
-          iconImg.style.maxWidth = "44px";
-
-          iconImg.style.display = "inline";
           icon.appendChild(iconImg);
           iconCell.appendChild(icon);
           row.appendChild(iconCell);
@@ -591,7 +585,6 @@ Module.register("MMM-OneCallWeather", {
         } else {
           currTemperature.innerHTML = ` ${currentWeather.temperature}${degreeLabel}`;
         }
-        currTemperature.style.verticalAlign = "middle";
 
         largeWeatherIcon.appendChild(currTemperature);
 
@@ -625,9 +618,10 @@ Module.register("MMM-OneCallWeather", {
           dailyForecast = this.forecast.days[j];
 
           const row = document.createElement("td");
+          row.className = "default-column";
 
           if (this.config.colored) {
-            row.className = "colored";
+            row.className += " colored";
           }
           table.appendChild(row);
 
@@ -640,12 +634,9 @@ Module.register("MMM-OneCallWeather", {
           iconCell.className = "bright weather-icon";
           const icon = document.createElement("span");
           const iconImg = document.createElement("img");
+          iconImg.className = "forecast-icon";
           iconImg.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${dailyForecast.weatherIcon}.${this.config.iconsetFormat}`;
 
-          iconImg.style.height = "auto";
-          iconImg.style.maxWidth = "44px";
-
-          iconImg.style.display = "inline";
           icon.appendChild(iconImg);
           iconCell.appendChild(icon);
           row.appendChild(iconCell);
