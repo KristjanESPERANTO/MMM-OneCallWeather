@@ -284,23 +284,9 @@ Module.register("MMM-OneCallWeather", {
       return wrapper;
     }
 
-    const table = document.createElement("table");
-    let currentCell1;
-    let currentCell2;
-    let currentCell3;
-    let currentRow1;
-    let currentRow2;
-    let currentRow3;
+    let table = document.createElement("table");
     let currentWeather;
-    let currTemperature;
     let dailyForecast;
-    let largeWeatherIcon;
-    let windContainer;
-    let spacer;
-    let weatherIcon;
-    let windyDirection;
-    let windIcon;
-    let windySpeed;
     table.className = this.config.tableClass;
 
     let degreeLabel = "°";
@@ -328,99 +314,7 @@ Module.register("MMM-OneCallWeather", {
       currentWeather = this.forecast.current[0];
 
       if (this.config.showCurrent) {
-        currentRow1 = document.createElement("tr");
-        currentCell1 = document.createElement("td");
-        currentCell1.colSpan = "6";
-        currentCell1.className = "current";
-
-        windContainer = document.createElement("div");
-        windContainer.className = "wind-container normal medium";
-
-        windIcon = document.createElement("img");
-        windIcon.className = "wi wind-icon dimmed";
-        windIcon.src = "modules/MMM-OneCallWeather/icons/8a/wind.svg";
-        windContainer.appendChild(windIcon);
-
-        windySpeed = document.createElement("span");
-        windySpeed.innerHTML = ` ${currentWeather.windSpeed}`;
-        windContainer.appendChild(windySpeed);
-
-        if (this.config.showWindDirection) {
-          windyDirection = document.createElement("sup");
-          if (this.config.showWindDirectionAsArrow) {
-            windyDirection.innerHTML = ` &nbsp;<i class="fa fa-long-arrow-down" style="transform:rotate(${currentWeather.windDirection}deg);"></i>&nbsp;`;
-          } else {
-            windyDirection.innerHTML = ` ${this.cardinalWindDirection(currentWeather.windDirection)}`;
-          }
-          windContainer.appendChild(windyDirection);
-        }
-        spacer = document.createElement("span");
-        spacer.innerHTML = "&nbsp;";
-        windContainer.appendChild(spacer);
-
-        currentCell1.appendChild(windContainer);
-        currentRow1.appendChild(currentCell1);
-        table.appendChild(currentRow1);
-
-        currentRow2 = document.createElement("tr");
-        currentCell2 = document.createElement("td");
-        currentCell2.colSpan = "6";
-        currentCell2.className = "current";
-
-        largeWeatherIcon = document.createElement("div");
-        largeWeatherIcon.className = "large-weather-icon-container light";
-
-        weatherIcon = document.createElement("img");
-        weatherIcon.className = `wi weathericon wi-${currentWeather.weatherIcon}`;
-        weatherIcon.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${currentWeather.weatherIcon}.${this.config.iconsetFormat}`;
-        largeWeatherIcon.appendChild(weatherIcon);
-
-        currTemperature = document.createElement("div");
-        currTemperature.className = "large bright";
-
-        if (this.config.tempUnits === "f") {
-          currTemperature.innerHTML = ` ${(
-            currentWeather.temperature * (9 / 5) +
-            32
-          ).toFixed(0)}${degreeLabel}`;
-        } else {
-          currTemperature.innerHTML = ` ${currentWeather.temperature}${degreeLabel}`;
-        }
-
-        largeWeatherIcon.appendChild(currTemperature);
-
-        currentCell2.appendChild(largeWeatherIcon);
-        currentRow2.appendChild(currentCell2);
-        table.appendChild(currentRow2);
-
-        currentRow3 = document.createElement("tr");
-        currentCell3 = document.createElement("td");
-        currentCell3.colSpan = "6";
-        currentCell3.className = "current";
-
-        if (this.config.showFeelsLike && this.config.onlyTemp === false) {
-          windContainer = document.createElement("div");
-          windContainer.className = "wind-container small dimmed";
-
-          const currFeelsLike = document.createElement("span");
-          currFeelsLike.className = "small dimmed";
-          if (this.config.tempUnits === "f") {
-            currFeelsLike.innerHTML = ` ${(
-              currentWeather.feelsLikeTemp * (9 / 5) +
-              32
-            ).toFixed(0)}${degreeLabel}`;
-          } else {
-            const feelsLikeString = this.translate("FEELS");
-            const feelsLikeText = feelsLikeString.replace("{DEGREE}", `${currentWeather.feelsLikeTemp}${degreeLabel}`);
-            currFeelsLike.innerHTML = feelsLikeText;
-          }
-          windContainer.appendChild(currFeelsLike);
-          currentCell1.appendChild(windContainer);
-        }
-
-        currentCell3.appendChild(windContainer);
-        currentRow3.appendChild(currentCell3);
-        table.appendChild(currentRow3);
+        table = this.createCurrentWeatherBlock(currentWeather, "6", degreeLabel);
       }
 
       // Return early if only showing current weather
@@ -512,99 +406,11 @@ Module.register("MMM-OneCallWeather", {
     currentWeather = this.forecast.current[0];
 
     if (this.config.showCurrent) {
-      currentRow1 = document.createElement("tr");
-      currentCell1 = document.createElement("td");
-      currentCell1.colSpan = this.config.maxDailiesToShow;
-      currentCell1.className = "current";
-
-      windContainer = document.createElement("div");
-      windContainer.className = "wind-container normal medium";
-
-      windIcon = document.createElement("img");
-      windIcon.className = "wi wind-icon dimmed";
-      windIcon.src = "modules/MMM-OneCallWeather/icons/8a/wind.svg";
-      windContainer.appendChild(windIcon);
-
-      windySpeed = document.createElement("span");
-      if (this.config.useBeaufortInCurrent) {
-        this.convSpd = this.mph2Beaufort(currentWeather.windSpeed);
-        windySpeed.innerHTML = `F${this.convSpd}`;
-      } else {
-        windySpeed.innerHTML = ` ${currentWeather.windSpeed}`;
-      }
-      windContainer.appendChild(windySpeed);
-
-      if (this.config.showWindDirection) {
-        windyDirection = document.createElement("sup");
-        if (this.config.showWindDirectionAsArrow) {
-          windyDirection.innerHTML = ` &nbsp;<i class="fa fa-long-arrow-down" style="transform:rotate(${currentWeather.windDirection}deg);"></i>&nbsp;`;
-        } else {
-          windyDirection.innerHTML = ` ${this.cardinalWindDirection(currentWeather.windDirection)}`;
-        }
-        windContainer.appendChild(windyDirection);
-      }
-      spacer = document.createElement("span");
-      spacer.innerHTML = "&nbsp;";
-      windContainer.appendChild(spacer);
-
-      currentCell1.appendChild(windContainer);
-      currentRow1.appendChild(currentCell1);
-      table.appendChild(currentRow1);
-
-      currentRow2 = document.createElement("tr");
-      currentCell2 = document.createElement("td");
-      currentCell2.colSpan = this.config.maxDailiesToShow;
-      currentCell2.className = "current";
-
-      largeWeatherIcon = document.createElement("div");
-      largeWeatherIcon.className = "large-weather-icon-container light";
-
-      if (this.config.decimalSymbol === "") {
-        this.config.decimalSymbol = ".";
-      }
-
-      weatherIcon = document.createElement("img");
-      weatherIcon.className = `wi weathericon wi-${currentWeather.weatherIcon}`;
-      weatherIcon.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${currentWeather.weatherIcon}.${this.config.iconsetFormat}`;
-      largeWeatherIcon.appendChild(weatherIcon);
-
-      currTemperature = document.createElement("span");
-      currTemperature.className = "large bright";
-      if (this.config.tempUnits === "f") {
-        currTemperature.innerHTML = ` ${(
-          currentWeather.temperature * (9 / 5) +
-          32
-        ).toFixed(0)}${degreeLabel}`;
-      } else {
-        currTemperature.innerHTML = ` ${currentWeather.temperature}${degreeLabel}`;
-      }
-
-      largeWeatherIcon.appendChild(currTemperature);
-
-      currentCell2.appendChild(largeWeatherIcon);
-      currentRow2.appendChild(currentCell2);
-      table.appendChild(currentRow2);
-
-      currentRow3 = document.createElement("tr");
-      currentCell3 = document.createElement("td");
-      currentCell3.colSpan = this.config.maxDailiesToShow;
-      currentCell3.className = "current";
-
-      if (this.config.showFeelsLike && this.config.onlyTemp === false) {
-        windContainer = document.createElement("div");
-        windContainer.className = "wind-container small dimmed";
-        const currFeelsLike = document.createElement("span");
-        currFeelsLike.className = "small dimmed";
-        const feelsLikeString = this.translate("FEELS");
-        const feelsLikeText = feelsLikeString.replace("{DEGREE}", `${currentWeather.feelsLikeTemp}${degreeLabel}`);
-        currFeelsLike.innerHTML = feelsLikeText;
-
-        windContainer.appendChild(currFeelsLike);
-        currentCell1.appendChild(windContainer);
-      }
-      currentCell3.appendChild(windContainer);
-      currentRow3.appendChild(currentCell3);
-      table.appendChild(currentRow3);
+      table = this.createCurrentWeatherBlock(
+        currentWeather,
+        this.config.maxDailiesToShow,
+        degreeLabel
+      );
     }
 
     // Return early if only showing current weather
@@ -738,6 +544,118 @@ Module.register("MMM-OneCallWeather", {
     weatherContainer.appendChild(forecastTable);
 
     return weatherContainer;
+  },
+
+  // Helper method to create current weather block (reduces code duplication)
+  createCurrentWeatherBlock (currentWeather, colspan, degreeLabel) {
+    const table = document.createElement("table");
+    table.className = this.config.tableClass;
+
+    // Row 1: Wind information
+    const currentRow1 = document.createElement("tr");
+    const currentCell1 = document.createElement("td");
+    currentCell1.colSpan = colspan;
+    currentCell1.className = "current";
+
+    const windContainer = document.createElement("div");
+    windContainer.className = "wind-container normal medium";
+
+    const windIcon = document.createElement("img");
+    windIcon.className = "wi wind-icon dimmed";
+    windIcon.src = "modules/MMM-OneCallWeather/icons/8a/wind.svg";
+    windContainer.appendChild(windIcon);
+
+    const windySpeed = document.createElement("span");
+    if (this.config.useBeaufortInCurrent) {
+      this.convSpd = this.mph2Beaufort(currentWeather.windSpeed);
+      windySpeed.innerHTML = `F${this.convSpd}`;
+    } else {
+      windySpeed.innerHTML = ` ${currentWeather.windSpeed}`;
+    }
+    windContainer.appendChild(windySpeed);
+
+    if (this.config.showWindDirection) {
+      const windyDirection = document.createElement("sup");
+      if (this.config.showWindDirectionAsArrow) {
+        windyDirection.innerHTML = ` &nbsp;<i class="fa fa-long-arrow-down" style="transform:rotate(${currentWeather.windDirection}deg);"></i>&nbsp;`;
+      } else {
+        windyDirection.innerHTML = ` ${this.cardinalWindDirection(currentWeather.windDirection)}`;
+      }
+      windContainer.appendChild(windyDirection);
+    }
+
+    const spacer = document.createElement("span");
+    spacer.innerHTML = "&nbsp;";
+    windContainer.appendChild(spacer);
+
+    currentCell1.appendChild(windContainer);
+    currentRow1.appendChild(currentCell1);
+    table.appendChild(currentRow1);
+
+    // Row 2: Weather icon and temperature
+    const currentRow2 = document.createElement("tr");
+    const currentCell2 = document.createElement("td");
+    currentCell2.colSpan = colspan;
+    currentCell2.className = "current";
+
+    const largeWeatherIcon = document.createElement("div");
+    largeWeatherIcon.className = "large-weather-icon-container light";
+
+    const weatherIcon = document.createElement("img");
+    weatherIcon.className = `wi weathericon wi-${currentWeather.weatherIcon}`;
+    weatherIcon.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${currentWeather.weatherIcon}.${this.config.iconsetFormat}`;
+    largeWeatherIcon.appendChild(weatherIcon);
+
+    let elementType = "span";
+    if (this.config.forecastLayout === "rows") {
+      elementType = "div";
+    }
+    const currTemperature = document.createElement(elementType);
+    currTemperature.className = "large bright";
+    if (this.config.tempUnits === "f") {
+      currTemperature.innerHTML = ` ${(
+        currentWeather.temperature * (9 / 5) +
+        32
+      ).toFixed(0)}${degreeLabel}`;
+    } else {
+      currTemperature.innerHTML = ` ${currentWeather.temperature}${degreeLabel}`;
+    }
+
+    largeWeatherIcon.appendChild(currTemperature);
+    currentCell2.appendChild(largeWeatherIcon);
+    currentRow2.appendChild(currentCell2);
+    table.appendChild(currentRow2);
+
+    // Row 3: Feels like temperature
+    const currentRow3 = document.createElement("tr");
+    const currentCell3 = document.createElement("td");
+    currentCell3.colSpan = colspan;
+    currentCell3.className = "current";
+
+    if (this.config.showFeelsLike && this.config.onlyTemp === false) {
+      const feelsLikeContainer = document.createElement("div");
+      feelsLikeContainer.className = "wind-container small dimmed";
+      const currFeelsLike = document.createElement("span");
+      currFeelsLike.className = "small dimmed";
+
+      if (this.config.tempUnits === "f") {
+        currFeelsLike.innerHTML = ` ${(
+          currentWeather.feelsLikeTemp * (9 / 5) +
+          32
+        ).toFixed(0)}${degreeLabel}`;
+      } else {
+        const feelsLikeString = this.translate("FEELS");
+        const feelsLikeText = feelsLikeString.replace("{DEGREE}", `${currentWeather.feelsLikeTemp}${degreeLabel}`);
+        currFeelsLike.innerHTML = feelsLikeText;
+      }
+      feelsLikeContainer.appendChild(currFeelsLike);
+      currentCell3.appendChild(feelsLikeContainer);
+    }
+
+    currentRow3.appendChild(currentCell3);
+    table.appendChild(currentRow3);
+
+    return table;
   },
 
   getOrdinal (bearing) {
