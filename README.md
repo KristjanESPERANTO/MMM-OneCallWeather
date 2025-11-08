@@ -14,9 +14,15 @@ Since the original author of the module, [Captsi](https://github.com/Captsi), is
 
 **This module is in maintenance mode.** So I'm not planning any functional changes. If someone wants to take over the further development, I would be happy. PR's are welcome too!
 
-## Screenshot
+## Screenshots
 
-![Example: Default layout](screenshot.png)
+**`displayMode: "both-vertical"`**
+
+![Example: vertical layout](screenshot_1_vertical.png)
+
+**`displayMode: "both-horizontal"`**
+
+![Example: horizontal layout](screenshot_2_horizontal.png)
 
 ## Installation
 
