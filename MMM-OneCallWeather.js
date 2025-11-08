@@ -498,28 +498,10 @@ Module.register("MMM-OneCallWeather", {
           minTempCell.className = "min-temp";
           row.appendChild(minTempCell);
 
-          const windIconCell = document.createElement("td");
-          windIconCell.className = "bright weather-icon";
-          windIcon = document.createElement("span");
-          const windIconImg = document.createElement("img");
-          windIconImg.src = "modules/MMM-OneCallWeather/windicon/winddisc.svg";
-
-          windIconImg.style.position = "absolute";
-          windIconImg.style.transform = `rotate(${dailyForecast.windDirection}deg) `;
-          windIconImg.style.marginLeft = "0.1rem";
-          windIconImg.style.marginTop = "-1.1rem";
-
-          windIcon.appendChild(windIconImg);
-          windIconCell.appendChild(windIcon);
-          row.appendChild(windIconCell);
-
-          const windTextCell = document.createElement("td");
-          windTextCell.className = "bright weather-icon";
-          windTextCell.innerText = dailyForecast.windSpeed;
-          windTextCell.style.position = "relative";
-          windTextCell.style.color = "black";
-
-          row.appendChild(windTextCell);
+          const windCell = document.createElement("td");
+          windCell.className = "bright weather-icon";
+          windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection));
+          row.appendChild(windCell);
 
           if (this.config.showRainAmount) {
             const rainCell = document.createElement("td");
@@ -693,26 +675,10 @@ Module.register("MMM-OneCallWeather", {
           minTempCell.className = "min-temp";
           row.appendChild(minTempCell);
 
-          const windIconCell = document.createElement("tr");
-          windIconCell.className = "bright weather-icon";
-          windIcon = document.createElement("span");
-          const windIconImg = document.createElement("img");
-          windIconImg.src = "modules/MMM-OneCallWeather/windicon/winddisc.svg";
-
-          windIconImg.style.transform = `rotate(${dailyForecast.windDirection}deg)`;
-          windIconImg.style.display = "inline";
-          windIcon.appendChild(windIconImg);
-          windIconCell.appendChild(windIcon);
-          row.appendChild(windIconCell);
-
-          const windTextCell = document.createElement("tr");
-          windTextCell.className = "bright weather-icon";
-          const windSpeed = document.createElement("p");
-          windSpeed.className = "wind-speed";
-          windSpeed.innerText = dailyForecast.windSpeed;
-
-          windTextCell.appendChild(windSpeed);
-          row.appendChild(windTextCell);
+          const windCell = document.createElement("tr");
+          windCell.className = "bright weather-icon";
+          windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection));
+          row.appendChild(windCell);
 
           if (this.config.showRainAmount) {
             const rainCell = document.createElement("td");
@@ -786,6 +752,26 @@ Module.register("MMM-OneCallWeather", {
       return "NNW";
     }
     return "N";
+  },
+
+  // Create a wind badge with centered speed value over rotated disc
+  createWindBadge (speed, directionDeg) {
+    const container = document.createElement("div");
+    container.className = "wind-badge";
+
+    const img = document.createElement("img");
+    img.src = "modules/MMM-OneCallWeather/windicon/winddisc.svg";
+    img.alt = "Wind direction";
+    img.className = "wind-disc";
+    img.style.transform = `rotate(${directionDeg}deg)`;
+    container.appendChild(img);
+
+    const value = document.createElement("span");
+    value.className = "wind-value";
+    value.textContent = speed;
+    container.appendChild(value);
+
+    return container;
   },
 
   convertOpenWeatherIdToIcon (id, openweatherIcon) {
