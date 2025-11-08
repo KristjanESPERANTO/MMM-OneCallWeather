@@ -343,12 +343,12 @@ Module.register("MMM-OneCallWeather", {
         row.appendChild(iconCell);
 
         const maxTempCell = document.createElement("td");
-        maxTempCell.innerHTML = dailyForecast.maxTemperature + degreeLabel;
+        maxTempCell.innerHTML = `${dailyForecast.maxTemperature}${degreeLabel}`;
         maxTempCell.className = "bright max-temp";
         row.appendChild(maxTempCell);
 
         const minTempCell = document.createElement("td");
-        minTempCell.innerHTML = dailyForecast.minTemperature + degreeLabel;
+        minTempCell.innerHTML = `${dailyForecast.minTemperature}${degreeLabel}`;
         minTempCell.className = "min-temp";
         row.appendChild(minTempCell);
 
@@ -456,7 +456,7 @@ Module.register("MMM-OneCallWeather", {
 
       // Max temp cell
       const maxTempCell = document.createElement("td");
-      maxTempCell.innerHTML = dailyForecast.maxTemperature + degreeLabel;
+      maxTempCell.innerHTML = `${dailyForecast.maxTemperature}${degreeLabel}`;
       maxTempCell.className = "bright max-temp";
       if (this.config.colored) {
         maxTempCell.className += " colored";
@@ -471,7 +471,7 @@ Module.register("MMM-OneCallWeather", {
           32
         ).toFixed(0)}${degreeLabel}`;
       } else {
-        minTempCell.innerHTML = dailyForecast.minTemperature + degreeLabel;
+        minTempCell.innerHTML = `${dailyForecast.minTemperature}${degreeLabel}`;
       }
       minTempCell.className = "min-temp";
       if (this.config.colored) {
