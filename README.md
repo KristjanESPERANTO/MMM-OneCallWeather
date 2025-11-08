@@ -16,13 +16,21 @@ Since the original author of the module, [Captsi](https://github.com/Captsi), is
 
 ## Screenshots
 
-**`displayMode: "both-vertical"`**
+**Vertical arrangement with columns layout**
 
-![Example: vertical layout](screenshot_1_vertical.png)
+![Vertical arrangement with columns layout](screenshot_1_vertical_columns.png)
 
-**`displayMode: "both-horizontal"`**
+**Vertical arrangement with rows layout**
 
-![Example: horizontal layout](screenshot_2_horizontal.png)
+![Vertical arrangement with rows layout](screenshot_2_vertical_rows.png)
+
+**Horizontal arrangement with columns layout**
+
+![Horizontal arrangement with columns layout](screenshot_3_horizontal_columns.png)
+
+**Horizontal arrangement with rows layout**
+
+![Horizontal arrangement with rows layout](screenshot_4_horizontal_rows.png)
 
 ## Installation
 
@@ -83,8 +91,10 @@ The following properties can be configured:
 | `units`            | What units to use for temperature.<br><br>**Possible values:** `config.units` = Specified by `config.js`, `"kelvin"` = Kelvin, `"metric"` = Celsius, `"imperial"` = Fahrenheit<br>**Default value:** `config.units`                                                                                                                                                        |
 | `windUnits`        | The units to use for wind speed.<br><br>**Possible values:** `"mph"` (miles per hour), `"kmph"` (kilometers per hour), `"ms"` (meters per second)<br>**Default value:** `"mph"`<br>This value is optional. By default the weatherforecast module will display wind speed in miles per hour.                                                                                |
 | `roundTemp`        | Round temperature values to nearest integer.<br><br>**Possible values:** `true` (round to integer) or `false` (display exact value with decimal point)<br>**Default value:** `false`                                                                                                                                                                                       |
-| `layout`           | Define whether layout should be horizontal or vertical.<br><br>**Possible values:** `"vertical"` or `"default"`<br>**Default value:** `"default"`<br>This value is optional. By default the weatherforecast module display in a hybrid format. The vertical option is OK too. Some work still needs to be done on pretty formats.                                          |
-| `displayMode`      | Controls what weather information to display and how to arrange it.<br><br>**Possible values:** `"both-vertical"` (current weather above forecast), `"both-horizontal"` (current weather next to forecast), `"current-only"` (only current weather), `"forecast-only"` (only forecast)<br>**Default value:** `"both-vertical"`                                             |
+| `showCurrent`      | Show the current weather section.<br><br>**Possible values:** `true` or `false`<br>**Default value:** `true`                                                                                                                                                                                                                                                               |
+| `showForecast`     | Show the forecast section.<br><br>**Possible values:** `true` or `false`<br>**Default value:** `true`                                                                                                                                                                                                                                                                      |
+| `forecastLayout`   | Defines how the forecast is structured internally.<br><br>**Possible values:** `"columns"` (days displayed as table columns), `"rows"` (days displayed as table rows)<br>**Default value:** `"columns"`                                                                                                                                                                    |
+| `arrangement`      | How current weather and forecast are positioned relative to each other (only relevant when both `showCurrent` and `showForecast` are `true`).<br><br>**Possible values:** `"vertical"` (forecast below current weather), `"horizontal"` (forecast next to current weather)<br>**Default value:** `"vertical"`                                                              |
 | `showRainAmount`   | Should the predicted rain amount be displayed?<br><br>**Possible values:** `true` or `false`<br>**Default value:** `false`<br>This value is optional. By default the weatherforecast module will not display the predicted amount of rain.                                                                                                                                 |
 | `updateInterval`   | How often does the content needs to be fetched? (Milliseconds)<br><br>**Possible values:** `1000` - `86400000`<br>**Default value:** `600000` (10 minutes). The free subscription level currently allows a call every 2 minutes.                                                                                                                                           |
 | `animationSpeed`   | Speed of the update animation. (Milliseconds)<br><br>**Possible values:** `0` - `5000`<br>**Default value:** `1000` (1 second)                                                                                                                                                                                                                                             |

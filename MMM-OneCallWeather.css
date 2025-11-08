@@ -38,15 +38,9 @@
      Forecast Table
      ========================================================================== */
 
-  .forecast-table {
-    border-spacing: 0.5rem 0;
-    width: auto;
-  }
-
   .forecast-table td {
     text-align: center;
     vertical-align: middle;
-    padding: 0.2em 0.3em;
   }
 
   /* ==========================================================================
@@ -86,11 +80,13 @@
      Temperature Colors
      ========================================================================== */
 
-  .colored > .max-temp {
+  .colored > .max-temp,
+  .max-temp.colored {
     color: var(--color-temp-max);
   }
 
-  .colored > .min-temp {
+  .colored > .min-temp,
+  .min-temp.colored {
     color: var(--color-temp-min);
   }
 
