@@ -64,11 +64,6 @@ Module.register("MMM-OneCallWeather", {
   // create a variable for the first upcoming calendar event. Used if no location is specified.
   firstEvent: false,
 
-  // Define required scripts.
-  getScripts () {
-    return ["weatherobject.js"];
-  },
-
   // Define required CSS files.
   getStyles () {
     return ["MMM-OneCallWeather.css"];
@@ -121,7 +116,6 @@ Module.register("MMM-OneCallWeather", {
   },
 
   processOnecall () {
-    let precip = false;
     let wsfactor = 2.237;
     const current = [];
     if (this.config.windUnits === "kmph") {
@@ -149,13 +143,6 @@ Module.register("MMM-OneCallWeather", {
       Log.debug(`current weather is ${JSON.stringify(currently)}`);
     }
 
-    let weather = new WeatherObject(
-      this.config.units,
-      this.config.tempUnits,
-      this.config.windUnits,
-      this.config.useKmh
-    );
-
     // get hourly weather, if requested
     const hours = [];
     this.hourForecast = [];
@@ -163,14 +150,18 @@ Module.register("MMM-OneCallWeather", {
 
     if (Object.hasOwn(data, "hourly")) {
       for (const hour of data.hourly) {
+        let rain = 0;
+        let snow = 0;
+        let precip = false;
+
         if (
           Object.hasOwn(hour, "rain") &&
           !Number.isNaN(hour.rain["1h"])
         ) {
           if (this.config.units === "imperial") {
-            weather.rain = hour.rain["1h"] / 25.4;
+            rain = hour.rain["1h"] / 25.4;
           } else {
-            weather.rain = hour.rain["1h"];
+            rain = hour.rain["1h"];
           }
           precip = true;
         }
@@ -179,14 +170,16 @@ Module.register("MMM-OneCallWeather", {
           !Number.isNaN(hour.snow["1h"])
         ) {
           if (this.config.units === "imperial") {
-            weather.snow = hour.snow["1h"] / 25.4;
+            snow = hour.snow["1h"] / 25.4;
           } else {
-            weather.snow = hour.snow["1h"];
+            snow = hour.snow["1h"];
           }
           precip = true;
         }
+
+        let precipitation = 0;
         if (precip) {
-          weather.precipitation = weather.rain + weather.snow;
+          precipitation = rain + snow;
         }
 
         forecastData = {
@@ -198,15 +191,9 @@ Module.register("MMM-OneCallWeather", {
           feelsLikeTemp: hour.feels_like.day,
           weatherIcon: hour.weather[0].icon,
           weatherType: this.convertWeatherType(hour.weather[0].icon),
-          precipitation: weather.precipitation
+          precipitation
         };
         hours.push(forecastData);
-        weather = new WeatherObject(
-          this.config.units,
-          this.config.tempUnits,
-          this.config.windUnits,
-          this.config.useKmh
-        );
       }
     }
 
@@ -216,25 +203,32 @@ Module.register("MMM-OneCallWeather", {
     const days = [];
     if (Object.hasOwn(data, "daily")) {
       for (const day of data.daily) {
-        precip = false;
+        let rain = 0;
+        let snow = 0;
+        let precip = false;
+
         if (!Number.isNaN(day.rain)) {
+          const {rain: dayRain} = day;
           if (this.config.units === "imperial") {
-            weather.rain = day.rain / 25.4;
+            rain = dayRain / 25.4;
           } else {
-            weather.rain = day.rain;
+            rain = dayRain;
           }
           precip = true;
         }
         if (!Number.isNaN(day.snow)) {
+          const {snow: daySnow} = day;
           if (this.config.units === "imperial") {
-            weather.snow = day.snow / 25.4;
+            snow = daySnow / 25.4;
           } else {
-            weather.snow = day.snow;
+            snow = daySnow;
           }
           precip = true;
         }
+
+        let precipitation = 0;
         if (precip) {
-          weather.precipitation = weather.rain + weather.snow;
+          precipitation = rain + snow;
         }
 
         forecastData = {
@@ -250,16 +244,10 @@ Module.register("MMM-OneCallWeather", {
           feelsLikeTemp: day.feels_like.day,
           weatherIcon: day.weather[0].icon,
           weatherType: this.convertWeatherType(day.weather[0].icon),
-          precipitation: weather.precipitation
+          precipitation
         };
 
         days.push(forecastData);
-        weather = new WeatherObject(
-          this.config.units,
-          this.config.tempUnits,
-          this.config.windUnits,
-          this.config.useKmh
-        );
       }
     }
 
