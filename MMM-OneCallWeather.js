@@ -754,17 +754,15 @@ Module.register("MMM-OneCallWeather", {
     return "N";
   },
 
-  // Create a wind badge with centered speed value over rotated disc
+  // Create a wind badge with centered speed value and compass direction indicator
   createWindBadge (speed, directionDeg) {
     const container = document.createElement("div");
     container.className = "wind-badge";
 
-    const img = document.createElement("img");
-    img.src = "modules/MMM-OneCallWeather/windicon/winddisc.svg";
-    img.alt = "Wind direction";
-    img.className = "wind-disc";
-    img.style.transform = `rotate(${directionDeg}deg)`;
-    container.appendChild(img);
+    const compass = document.createElement("div");
+    compass.className = "wind-compass";
+    compass.style.transform = `rotate(${directionDeg}deg)`;
+    container.appendChild(compass);
 
     const value = document.createElement("span");
     value.className = "wind-value";

@@ -36,60 +36,82 @@
     text-align: center;
   }
 
-  /* Wind badge: icon + centered value */
+  /* Wind badge: compass-style direction indicator */
   .wind-badge {
     position: relative;
-    display: inline-block;
-    width: 2.4em;
-    height: 2.4em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.8em;
+    height: 2.8em;
     line-height: 1;
   }
 
-  .wind-badge .wind-disc {
-    width: 100%;
-    height: 100%;
-    display: block;
+  .wind-compass {
+    position: absolute;
+    width: 1.2em;
+    height: 1.2em;
+    border: 2px solid currentcolor;
+    border-radius: 50%;
+    opacity: 0.7;
+  }
+
+  /* Direction arrow/triangle - outside the circle */
+  .wind-compass::after {
+    content: "";
+    position: absolute;
+    top: -0.65em;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 0.35em solid transparent;
+    border-right: 0.35em solid transparent;
+    border-bottom: 0.65em solid currentcolor;
+    opacity: 0.85;
   }
 
   .wind-badge .wind-value {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -52%);
-    font-weight: 700;
-    font-size: 0.95em;
-    color: #111;
-    -webkit-text-stroke: 0.5px #fff;
-    text-shadow:
-      0 0 3px rgb(255 255 255 / 85%),
-      0 0 6px rgb(255 255 255 / 65%);
+    position: relative;
+    font-weight: 900;
+    font-size: 0.7em;
+    color: inherit;
+    z-index: 1;
   }
 
   /* Size adjustments based on table class */
   .small .wind-badge {
-    width: 2.1em;
-    height: 2.1em;
-  }
-
-  .medium .wind-badge {
     width: 2.4em;
     height: 2.4em;
   }
 
-  .large .wind-badge {
+  .medium .wind-badge {
     width: 2.8em;
     height: 2.8em;
   }
 
+  .large .wind-badge {
+    width: 3.2em;
+    height: 3.2em;
+  }
+
   .small .wind-badge .wind-value {
-    font-size: 0.9em;
+    font-size: 0.65em;
   }
 
   .medium .wind-badge .wind-value {
-    font-size: 0.95em;
+    font-size: 0.7em;
   }
 
   .large .wind-badge .wind-value {
-    font-size: 1.05em;
+    font-size: 0.75em;
+  }
+
+  .small .wind-compass::before {
+    font-size: 0.6em;
+  }
+
+  .large .wind-compass::before {
+    font-size: 0.7em;
   }
 }
