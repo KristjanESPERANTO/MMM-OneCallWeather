@@ -1,36 +1,25 @@
-import { beforeEach, describe, it } from "node:test";
+import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { weatherModule } from "./test-setup.mjs";
+import { roundValue } from "../core/utils.mjs";
 
 describe("roundValue", () => {
-  beforeEach(() => {
-    weatherModule.config = { roundTemp: false };
-  });
-
   it("should round to 1 decimal when roundTemp is false", () => {
-    assert.equal(weatherModule.roundValue(23.456), "23.5");
-    assert.equal(weatherModule.roundValue(23.444), "23.4");
+    assert.equal(roundValue(23.456, false), "23.5");
+    assert.equal(roundValue(23.444, false), "23.4");
   });
 
   it("should round to integer when roundTemp is true", () => {
-    weatherModule.config = { roundTemp: true };
-    assert.equal(weatherModule.roundValue(23.456), "23");
-    assert.equal(weatherModule.roundValue(23.6), "24");
+    assert.equal(roundValue(23.456, true), "23");
+    assert.equal(roundValue(23.6, true), "24");
   });
 
   it("should handle negative temperatures", () => {
-    weatherModule.config = { roundTemp: false };
-    assert.equal(weatherModule.roundValue(-5.67), "-5.7");
-
-    weatherModule.config = { roundTemp: true };
-    assert.equal(weatherModule.roundValue(-5.67), "-6");
+    assert.equal(roundValue(-5.67, false), "-5.7");
+    assert.equal(roundValue(-5.67, true), "-6");
   });
 
   it("should handle zero", () => {
-    weatherModule.config = { roundTemp: false };
-    assert.equal(weatherModule.roundValue(0), "0.0");
-
-    weatherModule.config = { roundTemp: true };
-    assert.equal(weatherModule.roundValue(0), "0");
+    assert.equal(roundValue(0, false), "0.0");
+    assert.equal(roundValue(0, true), "0");
   });
 });

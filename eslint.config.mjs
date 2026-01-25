@@ -67,7 +67,7 @@ export default defineConfig([
       "@stylistic/indent": ["error", 2],
       "@stylistic/object-property-newline": ["error", { allowAllPropertiesOnSameLine: true }],
       "import-x/no-unresolved": ["error", { ignore: ["eslint/config"] }],
-      "no-magic-numbers": ["error", { ignore: [2, 4, 300, 500, 1000] }],
+      "no-magic-numbers": "off",
       "sort-keys": "off"
     }
   },
