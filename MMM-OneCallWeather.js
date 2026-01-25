@@ -278,8 +278,8 @@ Module.register("MMM-OneCallWeather", {
   getDom() {
     const wrapper = document.createElement("div");
 
-    if (this.config.appid === "") {
-      wrapper.innerHTML = `Please set the correct openweather <i>appid</i> in the config for module: ${this.name}.`;
+    if (this.config.apikey === "") {
+      wrapper.innerHTML = `Please set the correct openweather <i>apikey</i> in the config for module: ${this.name}.`;
       wrapper.className = "dimmed light small";
       return wrapper;
     }
