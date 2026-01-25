@@ -1,5 +1,3 @@
-let data;
-
 Module.register("MMM-OneCallWeather", {
   defaults: {
     latitude: false,
@@ -109,7 +107,7 @@ Module.register("MMM-OneCallWeather", {
   socketNotificationReceived(notification, payload) {
     if (notification === "OPENWEATHER_ONECALL_DATA" && payload.identifier === this.identifier) {
       // process weather data
-      ({ data } = payload);
+      const { data } = payload;
       this.forecast = this.processOnecall(data);
       this.loaded = true;
       this.updateDom();
@@ -117,7 +115,7 @@ Module.register("MMM-OneCallWeather", {
     }
   },
 
-  processOnecall() {
+  processOnecall(data) {
     let wsfactor = 2.237;
     const current = [];
     if (this.config.windUnits === "kmph") {
