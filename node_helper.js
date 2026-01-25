@@ -45,7 +45,10 @@ module.exports = NodeHelper.create({
           .then((data) => {
             // handle success
             Log.debug(`[MMM-OneCallWeather] got request loop ${myUrl}`);
-            that.sendSocketNotification("OPENWEATHER_ONECALL_DATA", data);
+            that.sendSocketNotification("OPENWEATHER_ONECALL_DATA", {
+              identifier: config.identifier,
+              data
+            });
             Log.debug("[MMM-OneCallWeather] sent the data back");
           })
           .catch((error) => {

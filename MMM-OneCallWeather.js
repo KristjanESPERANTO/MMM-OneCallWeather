@@ -94,6 +94,7 @@ Module.register("MMM-OneCallWeather", {
 
   updateWeather() {
     this.sendSocketNotification("OPENWEATHER_ONECALL_GET", {
+      identifier: this.identifier,
       apikey: this.config.apikey,
       apiVersion: this.config.apiVersion,
       exclude: this.config.exclude,
@@ -106,9 +107,9 @@ Module.register("MMM-OneCallWeather", {
   },
 
   socketNotificationReceived(notification, payload) {
-    if (notification === "OPENWEATHER_ONECALL_DATA") {
+    if (notification === "OPENWEATHER_ONECALL_DATA" && payload.identifier === this.identifier) {
       // process weather data
-      data = payload;
+      ({ data } = payload);
       this.forecast = this.processOnecall(data);
       this.loaded = true;
       this.updateDom();
