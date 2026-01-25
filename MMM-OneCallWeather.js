@@ -312,6 +312,13 @@ Module.register("MMM-OneCallWeather", {
       this.config.decimalSymbol = ".";
     }
 
+    // Check if we have forecast data
+    if (!this.forecast || !this.forecast.current || this.forecast.current.length === 0) {
+      wrapper.innerHTML = this.translate("LOADING");
+      wrapper.className = "dimmed light small";
+      return wrapper;
+    }
+
     // Forecast layout: "rows" - days as rows (vertical list)
     if (this.config.forecastLayout === "rows") {
       // eslint-disable-next-line prefer-destructuring
