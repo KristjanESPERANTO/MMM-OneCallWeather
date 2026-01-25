@@ -865,22 +865,21 @@ Module.register("MMM-OneCallWeather", {
   },
 
   /*
-   * ms2Beaufort(ms)
-   * Converts m2 to beaufort (windspeed).
+   * mph2Beaufort(mph)
+   * Converts mph to beaufort (windspeed).
    *
    * see:
    *  https://www.spc.noaa.gov/faq/tornado/beaufort.html
    *  https://en.wikipedia.org/wiki/Beaufort_scale#Modern_scale
    *
-   * argument ms number - Windspeed in m/s.
+   * argument mph number - Windspeed in mph.
    *
    * return number - Windspeed in beaufort.
    */
   mph2Beaufort(mph) {
     const kmh = mph * 1.60934;
     const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
-    for (const beaufort of speeds) {
-      const speed = speeds[beaufort];
+    for (const [beaufort, speed] of speeds.entries()) {
       if (speed > kmh) {
         return beaufort;
       }
