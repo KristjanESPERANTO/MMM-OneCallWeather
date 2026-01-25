@@ -37,6 +37,7 @@ Module.register("MMM-OneCallWeather", {
     roundTemp: true,
     showCurrent: true,
     showForecast: true,
+    showAlerts: false,
     forecastLayout: "columns", // "columns" (days as columns) or "rows" (days as rows)
     arrangement: "vertical", // "vertical" (forecast below current) or "horizontal" (forecast next to current)
 
@@ -138,8 +139,14 @@ Module.register("MMM-OneCallWeather", {
         weatherType: this.convertWeatherType(data.current.weather[0].icon),
         humidity: data.current.humidity,
         feelsLikeTemp: data.current.feels_like.toFixed(1),
-        precipitation: current.rain + current.snow
+        precipitation: current.rain + current.snow,
+        alerts: []
       };
+
+      if (Object.hasOwn(data, "alerts")) {
+        currently.alerts = data.alerts;
+      }
+
       current.push(currently);
       Log.debug(`current weather is ${JSON.stringify(currently)}`);
     }
@@ -657,6 +664,24 @@ Module.register("MMM-OneCallWeather", {
 
     currentRow3.appendChild(currentCell3);
     table.appendChild(currentRow3);
+
+    // Row 4: Current weather alerts
+    if (this.config.showAlerts && currentWeather.alerts.length > 0) {
+      const currentRow4 = document.createElement("tr");
+      const currentCell4 = document.createElement("td");
+      currentCell4.colSpan = colspan;
+      currentCell4.className = "alert";
+      let alertText = "";
+      for (const weatherAlert of currentWeather.alerts) {
+        if (alertText !== "") {
+          alertText += "<br />";
+        }
+        alertText += weatherAlert.event;
+      }
+      currentCell4.innerHTML = alertText;
+      currentRow4.appendChild(currentCell4);
+      table.appendChild(currentRow4);
+    }
 
     return table;
   },

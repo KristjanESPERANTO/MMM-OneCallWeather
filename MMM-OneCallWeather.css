@@ -72,7 +72,8 @@
   & .day,
   & .max-temp,
   & .min-temp,
-  & .wind-speed {
+  & .wind-speed,
+  & .alert {
     text-align: center;
   }
 
