@@ -80,7 +80,7 @@ let config = {
       }
     },
     {
-
+      disabled: false,
       module: "MMM-OneCallWeather",
       position: "top_left",
       header: "Weather in London",
@@ -91,8 +91,24 @@ let config = {
         apikey: "YOUR_API_KEY",
         showCurrent: true,
         showForecast: true,
+        showAlerts: true,
         forecastLayout: "columns",
         arrangement: "horizontal"
+      }
+    },
+    {
+      disabled: false,
+      module: "MMM-OneCallWeather",
+      position: "top_right",
+      header: "Weather Alerts Test (Oklahoma)",
+      config: {
+        latitude: "35.4676",    // Oklahoma City (Tornado Alley)
+        longitude: "-97.5164",
+        apikey: "YOUR_API_KEY",
+        showCurrent: true,
+        showForecast: false,
+        showAlerts: true,       // Test alerts feature
+        colored: true
       }
     }
   ]
