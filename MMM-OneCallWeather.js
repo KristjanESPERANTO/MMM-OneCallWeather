@@ -139,7 +139,9 @@ Module.register("MMM-OneCallWeather", {
         weatherType: this.convertWeatherType(data.current.weather[0].icon),
         humidity: data.current.humidity,
         feelsLikeTemp: data.current.feels_like.toFixed(1),
-        precipitation: current.rain + current.snow
+        precipitation: this.config.units === "imperial"
+          ? ((data.current.rain?.["1h"] || 0) + (data.current.snow?.["1h"] || 0)) / 25.4
+          : (data.current.rain?.["1h"] || 0) + (data.current.snow?.["1h"] || 0)
       };
 
       if (Object.hasOwn(data, "alerts")) {
