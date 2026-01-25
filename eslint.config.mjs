@@ -71,6 +71,27 @@ export default defineConfig([
       "sort-keys": "off"
     }
   },
+  {
+    files: ["tests/**/*.test.mjs"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      globals: {
+        ...globals.node
+      },
+      sourceType: "module"
+    },
+    plugins: { js, stylistic },
+    extends: [importX.recommended, stylistic.configs.customize({ indent: "tab", quotes: "double", semi: true, commaDangle: "never" })],
+    rules: {
+      "@stylistic/indent": ["error", 2],
+      "init-declarations": "off",
+      "max-lines-per-function": "off",
+      "max-statements": "off",
+      "no-inline-comments": "off",
+      "no-magic-numbers": "off",
+      "no-undefined": "off"
+    }
+  },
   { files: ["demo.config.js"], rules: { "prefer-const": "off" } },
   { files: ["**/*.json"], ignores: ["package-lock.json"], plugins: { json }, extends: ["json/recommended"], language: "json/json" },
   { files: ["**/*.md"], plugins: { markdown }, extends: ["markdown/recommended"], language: "markdown/gfm" }
