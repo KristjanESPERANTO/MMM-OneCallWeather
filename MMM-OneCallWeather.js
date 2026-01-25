@@ -38,7 +38,7 @@ Module.register("MMM-OneCallWeather", {
     roundTemp: true,
     showCurrent: true,
     showForecast: true,
-    showAlerts: false,
+    showAlerts: true,
     forecastLayout: "columns", // "columns" (days as columns) or "rows" (days as rows)
     arrangement: "vertical", // "vertical" (forecast below current) or "horizontal" (forecast next to current)
 
