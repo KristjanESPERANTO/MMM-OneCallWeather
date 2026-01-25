@@ -220,7 +220,7 @@ Module.register("MMM-OneCallWeather", {
         let snow = 0;
         let precip = false;
 
-        if (!Number.isNaN(day.rain)) {
+        if (day.rain && !Number.isNaN(day.rain)) {
           const { rain: dayRain } = day;
           if (this.config.units === "imperial") {
             rain = dayRain / 25.4;
@@ -230,7 +230,7 @@ Module.register("MMM-OneCallWeather", {
           }
           precip = true;
         }
-        if (!Number.isNaN(day.snow)) {
+        if (day.snow && !Number.isNaN(day.snow)) {
           const { snow: daySnow } = day;
           if (this.config.units === "imperial") {
             snow = daySnow / 25.4;
