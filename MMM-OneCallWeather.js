@@ -139,12 +139,14 @@ Module.register("MMM-OneCallWeather", {
         weatherType: this.convertWeatherType(data.current.weather[0].icon),
         humidity: data.current.humidity,
         feelsLikeTemp: data.current.feels_like.toFixed(1),
-        precipitation: current.rain + current.snow,
-        alerts: []
+        precipitation: current.rain + current.snow
       };
 
       if (Object.hasOwn(data, "alerts")) {
         currently.alerts = data.alerts;
+      }
+      else {
+        currently.alerts = [];
       }
 
       current.push(currently);
@@ -671,16 +673,25 @@ Module.register("MMM-OneCallWeather", {
       const currentCell4 = document.createElement("td");
       currentCell4.colSpan = colspan;
       currentCell4.className = "alert";
-      let alertText = "";
-      for (const weatherAlert of currentWeather.alerts) {
-        if (alertText !== "") {
-          alertText += "<br />";
+
+      const validAlerts = currentWeather.alerts
+        .filter(alert => alert?.event)
+        .map(alert => alert.event);
+
+      if (validAlerts.length > 0) {
+        const fragment = document.createDocumentFragment();
+        for (const [index, alertEvent] of validAlerts.entries()) {
+          if (index > 0) {
+            fragment.appendChild(document.createElement("br"));
+          }
+          const span = document.createElement("span");
+          span.textContent = alertEvent;
+          fragment.appendChild(span);
         }
-        alertText += weatherAlert.event;
+        currentCell4.appendChild(fragment);
+        currentRow4.appendChild(currentCell4);
+        table.appendChild(currentRow4);
       }
-      currentCell4.innerHTML = alertText;
-      currentRow4.appendChild(currentCell4);
-      table.appendChild(currentRow4);
     }
 
     return table;

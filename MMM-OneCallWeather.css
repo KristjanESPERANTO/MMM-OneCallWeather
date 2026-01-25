@@ -72,9 +72,16 @@
   & .day,
   & .max-temp,
   & .min-temp,
-  & .wind-speed,
+  & .wind-speed {
+    text-align: center;
+  }
+
   & .alert {
     text-align: center;
+    font-weight: bold;
+    color: #ff8c8c;
+    padding: 0.5em;
+    line-height: 1.4;
   }
 
   /* ==========================================================================
