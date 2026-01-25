@@ -738,64 +738,6 @@ Module.register("MMM-OneCallWeather", {
     return container;
   },
 
-  convertOpenWeatherIdToIcon(id, openweatherIcon) {
-    if (id >= 200 && id < 300) {
-      // Thunderstorm
-      return "thunderstorm";
-    }
-    if (id >= 300 && id < 400) {
-      // Drizzle
-      return "rain";
-    }
-    if (id === 511) {
-      // Rain - freezing rain
-      return "sleet";
-    }
-    if (id >= 500 && id < 600) {
-      // Rain
-      return "rain";
-    }
-    if (id >= 610 && id < 620) {
-      // Snow - sleet or with rain
-      return "sleet";
-    }
-    if (id >= 600 && id < 700) {
-      // Snow
-      return "snow";
-    }
-    if (id === 781) {
-      // Atmosphere - tornado
-      return "tornado";
-    }
-    if (id >= 700 && id < 800) {
-      // Atmosphere
-      return "fog";
-    }
-    if (id >= 800 && id < 810) {
-      const isDay = openweatherIcon.slice(-1) === "d";
-
-      if (id === 800) {
-        // Clear
-        if (isDay) {
-          return "clear-day";
-        }
-        return "clear-night";
-      }
-      if (id === 801 || id === 802) {
-        // Clouds - few or scattered
-        if (isDay) {
-          return "partly-cloudy-day";
-        }
-        return "partly-cloudy-night";
-      }
-      if (id === 803 || id === 804) {
-        // Clouds - broken or overcast
-        return "cloudy";
-      }
-    }
-    return false;
-  },
-
   roundValue(temperature) {
     return this.utils.roundValue(temperature, this.config.roundTemp);
   },
