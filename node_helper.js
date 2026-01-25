@@ -17,31 +17,23 @@ const Log = require("logger");
 
 module.exports = NodeHelper.create({
 
-  socketNotificationReceived (notification, config) {
+  socketNotificationReceived(notification, config) {
     if (notification === "OPENWEATHER_ONECALL_GET") {
       const that = this;
       Log.debug("[MMM-OneCallWeather] node received");
       if (config.apikey === null || config.apikey === "") {
         Log.error("[MMM-OneCallWeather] No API key configured. Get an API key at https://openweathermap.org/api/one-call-api");
-      } else if (
-        config.latitude === null ||
-        config.latitude === "" ||
-        config.longitude === null ||
-        config.longitude === ""
+      }
+      else if (
+        config.latitude === null
+        || config.latitude === ""
+        || config.longitude === null
+        || config.longitude === ""
       ) {
         Log.error("[MMM-OneCallWeather] Latitude and/or longitude not provided.");
-      } else {
-        const myUrl =
-          `https://api.openweathermap.org/data/${config.apiVersion}/onecall` +
-          `?lat=${config.latitude}&lon=${config.longitude}${
-            config.units === ""
-              ? ""
-              : `&units=${config.units}`
-          }&exclude=${config.exclude}&appid=${config.apikey}&lang=${
-            config.language
-          }`;
-
-        // make request to OpenWeather One Call API
+      }
+      else {
+        const myUrl = `https://api.openweathermap.org/data/${config.apiVersion}/onecall?lat=${config.latitude}&lon=${config.longitude}${config.units === "" ? "" : `&units=${config.units}`}&exclude=${config.exclude}&appid=${config.apikey}&lang=${config.language}`;
 
         fetch(myUrl)
           .then((response) => {
