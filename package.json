@@ -24,6 +24,7 @@
   ],
   "main": "MMM-OneCallWeather.js",
   "scripts": {
+    "demo": "cd ../../ && MM_CONFIG_FILE=modules/MMM-OneCallWeather/demo.config.js node --run start:dev",
     "lint": "eslint && prettier . --check",
     "lint:fix": "eslint --fix && prettier . --write",
     "prepare": "node -e \"try{require('simple-git-hooks').run()}catch(e){}\"",

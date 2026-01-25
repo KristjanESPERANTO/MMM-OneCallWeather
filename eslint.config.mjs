@@ -71,6 +71,7 @@ export default defineConfig([
       "sort-keys": "off"
     }
   },
+  { files: ["demo.config.js"], rules: { "prefer-const": "off" } },
   { files: ["**/*.json"], ignores: ["package-lock.json"], plugins: { json }, extends: ["json/recommended"], language: "json/json" },
   { files: ["**/*.md"], plugins: { markdown }, extends: ["markdown/recommended"], language: "markdown/gfm" }
 ]);
