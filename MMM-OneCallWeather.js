@@ -123,14 +123,8 @@ Module.register("MMM-OneCallWeather", {
   },
 
   processOnecall(data) {
-    let wsfactor = 2.237;
+    const wsfactor = this.utils.getWindSpeedFactor(this.config.units, this.config.windUnits);
     const current = [];
-    if (this.config.windUnits === "kmph") {
-      wsfactor = 3.6;
-    }
-    else if (this.config.windUnits === "ms") {
-      wsfactor = 1;
-    }
 
     if (Object.hasOwn(data, "current")) {
       const currently = {

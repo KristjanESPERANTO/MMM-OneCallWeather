@@ -26,6 +26,47 @@ export function mph2Beaufort(mph) {
 }
 
 /**
+ * Get wind speed conversion factor based on API units and desired display units.
+ *
+ * OpenWeatherMap API returns wind speed in different units depending on the units parameter:
+ * - units: "imperial" → wind speed in mph
+ * - units: "metric" or "standard" → wind speed in m/s
+ *
+ * @param {string} apiUnits - API units parameter ("imperial", "metric", or "standard").
+ * @param {string} windUnits - Desired wind speed units ("mph", "kmph", or "ms").
+ * @returns {number} Conversion factor to multiply API wind speed with.
+ */
+export function getWindSpeedFactor(apiUnits, windUnits) {
+  const apiUnitsImperial = apiUnits === "imperial";
+
+  if (apiUnitsImperial) {
+    // API returns mph, convert to desired unit
+    if (windUnits === "kmph") {
+      // Mph to km/h
+      return 1.60934;
+    }
+    if (windUnits === "ms") {
+      // Mph to m/s
+      return 0.44704;
+    }
+    // WindUnits === "mph": no conversion needed
+    return 1;
+  }
+
+  // API returns m/s, convert to desired unit
+  if (windUnits === "mph") {
+    // M/s to mph
+    return 2.237;
+  }
+  if (windUnits === "kmph") {
+    // M/s to km/h
+    return 3.6;
+  }
+  // WindUnits === "ms": no conversion needed
+  return 1;
+}
+
+/**
  * Round temperature value based on configuration.
  *
  * @param {number} temperature - Temperature value to round.
