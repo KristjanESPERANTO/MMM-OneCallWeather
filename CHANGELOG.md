@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.1.2](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.1.1...v3.1.2) (2026-01-28)
+
+### Fixed
+
+- correct precipitation display for imperial units ([3a27fa6](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/3a27fa6207eb2b73d07e35503e6d026a6e01cd9e))
+
 ## [3.1.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.1.0...v3.1.1) (2026-01-28)
 
 ### Fixed
