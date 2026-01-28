@@ -385,10 +385,8 @@ Module.register("MMM-OneCallWeather", {
           if (Number.isNaN(dailyForecast.precipitation)) {
             rainCell.innerHTML = "";
           }
-          else if (config.units === "imperial") {
-            rainCell.innerHTML = `${(
-              parseFloat(dailyForecast.precipitation) / 25.4
-            ).toFixed(2)} in`;
+          else if (this.config.units === "imperial") {
+            rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(2)} in`;
           }
           else {
             rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
@@ -520,10 +518,8 @@ Module.register("MMM-OneCallWeather", {
         if (Number.isNaN(dailyForecast.precipitation)) {
           rainCell.innerHTML = "";
         }
-        else if (config.units === "imperial") {
-          rainCell.innerHTML = `${(
-            parseFloat(dailyForecast.precipitation) / 25.4
-          ).toFixed(2)} in`;
+        else if (this.config.units === "imperial") {
+          rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(2)} in`;
         }
         else {
           rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
