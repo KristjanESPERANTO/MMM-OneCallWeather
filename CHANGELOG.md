@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.1.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.1.0...v3.1.1) (2026-01-28)
+
+### Fixed
+
+- correct wind speed conversion for imperial units ([a9004ad](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/a9004ad4a3eae432f738e0e556697e5f79a027ea)), closes [#30](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/30)
+- update contributors format in package.json ([31a7216](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/31a721670e4ef58026f198c87d1e2b34c5e5e28b))
+
+### Chores
+
+- update devDependencies ([9ea954c](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/9ea954c84d51af60fd10cbb3886972d21d23dcf2))
+
 ## [3.1.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.0.0...v3.1.0) (2026-01-25)
 
 ### Added
