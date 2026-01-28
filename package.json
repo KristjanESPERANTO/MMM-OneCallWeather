@@ -19,8 +19,10 @@
   "license": "MIT",
   "author": "Captsi",
   "contributors": [
-    "https://github.com/Captsi/MMM-OneCallWeather/graphs/contributors",
-    "https://github.com/KristjanESPERANTO/MMM-OneCallWeather/graphs/contributors"
+    {
+      "name": "Contributors to KristjanESPERANTO/MMM-OneCallWeather",
+      "url": "https://github.com/KristjanESPERANTO/MMM-OneCallWeather/graphs/contributors"
+    }
   ],
   "main": "MMM-OneCallWeather.js",
   "scripts": {
