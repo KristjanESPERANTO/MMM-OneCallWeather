@@ -15,14 +15,14 @@
  * @returns {number} Wind speed in Beaufort scale (0-12).
  */
 export function mph2Beaufort(mph) {
-  const kmh = mph * 1.60934;
-  const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000];
+  const kmh = mph * 1.60934
+  const speeds = [1, 5, 11, 19, 28, 38, 49, 61, 74, 88, 102, 117, 1000]
   for (const [beaufort, speed] of speeds.entries()) {
     if (speed > kmh) {
-      return beaufort;
+      return beaufort
     }
   }
-  return 12;
+  return 12
 }
 
 /**
@@ -37,33 +37,33 @@ export function mph2Beaufort(mph) {
  * @returns {number} Conversion factor to multiply API wind speed with.
  */
 export function getWindSpeedFactor(apiUnits, windUnits) {
-  const apiUnitsImperial = apiUnits === "imperial";
+  const apiUnitsImperial = apiUnits === 'imperial'
 
   if (apiUnitsImperial) {
     // API returns mph, convert to desired unit
-    if (windUnits === "kmph") {
+    if (windUnits === 'kmph') {
       // Mph to km/h
-      return 1.60934;
+      return 1.60934
     }
-    if (windUnits === "ms") {
+    if (windUnits === 'ms') {
       // Mph to m/s
-      return 0.44704;
+      return 0.44704
     }
     // WindUnits === "mph": no conversion needed
-    return 1;
+    return 1
   }
 
   // API returns m/s, convert to desired unit
-  if (windUnits === "mph") {
+  if (windUnits === 'mph') {
     // M/s to mph
-    return 2.237;
+    return 2.237
   }
-  if (windUnits === "kmph") {
+  if (windUnits === 'kmph') {
     // M/s to km/h
-    return 3.6;
+    return 3.6
   }
   // WindUnits === "ms": no conversion needed
-  return 1;
+  return 1
 }
 
 /**
@@ -74,8 +74,8 @@ export function getWindSpeedFactor(apiUnits, windUnits) {
  * @returns {string} Rounded temperature as string.
  */
 export function roundValue(temperature, roundTemp) {
-  const decimals = roundTemp ? 0 : 1;
-  return parseFloat(temperature).toFixed(decimals);
+  const decimals = roundTemp ? 0 : 1
+  return parseFloat(temperature).toFixed(decimals)
 }
 
 /**
@@ -86,51 +86,51 @@ export function roundValue(temperature, roundTemp) {
  */
 export function cardinalWindDirection(windDir) {
   if (windDir > 11.25 && windDir <= 33.75) {
-    return "NNE";
+    return 'NNE'
   }
   if (windDir > 33.75 && windDir <= 56.25) {
-    return "NE";
+    return 'NE'
   }
   if (windDir > 56.25 && windDir <= 78.75) {
-    return "ENE";
+    return 'ENE'
   }
   if (windDir > 78.75 && windDir <= 101.25) {
-    return "E";
+    return 'E'
   }
   if (windDir > 101.25 && windDir <= 123.75) {
-    return "ESE";
+    return 'ESE'
   }
   if (windDir > 123.75 && windDir <= 146.25) {
-    return "SE";
+    return 'SE'
   }
   if (windDir > 146.25 && windDir <= 168.75) {
-    return "SSE";
+    return 'SSE'
   }
   if (windDir > 168.75 && windDir <= 191.25) {
-    return "S";
+    return 'S'
   }
   if (windDir > 191.25 && windDir <= 213.75) {
-    return "SSW";
+    return 'SSW'
   }
   if (windDir > 213.75 && windDir <= 236.25) {
-    return "SW";
+    return 'SW'
   }
   if (windDir > 236.25 && windDir <= 258.75) {
-    return "WSW";
+    return 'WSW'
   }
   if (windDir > 258.75 && windDir <= 281.25) {
-    return "W";
+    return 'W'
   }
   if (windDir > 281.25 && windDir <= 303.75) {
-    return "WNW";
+    return 'WNW'
   }
   if (windDir > 303.75 && windDir <= 326.25) {
-    return "NW";
+    return 'NW'
   }
   if (windDir > 326.25 && windDir <= 348.75) {
-    return "NNW";
+    return 'NNW'
   }
-  return "N";
+  return 'N'
 }
 
 /**
@@ -141,29 +141,29 @@ export function cardinalWindDirection(windDir) {
  */
 export function convertWeatherType(weatherType) {
   const weatherTypes = {
-    "01d": "day-clear-sky",
-    "02d": "day-few-clouds",
-    "03d": "day-scattered-clouds",
-    "04d": "day-broken-clouds",
-    "09d": "day-shower-rain",
-    "10d": "day-rain",
-    "11d": "day-thunderstorm",
-    "13d": "day-snow",
-    "50d": "day-mist",
-    "01n": "night-clear-sky",
-    "02n": "night-few-clouds",
-    "03n": "night-scattered-clouds",
-    "04n": "night-broken-clouds",
-    "09n": "night-shower-rain",
-    "10n": "night-rain",
-    "11n": "night-thunderstorm",
-    "13n": "night-snow",
-    "50n": "night-mist"
-  };
+    '01d': 'day-clear-sky',
+    '02d': 'day-few-clouds',
+    '03d': 'day-scattered-clouds',
+    '04d': 'day-broken-clouds',
+    '09d': 'day-shower-rain',
+    '10d': 'day-rain',
+    '11d': 'day-thunderstorm',
+    '13d': 'day-snow',
+    '50d': 'day-mist',
+    '01n': 'night-clear-sky',
+    '02n': 'night-few-clouds',
+    '03n': 'night-scattered-clouds',
+    '04n': 'night-broken-clouds',
+    '09n': 'night-shower-rain',
+    '10n': 'night-rain',
+    '11n': 'night-thunderstorm',
+    '13n': 'night-snow',
+    '50n': 'night-mist',
+  }
 
   return Object.hasOwn(weatherTypes, weatherType)
     ? weatherTypes[weatherType]
-    : null;
+    : null
 }
 
 /**
@@ -174,5 +174,5 @@ export function convertWeatherType(weatherType) {
  * @returns {string} Ordinal label from the array.
  */
 export function getOrdinal(bearing, labelOrdinals) {
-  return labelOrdinals[Math.round(bearing * 16 / 360) % 16];
+  return labelOrdinals[Math.round(bearing * 16 / 360) % 16]
 }
