@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.2.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.2.0...v3.2.1) (2026-01-30)
+
+
+### Fixed
+
+* improve alert filtering with time window and deduplication ([31eabe3](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/31eabe3469c9e7ece6c56935394fb0595726380d))
+
+
+### Chores
+
+* improve precipitation display for zero values ([3b70cbd](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/3b70cbd9eab0c51f3f5317cb320885c8299f83ec))
+* lint demo config ([22f3fdb](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/22f3fdb3e085078bb6a94dc74374335549b1876c))
+* update .prettierignore to include CHANGELOG.md ([9159d7b](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/9159d7ba6bfce312e07f23e79e85078b7d960a0e))
+
 ## [3.2.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.1.2...v3.2.0) (2026-01-30)
 
 
