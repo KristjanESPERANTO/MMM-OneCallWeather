@@ -328,6 +328,10 @@ Module.register('MMM-OneCallWeather', {
       const forecastTable = document.createElement('table')
       forecastTable.className = 'forecast-table small'
 
+      // Check if any day has precipitation
+      const hasAnyRain = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.rain > 0)
+      const hasAnySnow = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.snow > 0)
+
       for (let i = 0; i < this.config.maxDailiesToShow; i += 1) {
         dailyForecast = this.forecast.days[i]
 
@@ -377,6 +381,9 @@ Module.register('MMM-OneCallWeather', {
               ? `${parseFloat(dailyForecast.rain).toFixed(2)} <span class="precip-unit">in</span>`
               : `${parseFloat(dailyForecast.rain).toFixed(1)} <span class="precip-unit">mm</span>`
           }
+          else if (hasAnyRain) {
+            rainCell.innerHTML = '—'
+          }
           rainCell.className = 'align-right bright rain precip-rain'
           row.appendChild(rainCell)
         }
@@ -388,6 +395,9 @@ Module.register('MMM-OneCallWeather', {
             snowCell.innerHTML = this.config.units === 'imperial'
               ? `${parseFloat(formatted.value).toFixed(2)} <span class="precip-unit">${formatted.unit}</span>`
               : `${parseFloat(formatted.value).toFixed(1)} <span class="precip-unit">${formatted.unit}</span>`
+          }
+          else if (hasAnySnow) {
+            snowCell.innerHTML = '—'
           }
           snowCell.className = 'align-right bright snow precip-snow'
           row.appendChild(snowCell)
@@ -444,6 +454,10 @@ Module.register('MMM-OneCallWeather', {
     const snowRow = this.config.showSnowAmount
       ? document.createElement('tr')
       : null
+
+    // Check if any day has precipitation
+    const hasAnyRain = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.rain > 0)
+    const hasAnySnow = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.snow > 0)
 
     for (let j = 0; j < this.config.maxDailiesToShow; j += 1) {
       dailyForecast = this.forecast.days[j]
@@ -521,6 +535,9 @@ Module.register('MMM-OneCallWeather', {
             ? `${parseFloat(dailyForecast.rain).toFixed(2)} <span class="precip-unit">in</span>`
             : `${parseFloat(dailyForecast.rain).toFixed(1)} <span class="precip-unit">mm</span>`
         }
+        else if (hasAnyRain) {
+          rainCell.innerHTML = '—'
+        }
         rainCell.className = 'align-right bright rain precip-rain'
         if (this.config.colored) {
           rainCell.className += ' colored'
@@ -536,6 +553,9 @@ Module.register('MMM-OneCallWeather', {
           snowCell.innerHTML = this.config.units === 'imperial'
             ? `${parseFloat(formatted.value).toFixed(2)} <span class="precip-unit">${formatted.unit}</span>`
             : `${parseFloat(formatted.value).toFixed(1)} <span class="precip-unit">${formatted.unit}</span>`
+        }
+        else if (hasAnySnow) {
+          snowCell.innerHTML = '—'
         }
         snowCell.className = 'align-right bright snow precip-snow'
         if (this.config.colored) {
