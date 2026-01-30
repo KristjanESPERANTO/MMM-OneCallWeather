@@ -1,12 +1,16 @@
 # MMM-OneCallWeather
 
-This is a weather module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror). It displays the weather forecast for the coming week - spanning from left to right, each day with its own icon and details,like the minimum and maximum temperature.
+This is a weather module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that displays current conditions and a detailed forecast for the coming week using the OpenWeatherMap One Call API.
 
-It is based somewhat around <https://github.com/jharttech/MMM-weatherforecast> and the default 'weather' app.
+**Key features:**
+- Current weather with alerts and wind information
+- Customizable forecast layout (columns or rows)
+- Separate rain and snow display with color coding
+- Temperature-based snow depth calculation with scientific ratios
+- Flexible units (metric/imperial) and multiple icon sets
+- Time-windowed weather alerts with automatic deduplication
 
-The software is designed around a display in Celsius and miles per hour, but should work in a multitude of units.
-
-The app uses data from the currently-free source of openweathermap.org, using their one-call API - <https://openweathermap.org/api/one-call-api>.
+The module offers extensive configuration options and works seamlessly with both Celsius/metric and Fahrenheit/imperial units.
 
 ## Project status
 
