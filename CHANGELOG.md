@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.2.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.1.2...v3.2.0) (2026-01-30)
+
+
+### Added
+
+* add separate rain and snow display with depth conversion ([b3cd436](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/b3cd436099f6232232341508c1eadbd4c4f2bed3)), closes [#6db3f2](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/6db3f2) [#e8e8e8](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/e8e8e8) [#31](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/31)
+
+
+### Chores
+
+* remove old husky pre-commit hook ([49108d2](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/49108d2a9c3d4379caee2b75b8b09bb46cb10668))
+* remove unnecessary @eslint/json dependency from package files ([c8a5429](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/c8a5429d31705010109ebccb1f26ddbc68359c9f))
+* update ESLint config to use recommended stylistic settings + autofix linter issues ([9f1f532](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/9f1f53253a13c6e63ab091fbe254ae158ce7da1e))
+
 ## [3.1.2](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.1.1...v3.1.2) (2026-01-28)
 
 ### Fixed
