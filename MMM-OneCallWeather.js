@@ -42,6 +42,7 @@ Module.register('MMM-OneCallWeather', {
     showCurrent: true,
     showForecast: true,
     showAlerts: true,
+    showAlertsHours: 12,
     forecastLayout: 'columns', // "columns" (days as columns) or "rows" (days as rows)
     arrangement: 'vertical', // "vertical" (forecast below current) or "horizontal" (forecast next to current)
 
@@ -694,13 +695,23 @@ Module.register('MMM-OneCallWeather', {
       currentCell4.colSpan = colspan
       currentCell4.className = 'alert'
 
+      const now = Date.now() / 1000
+      const alertWindow = now + (this.config.showAlertsHours * 3600)
+
       const validAlerts = currentWeather.alerts
-        .filter(alert => alert?.event)
+        .filter(alert =>
+          alert?.event
+          && alert.start < alertWindow  // Starts within the configured time window
+          && alert.end > now,             // Is still active (not expired)
+        )
         .map(alert => alert.event)
 
-      if (validAlerts.length > 0) {
+      // Remove duplicates (e.g., same alert for today and tomorrow)
+      const uniqueAlerts = [...new Set(validAlerts)]
+
+      if (uniqueAlerts.length > 0) {
         const fragment = document.createDocumentFragment()
-        for (const [index, alertEvent] of validAlerts.entries()) {
+        for (const [index, alertEvent] of uniqueAlerts.entries()) {
           if (index > 0) {
             fragment.appendChild(document.createElement('br'))
           }
