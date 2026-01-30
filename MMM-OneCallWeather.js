@@ -8,7 +8,10 @@ Module.register("MMM-OneCallWeather", {
     apikey: "",
     apiVersion: "3.0",
     units: config.units,
-    showRainAmount: false,
+    showRainAmount: true,
+    showSnowAmount: true,
+    convertSnowToDepth: true,
+    snowDensityFactor: 1.0,
     showWind: true,
     showWindDirection: true,
     showFeelsLike: true,
@@ -164,7 +167,6 @@ Module.register("MMM-OneCallWeather", {
       for (const hour of data.hourly) {
         let rain = 0;
         let snow = 0;
-        let precip = false;
 
         if (
           Object.hasOwn(hour, "rain")
@@ -176,7 +178,6 @@ Module.register("MMM-OneCallWeather", {
           else {
             rain = hour.rain["1h"];
           }
-          precip = true;
         }
         if (
           Object.hasOwn(hour, "snow")
@@ -188,12 +189,6 @@ Module.register("MMM-OneCallWeather", {
           else {
             snow = hour.snow["1h"];
           }
-          precip = true;
-        }
-
-        let precipitation = 0;
-        if (precip) {
-          precipitation = rain + snow;
         }
 
         forecastData = {
@@ -205,7 +200,8 @@ Module.register("MMM-OneCallWeather", {
           feelsLikeTemp: hour.feels_like.day,
           weatherIcon: hour.weather[0].icon,
           weatherType: this.convertWeatherType(hour.weather[0].icon),
-          precipitation
+          rain,
+          snow
         };
         hours.push(forecastData);
       }
@@ -219,7 +215,6 @@ Module.register("MMM-OneCallWeather", {
       for (const day of data.daily) {
         let rain = 0;
         let snow = 0;
-        let precip = false;
 
         if (day.rain && !Number.isNaN(day.rain)) {
           const { rain: dayRain } = day;
@@ -229,7 +224,6 @@ Module.register("MMM-OneCallWeather", {
           else {
             rain = dayRain;
           }
-          precip = true;
         }
         if (day.snow && !Number.isNaN(day.snow)) {
           const { snow: daySnow } = day;
@@ -239,12 +233,6 @@ Module.register("MMM-OneCallWeather", {
           else {
             snow = daySnow;
           }
-          precip = true;
-        }
-
-        let precipitation = 0;
-        if (precip) {
-          precipitation = rain + snow;
         }
 
         forecastData = {
@@ -260,7 +248,8 @@ Module.register("MMM-OneCallWeather", {
           feelsLikeTemp: day.feels_like.day,
           weatherIcon: day.weather[0].icon,
           weatherType: this.convertWeatherType(day.weather[0].icon),
-          precipitation
+          rain,
+          snow
         };
 
         days.push(forecastData);
@@ -382,17 +371,25 @@ Module.register("MMM-OneCallWeather", {
 
         if (this.config.showRainAmount) {
           const rainCell = document.createElement("td");
-          if (Number.isNaN(dailyForecast.precipitation)) {
-            rainCell.innerHTML = "";
+          if (dailyForecast.rain > 0) {
+            rainCell.innerHTML = this.config.units === "imperial"
+              ? `${parseFloat(dailyForecast.rain).toFixed(2)} <span class="precip-unit">in</span>`
+              : `${parseFloat(dailyForecast.rain).toFixed(1)} <span class="precip-unit">mm</span>`;
           }
-          else if (this.config.units === "imperial") {
-            rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(2)} in`;
-          }
-          else {
-            rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
-          }
-          rainCell.className = "align-right bright rain";
+          rainCell.className = "align-right bright rain precip-rain";
           row.appendChild(rainCell);
+        }
+
+        if (this.config.showSnowAmount) {
+          const snowCell = document.createElement("td");
+          if (dailyForecast.snow > 0) {
+            const formatted = this.formatSnowValue(dailyForecast.snow, dailyForecast);
+            snowCell.innerHTML = this.config.units === "imperial"
+              ? `${parseFloat(formatted.value).toFixed(2)} <span class="precip-unit">${formatted.unit}</span>`
+              : `${parseFloat(formatted.value).toFixed(1)} <span class="precip-unit">${formatted.unit}</span>`;
+          }
+          snowCell.className = "align-right bright snow precip-snow";
+          row.appendChild(snowCell);
         }
       }
 
@@ -441,6 +438,9 @@ Module.register("MMM-OneCallWeather", {
     const minTempRow = document.createElement("tr");
     const windRow = document.createElement("tr");
     const rainRow = this.config.showRainAmount
+      ? document.createElement("tr")
+      : null;
+    const snowRow = this.config.showSnowAmount
       ? document.createElement("tr")
       : null;
 
@@ -515,20 +515,32 @@ Module.register("MMM-OneCallWeather", {
       // Rain cell
       if (this.config.showRainAmount) {
         const rainCell = document.createElement("td");
-        if (Number.isNaN(dailyForecast.precipitation)) {
-          rainCell.innerHTML = "";
+        if (dailyForecast.rain > 0) {
+          rainCell.innerHTML = this.config.units === "imperial"
+            ? `${parseFloat(dailyForecast.rain).toFixed(2)} <span class="precip-unit">in</span>`
+            : `${parseFloat(dailyForecast.rain).toFixed(1)} <span class="precip-unit">mm</span>`;
         }
-        else if (this.config.units === "imperial") {
-          rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(2)} in`;
-        }
-        else {
-          rainCell.innerHTML = `${parseFloat(dailyForecast.precipitation).toFixed(1)} mm`;
-        }
-        rainCell.className = "align-right bright rain";
+        rainCell.className = "align-right bright rain precip-rain";
         if (this.config.colored) {
           rainCell.className += " colored";
         }
         rainRow.appendChild(rainCell);
+      }
+
+      // Snow cell
+      if (this.config.showSnowAmount) {
+        const snowCell = document.createElement("td");
+        if (dailyForecast.snow > 0) {
+          const formatted = this.formatSnowValue(dailyForecast.snow, dailyForecast);
+          snowCell.innerHTML = this.config.units === "imperial"
+            ? `${parseFloat(formatted.value).toFixed(2)} <span class="precip-unit">${formatted.unit}</span>`
+            : `${parseFloat(formatted.value).toFixed(1)} <span class="precip-unit">${formatted.unit}</span>`;
+        }
+        snowCell.className = "align-right bright snow precip-snow";
+        if (this.config.colored) {
+          snowCell.className += " colored";
+        }
+        snowRow.appendChild(snowCell);
       }
     }
 
@@ -540,6 +552,9 @@ Module.register("MMM-OneCallWeather", {
     forecastTable.appendChild(windRow);
     if (this.config.showRainAmount) {
       forecastTable.appendChild(rainRow);
+    }
+    if (this.config.showSnowAmount) {
+      forecastTable.appendChild(snowRow);
     }
 
     // Return forecast table only if not showing current weather
@@ -753,5 +768,93 @@ Module.register("MMM-OneCallWeather", {
    */
   mph2Beaufort(mph) {
     return this.utils.mph2Beaufort(mph);
+  },
+
+  /*
+   * getSnowDepthRatio(tempCelsius)
+   * Calculates snow-to-water ratio based on temperature.
+   * This provides a scientific estimate of how much snow depth
+   * results from a given amount of liquid water equivalent.
+   *
+   * Temperature ranges based on research:
+   * - Below -15°C: Very light, fluffy powder snow (ratio: 20:1)
+   * - -15°C to -10°C: Light powder snow (ratio: 15:1)
+   * - -10°C to -5°C: Dry snow (ratio: 12:1)
+   * - -5°C to 0°C: Normal snow (ratio: 10:1)
+   * - 0°C to +2°C: Wet, heavy snow (ratio: 6:1)
+   * - Above +2°C: Very wet snow (ratio: 5:1)
+   *
+   * argument tempCelsius number - Temperature in Celsius
+   *
+   * return number - Snow depth multiplier adjusted by user's density factor
+   */
+  getSnowDepthRatio(tempCelsius) {
+    let baseRatio;
+
+    if (tempCelsius < -15) {
+      baseRatio = 20; // Very light powder
+    }
+    else if (tempCelsius < -10) {
+      baseRatio = 15; // Light powder
+    }
+    else if (tempCelsius < -5) {
+      baseRatio = 12; // Dry snow
+    }
+    else if (tempCelsius < 0) {
+      baseRatio = 10; // Normal snow
+    }
+    else if (tempCelsius < 2) {
+      baseRatio = 6; // Wet snow
+    }
+    else {
+      baseRatio = 5; // Very wet/slushy
+    }
+
+    return baseRatio * this.config.snowDensityFactor;
+  },
+
+  /*
+   * formatSnowValue(snowMm, dailyForecast)
+   * Formats snow value for display, optionally converting to depth
+   *
+   * argument snowMm number - Snow amount in mm (metric) or inches (imperial) - water equivalent
+   * argument dailyForecast object - Daily forecast data with temperatures
+   *
+   * return object - { value: number, unit: string }
+   */
+  formatSnowValue(snowMm, dailyForecast) {
+    let snowValue = snowMm;
+    let unit = this.config.units === "imperial" ? "in" : "mm";
+
+    if (this.config.convertSnowToDepth) {
+      // Calculate average temperature in Celsius for ratio calculation
+      let avgTempCelsius;
+      if (this.config.units === "imperial") {
+        // Temperatures are in Fahrenheit, convert to Celsius
+        const avgTempF = (dailyForecast.maxTemperature + dailyForecast.minTemperature) / 2;
+        avgTempCelsius = (avgTempF - 32) * (5 / 9);
+      }
+      else {
+        avgTempCelsius = (dailyForecast.maxTemperature + dailyForecast.minTemperature) / 2;
+      }
+
+      const ratio = this.getSnowDepthRatio(avgTempCelsius);
+
+      if (this.config.units === "imperial") {
+        // snowValue is in inches (water equivalent)
+        // inches water × ratio = inches snow depth
+        snowValue *= ratio;
+        unit = "in";
+      }
+      else {
+        // snowValue is in mm (water equivalent)
+        // mm water × ratio = mm snow depth → convert to cm
+        snowValue = (snowValue * ratio) / 10;
+        unit = "cm";
+      }
+    }
+
+    return { value: snowValue,
+      unit };
   }
 });
