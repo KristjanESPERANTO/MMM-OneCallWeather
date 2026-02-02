@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.3.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.2.1...v3.3.0) (2026-02-02)
+
+
+### Added
+
+* add interactive weather alerts popup ([bb30206](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/bb30206afd0975e122c502a23780c15ee427a13c)), closes [#31](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/31)
+
+
+### Documentation
+
+* update description ([6569d21](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/6569d2100a978450940a74b8dd39705cc4ee3c42))
+
+
+### Chores
+
+* add demo mode for testing weather alerts ([80fd808](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/80fd808b6a095737ce89c5655d286cf4fd3ee08f))
+* fix formating ([e9be3de](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/e9be3de89fd3dd13c5b4d0a926b7f591b2a1d8ca))
+* update devDependencies ([fe0da60](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/fe0da60a9d9fb9500f030570142682cc5f13a703))
+
+
+### Code Refactoring
+
+* change socketNotificationReceived to use async/await and improve error handling ([74a0e1f](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/74a0e1fae1416a810cbebec85cb1798697b6c51f))
+
 ## [3.2.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.2.0...v3.2.1) (2026-01-30)
 
 
