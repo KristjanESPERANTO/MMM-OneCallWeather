@@ -3,6 +3,7 @@
 This is a weather module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that displays current conditions and a detailed forecast for the coming week using the OpenWeatherMap One Call API.
 
 **Key features:**
+
 - Current weather with alerts and wind information
 - Customizable forecast layout (columns or rows)
 - Separate rain and snow display with color coding

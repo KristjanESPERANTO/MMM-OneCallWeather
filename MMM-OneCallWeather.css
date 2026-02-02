@@ -261,7 +261,9 @@
 .weather-alert-link {
   cursor: pointer;
   text-decoration: none;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .weather-alert-link:hover {
@@ -317,7 +319,9 @@
   cursor: pointer;
   padding: 8px;
   border-radius: 4px;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .alert-close:hover {
