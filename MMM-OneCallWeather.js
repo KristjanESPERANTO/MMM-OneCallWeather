@@ -724,21 +724,40 @@ Module.register('MMM-OneCallWeather', {
           && alert.start < alertWindow  // Starts within the configured time window
           && alert.end > now,             // Is still active (not expired)
         )
-        .map(alert => alert.event)
+        .map(alert => ({
+          event: alert.event,
+          description: alert.description,
+          start: alert.start,
+          end: alert.end,
+          sender: alert.sender_name,
+        }))
 
-      // Remove duplicates (e.g., same alert for today and tomorrow)
-      const uniqueAlerts = [...new Set(validAlerts)]
+      // Use all valid alerts, do NOT deduplicate
+      const alertsToShow = validAlerts
 
-      if (uniqueAlerts.length > 0) {
+      if (alertsToShow.length > 0) {
         const fragment = document.createDocumentFragment()
-        for (const [index, alertEvent] of uniqueAlerts.entries()) {
+
+        for (const [index, alert] of alertsToShow.entries()) {
           if (index > 0) {
             fragment.appendChild(document.createElement('br'))
           }
+
           const span = document.createElement('span')
-          span.textContent = alertEvent
+          // Include start and end time next to the event name
+          const startTime = this.formatAlertTime(alert.start)
+          const endTime = this.formatAlertTime(alert.end)
+
+          span.textContent = `${alert.event} (${startTime} - ${endTime})`
+          span.className = 'weather-alert-link'
+
+          span.addEventListener('click', () => {
+            this.showAlertPopup(alert)
+          })
+
           fragment.appendChild(span)
         }
+
         currentCell4.appendChild(fragment)
         currentRow4.appendChild(currentCell4)
         table.appendChild(currentRow4)
@@ -799,6 +818,94 @@ Module.register('MMM-OneCallWeather', {
    */
   mph2Beaufort(mph) {
     return this.utils.mph2Beaufort(mph)
+  },
+  getAlertLocale() {
+    if (this.config.language) {
+      return this.config.language
+    }
+    return typeof config === 'undefined' ? null : config.language
+  },
+  formatAlertTime(timestampSeconds) {
+    if (!timestampSeconds) {
+      return '--'
+    }
+    const locale = this.getAlertLocale()
+    return new Intl.DateTimeFormat(locale, {
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(new Date(timestampSeconds * 1000))
+  },
+  formatAlertDateTime(timestampSeconds) {
+    if (!timestampSeconds) {
+      return '--'
+    }
+    const locale = this.getAlertLocale()
+    return new Intl.DateTimeFormat(locale, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    }).format(new Date(timestampSeconds * 1000))
+  },
+  showAlertPopup(alert) {
+    // Create overlay
+    const overlay = document.createElement('div')
+    overlay.className = 'alert-overlay'
+    const escapeController = new AbortController()
+    const removeOverlay = () => {
+      overlay.remove()
+      escapeController.abort()
+    }
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        removeOverlay()
+      }
+    }
+    // Make sure it blocks all clicks to underlying modules
+    overlay.style.pointerEvents = 'auto'  // ensure overlay captures all clicks
+    overlay.style.zIndex = '9999'         // on top of everything
+    // Stop clicks inside overlay from propagating
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        removeOverlay()  // clicking outside the box closes
+      }
+    })
+    // Close on ESC key for keyboard/mouse users
+    document.addEventListener('keydown', handleEscape, { signal: escapeController.signal })
+    // Create alert box
+    const box = document.createElement('div')
+    box.className = 'alert-box'
+    const title = document.createElement('h2')
+    title.textContent = alert.event
+    const description = document.createElement('p')
+    if (alert.description) {
+      const lines = alert.description.split('\n')
+      lines.forEach((line, index) => {
+        if (index > 0) {
+          description.appendChild(document.createElement('br'))
+        }
+        description.appendChild(document.createTextNode(line))
+      })
+    }
+    else {
+      description.textContent = 'No additional details provided.'
+    }
+
+    const meta = document.createElement('p')
+    meta.className = 'alert-meta'
+    meta.appendChild(document.createTextNode(`Source: ${alert.sender || 'NWS'}`))
+    meta.appendChild(document.createElement('br'))
+    meta.appendChild(document.createTextNode(`Valid: ${this.formatAlertDateTime(alert.start)} – ${this.formatAlertDateTime(alert.end)}`))
+    const closeButton = document.createElement('div')
+    closeButton.className = 'alert-close'
+    closeButton.textContent = 'Click to close (or press ESC)'
+    // Prevent clicks inside the box from bubbling to overlay
+    box.addEventListener('click', e => e.stopPropagation())
+    closeButton.addEventListener('click', removeOverlay)
+    box.appendChild(title)
+    box.appendChild(description)
+    box.appendChild(meta)
+    box.appendChild(closeButton)
+    overlay.appendChild(box)
+    document.body.appendChild(overlay)
   },
 
   /*

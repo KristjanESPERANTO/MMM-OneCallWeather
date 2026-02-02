@@ -253,3 +253,74 @@
     }
   }
 }
+
+/* ==========================================================================
+   Weather Alert Popup (GLOBAL - outside module scope)
+   ========================================================================== */
+
+.weather-alert-link {
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.weather-alert-link:hover {
+  opacity: 0.8;
+  color: #ffb3b3;
+  text-decoration: underline;
+}
+
+.alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.alert-box {
+  background: rgba(20, 20, 20, 0.95);
+  color: #fff;
+  max-width: 600px;
+  width: 80%;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.alert-box h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 22px;
+  color: #ffcc00;
+}
+
+.alert-meta {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.alert-close {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.alert-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
