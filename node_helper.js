@@ -45,6 +45,22 @@ module.exports = NodeHelper.create({
           .then((data) => {
             // handle success
             Log.debug(`[MMM-OneCallWeather] got request loop ${myUrl}`)
+
+            // Inject demo alert for testing if DEMO_ALERT env var is set
+            if (process.env.DEMO_ALERT === '1' && data.current && !data.alerts) {
+              const now = Math.floor(Date.now() / 1000)
+              data.alerts = [
+                {
+                  event: 'Winter Weather Advisory',
+                  start: now - 3600,
+                  end: now + 28800,
+                  description: '* WHAT...Two periods of accumulating lake effect snow expected. Total snow accumulations could locally exceed 5 inches, particularly near the lake.\n\n* WHERE...Northern regions.\n\n* WHEN...Until 8 PM CST this evening. For the second Winter Weather Advisory, from 6 AM to 4 PM CST Saturday.\n\n* IMPACTS...Roads, and especially bridges and overpasses, will likely become slick and hazardous. The hazardous conditions will impact this evenings commute.\n\n* ADDITIONAL DETAILS...Lake effect snow is expected to impact the area in two waves.',
+                  tags: ['Snow/Ice'],
+                },
+              ]
+              Log.info('[MMM-OneCallWeather] Demo alert injected')
+            }
+
             that.sendSocketNotification('OPENWEATHER_ONECALL_DATA', {
               identifier: config.identifier,
               data,

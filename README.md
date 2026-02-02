@@ -216,3 +216,4 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 - `node --run lint:fix` - Fix linting and formatter issues.
 - `node --run test` - Run linting and formatter checks + run spelling check.
 - `node --run test:spelling` - Run spelling check.
+- `DEMO_ALERT=1 node --run demo` - Run the module in demo mode with a test weather alert injected.
