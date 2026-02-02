@@ -17,60 +17,67 @@ const Log = require('logger')
 
 module.exports = NodeHelper.create({
 
-  socketNotificationReceived(notification, config) {
+  async socketNotificationReceived(notification, config) {
     if (notification === 'OPENWEATHER_ONECALL_GET') {
-      const that = this
-      Log.debug('[MMM-OneCallWeather] node received')
-      if (config.apikey === null || config.apikey === '') {
-        Log.error('[MMM-OneCallWeather] No API key configured. Get an API key at https://openweathermap.org/api/one-call-api')
+      Log.debug('Node received')
+      if (!config.apikey) {
+        Log.error('No API key configured. Get an API key at https://openweathermap.org/api/one-call-api')
+        return
       }
-      else if (
-        config.latitude === null
-        || config.latitude === ''
-        || config.longitude === null
-        || config.longitude === ''
-      ) {
-        Log.error('[MMM-OneCallWeather] Latitude and/or longitude not provided.')
+      if (!config.latitude || !config.longitude) {
+        Log.error('Latitude and/or longitude not provided.')
+        return
       }
-      else {
-        const myUrl = `https://api.openweathermap.org/data/${config.apiVersion}/onecall?lat=${config.latitude}&lon=${config.longitude}${config.units === '' ? '' : `&units=${config.units}`}&exclude=${config.exclude}&appid=${config.apikey}&lang=${config.language}`
 
-        fetch(myUrl)
-          .then((response) => {
-            if (response.status === 200) {
-              return response.json()
-            }
-            throw new Error(response.statusText)
-          })
-          .then((data) => {
-            // handle success
-            Log.debug(`[MMM-OneCallWeather] got request loop ${myUrl}`)
+      const url = new URL(`https://api.openweathermap.org/data/${config.apiVersion}/onecall`)
+      url.searchParams.set('lat', config.latitude)
+      url.searchParams.set('lon', config.longitude)
+      url.searchParams.set('exclude', config.exclude)
+      url.searchParams.set('appid', config.apikey)
+      url.searchParams.set('lang', config.language)
+      if (config.units) {
+        url.searchParams.set('units', config.units)
+      }
 
-            // Inject demo alert for testing if DEMO_ALERT env var is set
-            if (process.env.DEMO_ALERT === '1' && data.current && !data.alerts) {
-              const now = Math.floor(Date.now() / 1000)
-              data.alerts = [
-                {
-                  event: 'Winter Weather Advisory',
-                  start: now - 3600,
-                  end: now + 28800,
-                  description: '* WHAT...Two periods of accumulating lake effect snow expected. Total snow accumulations could locally exceed 5 inches, particularly near the lake.\n\n* WHERE...Northern regions.\n\n* WHEN...Until 8 PM CST this evening. For the second Winter Weather Advisory, from 6 AM to 4 PM CST Saturday.\n\n* IMPACTS...Roads, and especially bridges and overpasses, will likely become slick and hazardous. The hazardous conditions will impact this evenings commute.\n\n* ADDITIONAL DETAILS...Lake effect snow is expected to impact the area in two waves.',
-                  tags: ['Snow/Ice'],
-                },
-              ]
-              Log.info('[MMM-OneCallWeather] Demo alert injected')
-            }
+      try {
+        const response = await fetch(url)
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+        }
 
-            that.sendSocketNotification('OPENWEATHER_ONECALL_DATA', {
-              identifier: config.identifier,
-              data,
-            })
-            Log.debug('[MMM-OneCallWeather] sent the data back')
-          })
-          .catch((error) => {
-            // handle error
-            Log.error(`[MMM-OneCallWeather] ${error}`)
-          })
+        const data = await response.json()
+
+        Log.debug(`Got weather data for ${config.latitude},${config.longitude}`)
+
+        // Inject demo alert for testing if DEMO_ALERT env var is set
+        if (process.env.DEMO_ALERT === '1' && data.current && !data.alerts) {
+          const now = Math.floor(Date.now() / 1000)
+          data.alerts = [
+            {
+              sender_name: 'NWS Test Station', // eslint-disable-line camelcase
+              event: 'Winter Weather Advisory',
+              start: now - 3600,
+              end: now + 28800,
+              description: '* WHAT...Two periods of accumulating lake effect snow expected. Total snow accumulations could locally exceed 5 inches, particularly near the lake.\n\n* WHERE...Northern regions.\n\n* WHEN...Until 8 PM CST this evening. For the second Winter Weather Advisory, from 6 AM to 4 PM CST Saturday.\n\n* IMPACTS...Roads, and especially bridges and overpasses, will likely become slick and hazardous. The hazardous conditions will impact this evenings commute.\n\n* ADDITIONAL DETAILS...Lake effect snow is expected to impact the area in two waves.',
+              tags: ['Snow/Ice'],
+            },
+          ]
+          Log.info('Demo alert injected')
+        }
+
+        this.sendSocketNotification('OPENWEATHER_ONECALL_DATA', {
+          identifier: config.identifier,
+          data,
+        })
+        Log.debug('Sent the data back')
+      }
+      catch (error) {
+        Log.error(error)
+        // Send error to frontend so module doesn't stay in "Loading..." state
+        this.sendSocketNotification('OPENWEATHER_ONECALL_ERROR', {
+          identifier: config.identifier,
+          error: error.message,
+        })
       }
     }
   },
