@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.3.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.3.0...v3.3.1) (2026-02-06)
+
+
+### Fixed
+
+* improve alert overlay z-index and prevent text wrapping ([60552b6](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/60552b617d0ebb9c3224fa7ec1802bb5261295ee)), closes [#31](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/31)
+
+
+### Chores
+
+* fix typo ([36cdc9c](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/36cdc9c5470d57450500a32ad07b29695efdc85f))
+* update devDependencies ([6297e25](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/6297e25a6240de0dfa1c97424cdbf3f3f4b94c8b))
+
 ## [3.3.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.2.1...v3.3.0) (2026-02-02)
 
 
