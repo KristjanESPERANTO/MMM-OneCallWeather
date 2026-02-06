@@ -860,8 +860,13 @@ Module.register('MMM-OneCallWeather', {
       }
     }
     // Make sure it blocks all clicks to underlying modules
+    overlay.style.position = 'fixed'
+    overlay.style.top = '0'
+    overlay.style.left = '0'
+    overlay.style.width = '100vw'
+    overlay.style.height = '100vh'
+    overlay.style.zIndex = '99999'        // on top of everything
     overlay.style.pointerEvents = 'auto'  // ensure overlay captures all clicks
-    overlay.style.zIndex = '9999'         // on top of everything
     // Stop clicks inside overlay from propagating
     overlay.addEventListener('click', (e) => {
       if (e.target === overlay) {

@@ -80,6 +80,8 @@
     text-align: center;
     font-weight: bold;
     color: #ff8c8c;
+    font-size: 20px;
+    white-space: nowrap;
     padding: 0.5em;
     line-height: 1.4;
   }
@@ -279,7 +281,7 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 9999;
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
