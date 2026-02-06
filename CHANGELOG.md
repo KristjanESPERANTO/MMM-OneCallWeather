@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file. See [commit
 ### Chores
 
 * add demo mode for testing weather alerts ([80fd808](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/80fd808b6a095737ce89c5655d286cf4fd3ee08f))
-* fix formating ([e9be3de](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/e9be3de89fd3dd13c5b4d0a926b7f591b2a1d8ca))
+* fix formatting ([e9be3de](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/e9be3de89fd3dd13c5b4d0a926b7f591b2a1d8ca))
 * update devDependencies ([fe0da60](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/fe0da60a9d9fb9500f030570142682cc5f13a703))
 
 
