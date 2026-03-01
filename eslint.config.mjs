@@ -21,8 +21,7 @@ export default defineConfig([
         config: 'readonly',
       },
     },
-    plugins: { js, stylistic },
-    extends: [importX.recommended, 'js/all', stylistic.configs.recommended],
+    extends: [importX.recommended, js.configs.all, stylistic.configs.recommended],
     rules: {
       '@stylistic/array-element-newline': ['error', 'consistent'],
       '@stylistic/dot-location': ['error', 'property'],
@@ -58,8 +57,7 @@ export default defineConfig([
       },
       sourceType: 'module',
     },
-    plugins: { js, stylistic },
-    extends: [importX.recommended, 'js/all', stylistic.configs.recommended],
+    extends: [importX.recommended, js.configs.all, stylistic.configs.recommended],
     rules: {
       '@stylistic/array-element-newline': ['error', 'consistent'],
       '@stylistic/indent': ['error', 2],
@@ -78,7 +76,6 @@ export default defineConfig([
       },
       sourceType: 'module',
     },
-    plugins: { js, stylistic },
     extends: [importX.recommended, stylistic.configs.recommended],
     rules: {
       '@stylistic/indent': ['error', 2],
