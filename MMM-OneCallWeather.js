@@ -369,10 +369,12 @@ Module.register('MMM-OneCallWeather', {
         minTempCell.className = 'min-temp'
         row.appendChild(minTempCell)
 
-        const windCell = document.createElement('td')
-        windCell.className = 'bright weather-icon'
-        windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection))
-        row.appendChild(windCell)
+        if (this.config.showWind) {
+          const windCell = document.createElement('td')
+          windCell.className = 'bright weather-icon'
+          windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection))
+          row.appendChild(windCell)
+        }
 
         if (this.config.showRainAmount) {
           const rainCell = document.createElement('td')
@@ -519,16 +521,16 @@ Module.register('MMM-OneCallWeather', {
       minTempRow.appendChild(minTempCell)
 
       // Wind cell
-    if (this.config.showWind) {
-      const windCell = document.createElement('td')
-      windCell.className = 'bright weather-icon'
-      if (this.config.colored) {
-        windCell.className += ' colored'
+      if (this.config.showWind) {
+        const windCell = document.createElement('td')
+        windCell.className = 'bright weather-icon'
+        if (this.config.colored) {
+          windCell.className += ' colored'
+        }
+        windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection))
+        windRow.appendChild(windCell)
       }
-      windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection))
-      windRow.appendChild(windCell)
-    }
-    
+
       // Rain cell
       if (this.config.showRainAmount) {
         const rainCell = document.createElement('td')
@@ -572,7 +574,9 @@ Module.register('MMM-OneCallWeather', {
     forecastTable.appendChild(iconRow)
     forecastTable.appendChild(maxTempRow)
     forecastTable.appendChild(minTempRow)
-    forecastTable.appendChild(windRow)
+    if (this.config.showWind) {
+      forecastTable.appendChild(windRow)
+    }
     if (this.config.showRainAmount) {
       forecastTable.appendChild(rainRow)
     }
