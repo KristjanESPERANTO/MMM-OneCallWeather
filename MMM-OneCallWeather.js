@@ -868,91 +868,11 @@ Module.register('MMM-OneCallWeather', {
     document.body.appendChild(overlay)
   },
 
-  /*
-   * getSnowDepthRatio(tempCelsius)
-   * Calculates snow-to-water ratio based on temperature.
-   * This provides a scientific estimate of how much snow depth
-   * results from a given amount of liquid water equivalent.
-   *
-   * Temperature ranges based on research:
-   * - Below -15°C: Very light, fluffy powder snow (ratio: 20:1)
-   * - -15°C to -10°C: Light powder snow (ratio: 15:1)
-   * - -10°C to -5°C: Dry snow (ratio: 12:1)
-   * - -5°C to 0°C: Normal snow (ratio: 10:1)
-   * - 0°C to +2°C: Wet, heavy snow (ratio: 6:1)
-   * - Above +2°C: Very wet snow (ratio: 5:1)
-   *
-   * argument tempCelsius number - Temperature in Celsius
-   *
-   * return number - Snow depth multiplier adjusted by user's density factor
-   */
-  getSnowDepthRatio(tempCelsius) {
-    let baseRatio
-
-    if (tempCelsius < -15) {
-      baseRatio = 20 // Very light powder
-    }
-    else if (tempCelsius < -10) {
-      baseRatio = 15 // Light powder
-    }
-    else if (tempCelsius < -5) {
-      baseRatio = 12 // Dry snow
-    }
-    else if (tempCelsius < 0) {
-      baseRatio = 10 // Normal snow
-    }
-    else if (tempCelsius < 2) {
-      baseRatio = 6 // Wet snow
-    }
-    else {
-      baseRatio = 5 // Very wet/slushy
-    }
-
-    return baseRatio * this.config.snowDensityFactor
-  },
-
-  /*
-   * formatSnowValue(snowMm, dailyForecast)
-   * Formats snow value for display, optionally converting to depth
-   *
-   * argument snowMm number - Snow amount in mm (metric) or inches (imperial) - water equivalent
-   * argument dailyForecast object - Daily forecast data with temperatures
-   *
-   * return object - { value: number, unit: string }
-   */
   formatSnowValue(snowMm, dailyForecast) {
-    let snowValue = snowMm
-    let unit = this.config.units === 'imperial' ? 'in' : 'mm'
-
-    if (this.config.convertSnowToDepth) {
-      // Calculate average temperature in Celsius for ratio calculation
-      let avgTempCelsius
-      if (this.config.units === 'imperial') {
-        // Temperatures are in Fahrenheit, convert to Celsius
-        const avgTempF = (dailyForecast.maxTemperature + dailyForecast.minTemperature) / 2
-        avgTempCelsius = (avgTempF - 32) * (5 / 9)
-      }
-      else {
-        avgTempCelsius = (dailyForecast.maxTemperature + dailyForecast.minTemperature) / 2
-      }
-
-      const ratio = this.getSnowDepthRatio(avgTempCelsius)
-
-      if (this.config.units === 'imperial') {
-        // snowValue is in inches (water equivalent)
-        // inches water × ratio = inches snow depth
-        snowValue *= ratio
-        unit = 'in'
-      }
-      else {
-        // snowValue is in mm (water equivalent)
-        // mm water × ratio = mm snow depth → convert to cm
-        snowValue = (snowValue * ratio) / 10
-        unit = 'cm'
-      }
-    }
-
-    return { value: snowValue,
-      unit }
+    return this.utils.formatSnowValue(snowMm, dailyForecast, {
+      units: this.config.units,
+      convertSnowToDepth: this.config.convertSnowToDepth,
+      snowDensityFactor: this.config.snowDensityFactor,
+    })
   },
 })

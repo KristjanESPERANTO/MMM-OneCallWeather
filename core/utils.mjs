@@ -176,3 +176,80 @@ export function convertWeatherType(weatherType) {
 export function getOrdinal(bearing, labelOrdinals) {
   return labelOrdinals[Math.round(bearing * 16 / 360) % 16]
 }
+
+/**
+ * Calculates snow-to-water ratio based on temperature.
+ * Provides a scientific estimate of how much snow depth results
+ * from a given amount of liquid water equivalent.
+ *
+ * Temperature ranges based on research:
+ * - Below -15°C: Very light, fluffy powder snow (ratio: 20:1)
+ * - -15°C to -10°C: Light powder snow (ratio: 15:1)
+ * - -10°C to -5°C: Dry snow (ratio: 12:1)
+ * - -5°C to 0°C: Normal snow (ratio: 10:1)
+ * - 0°C to +2°C: Wet, heavy snow (ratio: 6:1)
+ * - Above +2°C: Very wet snow (ratio: 5:1)
+ *
+ * @param {number} tempCelsius - Temperature in Celsius.
+ * @param {number} snowDensityFactor - User-configured density multiplier.
+ * @returns {number} Snow depth multiplier adjusted by density factor.
+ */
+export function getSnowDepthRatio(tempCelsius, snowDensityFactor) {
+  // Default ratio for temperatures >= 2°C (very wet/slushy snow)
+  let baseRatio = 5
+
+  if (tempCelsius < -15) {
+    baseRatio = 20
+  }
+  else if (tempCelsius < -10) {
+    baseRatio = 15
+  }
+  else if (tempCelsius < -5) {
+    baseRatio = 12
+  }
+  else if (tempCelsius < 0) {
+    baseRatio = 10
+  }
+  else if (tempCelsius < 2) {
+    baseRatio = 6
+  }
+
+  return baseRatio * snowDensityFactor
+}
+
+/**
+ * Formats a snow precipitation value for display,
+ * optionally converting water equivalent to snow depth.
+ *
+ * @param {number} snowMm - Snow amount in mm (metric) or inches (imperial) - water equivalent.
+ * @param {{ maxTemperature: number, minTemperature: number }} dailyForecast - Daily forecast with temperatures.
+ * @param {{ units: string, convertSnowToDepth: boolean, snowDensityFactor: number }} config - Relevant config values.
+ * @returns {{ value: number, unit: string }} Formatted snow value and unit.
+ */
+export function formatSnowValue(snowMm, dailyForecast, { units, convertSnowToDepth, snowDensityFactor }) {
+  let snowValue = snowMm
+  let unit = units === 'imperial' ? 'in' : 'mm'
+
+  if (convertSnowToDepth) {
+    // Calculate average temperature in Celsius for ratio calculation
+    const avgTemp = (dailyForecast.maxTemperature + dailyForecast.minTemperature) / 2
+    // Temperatures from imperial API are in Fahrenheit, convert to Celsius
+    const avgTempCelsius = units === 'imperial' ? (avgTemp - 32) * (5 / 9) : avgTemp
+    const ratio = getSnowDepthRatio(avgTempCelsius, snowDensityFactor)
+
+    if (units === 'imperial') {
+      // SnowValue is in inches (water equivalent)
+      // Inches water × ratio = inches snow depth
+      snowValue *= ratio
+      unit = 'in'
+    }
+    else {
+      // SnowValue is in mm (water equivalent)
+      // Mm water × ratio = mm snow depth → convert to cm
+      snowValue = (snowValue * ratio) / 10
+      unit = 'cm'
+    }
+  }
+
+  return { value: snowValue, unit }
+}
