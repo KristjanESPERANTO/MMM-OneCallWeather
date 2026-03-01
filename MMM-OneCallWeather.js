@@ -257,7 +257,6 @@ Module.register('MMM-OneCallWeather', {
       }
     }
 
-    // Log.debug("forecast is " + JSON.stringify(days));
     return { current,
       hours,
       days }
@@ -279,10 +278,16 @@ Module.register('MMM-OneCallWeather', {
       return wrapper
     }
 
-    let table = document.createElement('table')
-    let currentWeather
-    let dailyForecast
-    table.className = this.config.tableClass
+    if (this.config.decimalSymbol === '' || this.config.decimalSymbol === ' ') {
+      this.config.decimalSymbol = '.'
+    }
+
+    // Check if we have forecast data
+    if (!this.forecast || !this.forecast.current || this.forecast.current.length === 0) {
+      wrapper.innerHTML = this.translate('LOADING')
+      wrapper.className = 'dimmed light small'
+      return wrapper
+    }
 
     let degreeLabel = '°'
     if (this.config.scale) {
@@ -299,170 +304,139 @@ Module.register('MMM-OneCallWeather', {
       }
     }
 
-    if (this.config.decimalSymbol === '') {
-      this.config.decimalSymbol = '.'
-    }
-
-    // Check if we have forecast data
-    if (!this.forecast || !this.forecast.current || this.forecast.current.length === 0) {
-      wrapper.innerHTML = this.translate('LOADING')
-      wrapper.className = 'dimmed light small'
-      return wrapper
-    }
-
-    // Forecast layout: "rows" - days as rows (vertical list)
-    if (this.config.forecastLayout === 'rows') {
-      // eslint-disable-next-line prefer-destructuring
-      currentWeather = this.forecast.current[0]
-
-      if (this.config.showCurrent) {
-        table = this.createCurrentWeatherBlock(currentWeather, '6', degreeLabel)
-      }
-
-      // Return early if only showing current weather
-      if (!this.config.showForecast) {
-        return table
-      }
-
-      // Create separate forecast table for rows layout
-      const forecastTable = document.createElement('table')
-      forecastTable.className = 'forecast-table small'
-
-      // Check if any day has precipitation
-      const hasAnyRain = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.rain > 0)
-      const hasAnySnow = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.snow > 0)
-
-      for (let i = 0; i < this.config.maxDailiesToShow; i += 1) {
-        dailyForecast = this.forecast.days[i]
-
-        const row = document.createElement('tr')
-        row.className = 'vertical-row'
-
-        if (this.config.colored) {
-          row.className += ' colored'
-        }
-        forecastTable.appendChild(row)
-
-        const dayCell = document.createElement('td')
-        dayCell.className = 'day'
-        dayCell.innerHTML = dailyForecast.dayOfWeek
-        row.appendChild(dayCell)
-
-        const iconCell = document.createElement('td')
-        iconCell.className = 'bright weather-icon'
-        const icon = document.createElement('span')
-        const iconImg = document.createElement('img')
-        iconImg.className = 'forecast-icon'
-        iconImg.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${dailyForecast.weatherIcon}.${this.config.iconsetFormat}`
-
-        icon.appendChild(iconImg)
-        iconCell.appendChild(icon)
-        row.appendChild(iconCell)
-
-        const maxTempCell = document.createElement('td')
-        maxTempCell.innerHTML = `${dailyForecast.maxTemperature}${degreeLabel}`
-        maxTempCell.className = 'bright max-temp'
-        row.appendChild(maxTempCell)
-
-        const minTempCell = document.createElement('td')
-        minTempCell.innerHTML = `${dailyForecast.minTemperature}${degreeLabel}`
-        minTempCell.className = 'min-temp'
-        row.appendChild(minTempCell)
-
-        if (this.config.showWind) {
-          const windCell = document.createElement('td')
-          windCell.className = 'bright weather-icon'
-          windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection))
-          row.appendChild(windCell)
-        }
-
-        if (this.config.showRainAmount) {
-          const rainCell = document.createElement('td')
-          if (dailyForecast.rain > 0) {
-            rainCell.innerHTML = this.config.units === 'imperial'
-              ? `${parseFloat(dailyForecast.rain).toFixed(2)} <span class="precip-unit">in</span>`
-              : `${parseFloat(dailyForecast.rain).toFixed(1)} <span class="precip-unit">mm</span>`
-          }
-          else if (hasAnyRain) {
-            rainCell.innerHTML = '—'
-          }
-          rainCell.className = 'align-right bright rain precip-rain'
-          row.appendChild(rainCell)
-        }
-
-        if (this.config.showSnowAmount) {
-          const snowCell = document.createElement('td')
-          if (dailyForecast.snow > 0) {
-            const formatted = this.formatSnowValue(dailyForecast.snow, dailyForecast)
-            snowCell.innerHTML = this.config.units === 'imperial'
-              ? `${parseFloat(formatted.value).toFixed(2)} <span class="precip-unit">${formatted.unit}</span>`
-              : `${parseFloat(formatted.value).toFixed(1)} <span class="precip-unit">${formatted.unit}</span>`
-          }
-          else if (hasAnySnow) {
-            snowCell.innerHTML = '—'
-          }
-          snowCell.className = 'align-right bright snow precip-snow'
-          row.appendChild(snowCell)
-        }
-      }
-
-      // Return forecast table only if not showing current weather
-      if (!this.config.showCurrent) {
-        return forecastTable
-      }
-
-      // Both current and forecast are shown - create container with arrangement
-      const weatherContainer = document.createElement('div')
-      weatherContainer.className = this.config.arrangement === 'horizontal'
-        ? 'weather-layout-horizontal'
-        : 'weather-layout-vertical'
-
-      weatherContainer.appendChild(table)
-      weatherContainer.appendChild(forecastTable)
-
-      return weatherContainer
-    }
-
-    // Forecast layout: "columns" - days as columns (default table layout)
-    // eslint-disable-next-line prefer-destructuring
-    currentWeather = this.forecast.current[0]
+    const [currentWeather] = this.forecast.current
+    const colspan = this.config.forecastLayout === 'rows' ? '6' : this.config.maxDailiesToShow
+    let table = document.createElement('table')
+    table.className = this.config.tableClass
 
     if (this.config.showCurrent) {
-      table = this.createCurrentWeatherBlock(
-        currentWeather,
-        this.config.maxDailiesToShow,
-        degreeLabel,
-      )
+      table = this.createCurrentWeatherBlock(currentWeather, colspan, degreeLabel)
     }
 
-    // Return early if only showing current weather
     if (!this.config.showForecast) {
       return table
     }
 
-    // Create separate forecast table
+    const forecastTable = this.config.forecastLayout === 'rows'
+      ? this.createRowsForecastTable(degreeLabel)
+      : this.createColumnsForecastTable(degreeLabel)
+
+    if (!this.config.showCurrent) {
+      return forecastTable
+    }
+
+    const weatherContainer = document.createElement('div')
+    weatherContainer.className = this.config.arrangement === 'horizontal'
+      ? 'weather-layout-horizontal'
+      : 'weather-layout-vertical'
+
+    weatherContainer.appendChild(table)
+    weatherContainer.appendChild(forecastTable)
+
+    return weatherContainer
+  },
+
+  // Forecast layout: "rows" - each day as a row (vertical list)
+  createRowsForecastTable(degreeLabel) {
     const forecastTable = document.createElement('table')
     forecastTable.className = 'forecast-table small'
 
-    // Same structure for both layouts - days as columns
+    const hasAnyRain = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.rain > 0)
+    const hasAnySnow = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.snow > 0)
+
+    for (let i = 0; i < this.config.maxDailiesToShow; i += 1) {
+      const dailyForecast = this.forecast.days[i]
+
+      const row = document.createElement('tr')
+      row.className = 'vertical-row'
+      if (this.config.colored) {
+        row.className += ' colored'
+      }
+      forecastTable.appendChild(row)
+
+      const dayCell = document.createElement('td')
+      dayCell.className = 'day'
+      dayCell.innerHTML = dailyForecast.dayOfWeek
+      row.appendChild(dayCell)
+
+      const iconCell = document.createElement('td')
+      iconCell.className = 'bright weather-icon'
+      const icon = document.createElement('span')
+      const iconImg = document.createElement('img')
+      iconImg.className = 'forecast-icon'
+      iconImg.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${dailyForecast.weatherIcon}.${this.config.iconsetFormat}`
+      icon.appendChild(iconImg)
+      iconCell.appendChild(icon)
+      row.appendChild(iconCell)
+
+      const maxTempCell = document.createElement('td')
+      maxTempCell.innerHTML = `${dailyForecast.maxTemperature}${degreeLabel}`
+      maxTempCell.className = 'bright max-temp'
+      row.appendChild(maxTempCell)
+
+      const minTempCell = document.createElement('td')
+      minTempCell.innerHTML = `${dailyForecast.minTemperature}${degreeLabel}`
+      minTempCell.className = 'min-temp'
+      row.appendChild(minTempCell)
+
+      if (this.config.showWind) {
+        const windCell = document.createElement('td')
+        windCell.className = 'bright weather-icon'
+        windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection))
+        row.appendChild(windCell)
+      }
+
+      if (this.config.showRainAmount) {
+        const rainCell = document.createElement('td')
+        if (dailyForecast.rain > 0) {
+          rainCell.innerHTML = this.config.units === 'imperial'
+            ? `${parseFloat(dailyForecast.rain).toFixed(2)} <span class="precip-unit">in</span>`
+            : `${parseFloat(dailyForecast.rain).toFixed(1)} <span class="precip-unit">mm</span>`
+        }
+        else if (hasAnyRain) {
+          rainCell.innerHTML = '—'
+        }
+        rainCell.className = 'align-right bright rain precip-rain'
+        row.appendChild(rainCell)
+      }
+
+      if (this.config.showSnowAmount) {
+        const snowCell = document.createElement('td')
+        if (dailyForecast.snow > 0) {
+          const formatted = this.formatSnowValue(dailyForecast.snow, dailyForecast)
+          snowCell.innerHTML = this.config.units === 'imperial'
+            ? `${parseFloat(formatted.value).toFixed(2)} <span class="precip-unit">${formatted.unit}</span>`
+            : `${parseFloat(formatted.value).toFixed(1)} <span class="precip-unit">${formatted.unit}</span>`
+        }
+        else if (hasAnySnow) {
+          snowCell.innerHTML = '—'
+        }
+        snowCell.className = 'align-right bright snow precip-snow'
+        row.appendChild(snowCell)
+      }
+    }
+
+    return forecastTable
+  },
+
+  // Forecast layout: "columns" - each day as a column
+  createColumnsForecastTable(degreeLabel) {
+    const forecastTable = document.createElement('table')
+    forecastTable.className = 'forecast-table small'
+
     const dayRow = document.createElement('tr')
     const iconRow = document.createElement('tr')
     const maxTempRow = document.createElement('tr')
     const minTempRow = document.createElement('tr')
     const windRow = document.createElement('tr')
-    const rainRow = this.config.showRainAmount
-      ? document.createElement('tr')
-      : null
-    const snowRow = this.config.showSnowAmount
-      ? document.createElement('tr')
-      : null
+    const rainRow = this.config.showRainAmount ? document.createElement('tr') : null
+    const snowRow = this.config.showSnowAmount ? document.createElement('tr') : null
 
-    // Check if any day has precipitation
     const hasAnyRain = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.rain > 0)
     const hasAnySnow = this.forecast.days.slice(0, this.config.maxDailiesToShow).some(day => day.snow > 0)
 
     for (let j = 0; j < this.config.maxDailiesToShow; j += 1) {
-      dailyForecast = this.forecast.days[j]
+      const dailyForecast = this.forecast.days[j]
 
       // Day cell
       const dayCell = document.createElement('td')
@@ -486,13 +460,6 @@ Module.register('MMM-OneCallWeather', {
       icon.appendChild(iconImg)
       iconCell.appendChild(icon)
       iconRow.appendChild(iconCell)
-
-      if (
-        this.config.decimalSymbol === ''
-        || this.config.decimalSymbol === ' '
-      ) {
-        this.config.decimalSymbol = '.'
-      }
 
       // Max temp cell
       const maxTempCell = document.createElement('td')
@@ -584,21 +551,7 @@ Module.register('MMM-OneCallWeather', {
       forecastTable.appendChild(snowRow)
     }
 
-    // Return forecast table only if not showing current weather
-    if (!this.config.showCurrent) {
-      return forecastTable
-    }
-
-    // Create container with both current weather and forecast
-    const weatherContainer = document.createElement('div')
-    weatherContainer.className = this.config.arrangement === 'horizontal'
-      ? 'weather-layout-horizontal'
-      : 'weather-layout-vertical'
-
-    weatherContainer.appendChild(table)
-    weatherContainer.appendChild(forecastTable)
-
-    return weatherContainer
+    return forecastTable
   },
 
   // Helper method to create current weather block (reduces code duplication)
@@ -738,19 +691,15 @@ Module.register('MMM-OneCallWeather', {
           sender: alert.sender_name,
         }))
 
-      // Use all valid alerts, do NOT deduplicate
-      const alertsToShow = validAlerts
-
-      if (alertsToShow.length > 0) {
+      if (validAlerts.length > 0) {
         const fragment = document.createDocumentFragment()
 
-        for (const [index, alert] of alertsToShow.entries()) {
+        for (const [index, alert] of validAlerts.entries()) {
           if (index > 0) {
             fragment.appendChild(document.createElement('br'))
           }
 
           const span = document.createElement('span')
-          // Include start and end time next to the event name
           const startTime = this.formatAlertTime(alert.start)
           const endTime = this.formatAlertTime(alert.end)
 
