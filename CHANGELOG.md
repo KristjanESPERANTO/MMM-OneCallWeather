@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.4.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.3.1...v3.4.0) (2026-03-01)
+
+
+### Added
+
+* disable WInd according to config: showWind ([6a36e3f](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/6a36e3f9204f740d5cb236eb4bea3e33068fa2fd))
+
+
+### Fixed
+
+* respect showWind config in both forecast layouts ([3191cee](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/3191cee1e96cc8a995b33aa3a0c100871dadf5bd))
+
+
+### Chores
+
+* simplify eslint config ([acd894a](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/acd894a5d4cd073d02f8909cab12f1ae9c3e94b6))
+* update devDependencies ([12915fa](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/12915fa94a6e0a8f4199e145a63d0b95a33a9c43))
+
+
+### Code Refactoring
+
+* extract forecast table builders into separate methods ([46345e4](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/46345e4f3b92d6cfcb5160aa1ade2866dc0c29b9))
+* move getSnowDepthRatio and formatSnowValue to core/utils.mjs ([151ed0a](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/151ed0a4d0dbfecd1eb48904621a0839eddc811e))
+
 ## [3.3.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.3.0...v3.3.1) (2026-02-06)
 
 
