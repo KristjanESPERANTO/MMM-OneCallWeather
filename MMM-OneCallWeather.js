@@ -519,6 +519,7 @@ Module.register('MMM-OneCallWeather', {
       minTempRow.appendChild(minTempCell)
 
       // Wind cell
+    if (this.config.showWind) {
       const windCell = document.createElement('td')
       windCell.className = 'bright weather-icon'
       if (this.config.colored) {
@@ -526,7 +527,8 @@ Module.register('MMM-OneCallWeather', {
       }
       windCell.appendChild(this.createWindBadge(dailyForecast.windSpeed, dailyForecast.windDirection))
       windRow.appendChild(windCell)
-
+    }
+    
       // Rain cell
       if (this.config.showRainAmount) {
         const rainCell = document.createElement('td')
