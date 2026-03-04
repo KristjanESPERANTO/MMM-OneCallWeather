@@ -105,11 +105,9 @@
      ========================================================================== */
 
   & .weathericon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     height: var(--icon-size-large);
     width: auto;
+    object-fit: contain;
     margin-inline: 20px;
   }
 
@@ -122,6 +120,8 @@
     height: auto;
     max-width: var(--icon-size-forecast);
     display: inline;
+    vertical-align: middle;
+    object-fit: contain;
   }
 
   /* ==========================================================================
