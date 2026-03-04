@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.4.2](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.4.1...v3.4.2) (2026-03-04)
+
+
+### Fixed
+
+* **css:** prevent weathericon distortion by adding flex-shrink: 0 ([a7d6d9c](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/a7d6d9c9bcf54cbd57b067f46abe876e8baca65c))
+
 ## [3.4.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.4.0...v3.4.1) (2026-03-04)
 
 
