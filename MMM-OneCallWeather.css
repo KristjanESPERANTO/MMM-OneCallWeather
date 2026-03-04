@@ -107,6 +107,7 @@
   & .weathericon {
     height: var(--icon-size-large);
     width: auto;
+    flex-shrink: 0;
     object-fit: contain;
     margin-inline: 20px;
   }
