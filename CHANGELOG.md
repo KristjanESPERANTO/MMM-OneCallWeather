@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.4.3](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.4.2...v3.4.3) (2026-03-05)
+
+
+### Fixed
+
+* **css:** remove weather-icons font classes from img to fix icon distortion ([d0426ec](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/d0426ecbc47034f671b99bc8e95696b1e10cf1a0))
+
 ## [3.4.2](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.4.1...v3.4.2) (2026-03-04)
 
 
