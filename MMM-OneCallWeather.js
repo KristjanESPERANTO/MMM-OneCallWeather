@@ -612,7 +612,7 @@ Module.register('MMM-OneCallWeather', {
     largeWeatherIcon.className = 'large-weather-icon-container light'
 
     const weatherIcon = document.createElement('img')
-    weatherIcon.className = `wi weathericon wi-${currentWeather.weatherIcon}`
+    weatherIcon.className = 'weathericon'
     weatherIcon.src = `modules/MMM-OneCallWeather/icons/${this.config.iconset}/${currentWeather.weatherIcon}.${this.config.iconsetFormat}`
     largeWeatherIcon.appendChild(weatherIcon)
 
