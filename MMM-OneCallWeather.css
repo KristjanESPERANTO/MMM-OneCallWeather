@@ -164,6 +164,42 @@
   }
 
   /* ==========================================================================
+     Info Badges (wind, humidity, rain in current weather row)
+     ========================================================================== */
+
+  & .wind-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+  }
+
+  & .info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    font-size: 0.85em;
+  }
+
+  & .ui-icon {
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  & .ui-icon-wind {
+    width: 1.3em;
+    height: 1.3em;
+  }
+
+  & .ui-icon-humidity {
+    width: 0.9em;
+    height: 0.9em;
+  }
+
+  /* ==========================================================================
      Wind Badge
      ========================================================================== */
 

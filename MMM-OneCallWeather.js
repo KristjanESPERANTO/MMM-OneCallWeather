@@ -16,6 +16,7 @@ Module.register('MMM-OneCallWeather', {
     showWindDirection: true,
     showWindSpeedUnit: false,
     showHumidity: true,
+    showCurrentRain: true,
     showFeelsLike: true,
     tempUnits: 'c',
     windUnits: 'mph',
@@ -148,6 +149,15 @@ Module.register('MMM-OneCallWeather', {
         precipitation: this.config.units === 'imperial'
           ? ((data.current.rain?.['1h'] || 0) + (data.current.snow?.['1h'] || 0)) / 25.4
           : (data.current.rain?.['1h'] || 0) + (data.current.snow?.['1h'] || 0),
+        dailyRain: (() => {
+          const d = data.daily?.[0]
+          if (!d) {
+            return 0
+          }
+          const rain = d.rain && !Number.isNaN(d.rain) ? d.rain : 0
+          const snow = d.snow && !Number.isNaN(d.snow) ? d.snow : 0
+          return this.config.units === 'imperial' ? (rain + snow) / 25.4 : rain + snow
+        })(),
       }
 
       if (Object.hasOwn(data, 'alerts')) {
@@ -570,10 +580,13 @@ Module.register('MMM-OneCallWeather', {
     const windContainer = document.createElement('div')
     windContainer.className = 'wind-container normal medium'
 
+    const windGroup = document.createElement('span')
+    windGroup.className = 'info-badge dimmed'
+
     const windIcon = document.createElement('img')
-    windIcon.className = 'wi wind-icon dimmed'
+    windIcon.className = 'ui-icon ui-icon-wind'
     windIcon.src = 'modules/MMM-OneCallWeather/icons/ui/wind.svg'
-    windContainer.appendChild(windIcon)
+    windGroup.appendChild(windIcon)
 
     const windySpeed = document.createElement('span')
     if (this.config.useBeaufortInCurrent) {
@@ -582,9 +595,9 @@ Module.register('MMM-OneCallWeather', {
     }
     else {
       const unitLabel = this.config.showWindSpeedUnit ? `\u00a0${this.getWindSpeedLabel()}` : ''
-      windySpeed.innerHTML = ` ${currentWeather.windSpeed}${unitLabel}`
+      windySpeed.innerHTML = `${currentWeather.windSpeed}${unitLabel}`
     }
-    windContainer.appendChild(windySpeed)
+    windGroup.appendChild(windySpeed)
 
     if (this.config.showWindDirection) {
       const windyDirection = document.createElement('sup')
@@ -592,21 +605,19 @@ Module.register('MMM-OneCallWeather', {
         windyDirection.innerHTML = ` &nbsp;<i class="fa fa-long-arrow-down" style="transform:rotate(${currentWeather.windDirection}deg);"></i>&nbsp;`
       }
       else {
-        windyDirection.innerHTML = ` ${this.cardinalWindDirection(currentWeather.windDirection)}`
+        windyDirection.innerHTML = `\u00a0${this.cardinalWindDirection(currentWeather.windDirection)}`
       }
-      windContainer.appendChild(windyDirection)
+      windGroup.appendChild(windyDirection)
     }
 
-    const spacer = document.createElement('span')
-    spacer.innerHTML = '&nbsp;'
-    windContainer.appendChild(spacer)
+    windContainer.appendChild(windGroup)
 
     if (this.config.showHumidity) {
       const humidityContainer = document.createElement('span')
-      humidityContainer.className = 'dimmed'
+      humidityContainer.className = 'info-badge dimmed'
 
       const humidityIcon = document.createElement('img')
-      humidityIcon.className = 'wi wind-icon dimmed'
+      humidityIcon.className = 'ui-icon ui-icon-humidity'
       humidityIcon.src = 'modules/MMM-OneCallWeather/icons/ui/humidity.svg'
       humidityContainer.appendChild(humidityIcon)
 
@@ -615,6 +626,25 @@ Module.register('MMM-OneCallWeather', {
       humidityContainer.appendChild(humidityValue)
 
       windContainer.appendChild(humidityContainer)
+    }
+
+    if (this.config.showCurrentRain && currentWeather.dailyRain > 0) {
+      const rainContainer = document.createElement('span')
+      rainContainer.className = 'info-badge dimmed'
+
+      const rainIcon = document.createElement('img')
+      rainIcon.className = 'ui-icon'
+      rainIcon.src = 'modules/MMM-OneCallWeather/icons/ui/rain.svg'
+      rainContainer.appendChild(rainIcon)
+
+      const rainValue = document.createElement('span')
+      const amount = currentWeather.dailyRain
+      rainValue.textContent = this.config.units === 'imperial'
+        ? `${parseFloat(amount).toFixed(2)} in`
+        : `${parseFloat(amount).toFixed(1)} mm`
+      rainContainer.appendChild(rainValue)
+
+      windContainer.appendChild(rainContainer)
     }
 
     currentCell1.appendChild(windContainer)
