@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.6.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.5.1...v3.6.0) (2026-03-08)
+
+
+### Added
+
+* add showCurrentRain option and unify current weather info badge styling ([a473168](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/a4731683b604f3db8fdf889c22176ea53620e5b4)), closes [#41](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/41)
+
+
+### Documentation
+
+* update second screenshot ([3e77df4](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/3e77df42bae6a6c72979d6f2a4a49b2cc72dfaed))
+
+
+### Chores
+
+* fix format ([b8a1e4a](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/b8a1e4a687fb1aae34f4539248db1fd5ded47c43))
+* fix prepare script ([68c3eee](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/68c3eee1e0662d4330b8c1fb714b8a464b967b46))
+
 ## [3.5.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.5.0...v3.5.1) (2026-03-08)
 
 
