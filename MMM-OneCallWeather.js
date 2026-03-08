@@ -371,15 +371,15 @@ Module.register('MMM-OneCallWeather', {
       iconCell.appendChild(icon)
       row.appendChild(iconCell)
 
-      const maxTempCell = document.createElement('td')
-      maxTempCell.innerHTML = `${dailyForecast.maxTemperature}${degreeLabel}`
-      maxTempCell.className = 'bright max-temp'
-      row.appendChild(maxTempCell)
-
       const minTempCell = document.createElement('td')
       minTempCell.innerHTML = `${dailyForecast.minTemperature}${degreeLabel}`
       minTempCell.className = 'min-temp'
       row.appendChild(minTempCell)
+
+      const maxTempCell = document.createElement('td')
+      maxTempCell.innerHTML = `${dailyForecast.maxTemperature}${degreeLabel}`
+      maxTempCell.className = 'bright max-temp'
+      row.appendChild(maxTempCell)
 
       if (this.config.showWind) {
         const windCell = document.createElement('td')
