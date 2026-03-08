@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.5.1](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.5.0...v3.5.1) (2026-03-08)
+
+
+### Fixed
+
+* show min temp before max temp in rows forecast layout ([1d916fa](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/1d916fa84fd998d221525da54a5f8719e6fec913))
+
 ## [3.5.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.4.3...v3.5.0) (2026-03-08)
 
 
