@@ -209,18 +209,18 @@
       opacity: var(--wind-compass-opacity);
     }
 
-    /* Direction arrow */
+    /* Direction arrow - points down (south) by default, rotated by wind_deg to show blowing direction */
     &::after {
       content: "";
       position: absolute;
-      top: 0.2em;
+      bottom: 0.2em;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 0.3em solid transparent;
       border-right: 0.3em solid transparent;
-      border-bottom: 0.5em solid currentcolor;
+      border-top: 0.5em solid currentcolor;
       opacity: var(--wind-arrow-opacity);
     }
   }
