@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.5.0](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.4.3...v3.5.0) (2026-03-08)
+
+
+### Added
+
+* add knots wind unit and showWindSpeedUnit option ([e2a2dad](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/e2a2dad5b7d042b5920be50f578e68e6faf9e404)), closes [#39](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/39)
+* add showHumidity option to current weather display ([94447ef](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/94447efdf8789e1d33b37850e7d02c1888447dd6)), closes [#40](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/40)
+
+
+### Fixed
+
+* wind direction arrows point in wind blowing direction ([2736900](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/2736900cb6483bb295c28fea783b98339cde275f)), closes [#37](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/issues/37)
+
+
+### Documentation
+
+* document scale option for degree label display ([d19e883](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/d19e8831ffef72f812ee82ec77e999e2ab9660cb))
+* document showWind, showWindDirection, showWindDirectionAsArrow, and useBeaufortInCurrent options ([2f7c09c](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/2f7c09c96de1bf55e358f01ec7a5e96b30717cb1))
+
+
+### Chores
+
+* update devDependencies ([867f140](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/commit/867f1407e0b4de16cab565e2d2f9d2d5ca63d30c))
+
 ## [3.4.3](https://github.com/KristjanESPERANTO/MMM-OneCallWeather/compare/v3.4.2...v3.4.3) (2026-03-05)
 
 
