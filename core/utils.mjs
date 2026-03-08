@@ -33,7 +33,7 @@ export function mph2Beaufort(mph) {
  * - units: "metric" or "standard" → wind speed in m/s
  *
  * @param {string} apiUnits - API units parameter ("imperial", "metric", or "standard").
- * @param {string} windUnits - Desired wind speed units ("mph", "kmph", or "ms").
+ * @param {string} windUnits - Desired wind speed units ("mph", "kmph", "ms", or "knots").
  * @returns {number} Conversion factor to multiply API wind speed with.
  */
 export function getWindSpeedFactor(apiUnits, windUnits) {
@@ -49,6 +49,10 @@ export function getWindSpeedFactor(apiUnits, windUnits) {
       // Mph to m/s
       return 0.44704
     }
+    if (windUnits === 'knots') {
+      // Mph to knots
+      return 0.868976
+    }
     // WindUnits === "mph": no conversion needed
     return 1
   }
@@ -62,8 +66,28 @@ export function getWindSpeedFactor(apiUnits, windUnits) {
     // M/s to km/h
     return 3.6
   }
+  if (windUnits === 'knots') {
+    // M/s to knots
+    return 1.94384
+  }
   // WindUnits === "ms": no conversion needed
   return 1
+}
+
+/**
+ * Get the display label for a wind speed unit.
+ *
+ * @param {string} windUnits - Wind speed unit ("mph", "kmph", "ms", or "knots").
+ * @returns {string} Human-readable label for the unit.
+ */
+export function getWindSpeedLabel(windUnits) {
+  const labels = {
+    mph: 'mph',
+    kmph: 'km/h',
+    ms: 'm/s',
+    knots: 'kts',
+  }
+  return labels[windUnits] ?? windUnits
 }
 
 /**

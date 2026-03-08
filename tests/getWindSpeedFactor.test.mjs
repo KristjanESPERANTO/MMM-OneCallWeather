@@ -15,6 +15,10 @@ describe('getWindSpeedFactor', () => {
     it('should return 0.44704 for mph → m/s', () => {
       assert.equal(getWindSpeedFactor('imperial', 'ms'), 0.44704)
     })
+
+    it('should return 0.868976 for mph → knots', () => {
+      assert.equal(getWindSpeedFactor('imperial', 'knots'), 0.868976)
+    })
   })
 
   describe('Metric API units (m/s from API)', () => {
@@ -28,6 +32,10 @@ describe('getWindSpeedFactor', () => {
 
     it('should return 1 for m/s → m/s (no conversion)', () => {
       assert.equal(getWindSpeedFactor('metric', 'ms'), 1)
+    })
+
+    it('should return 1.94384 for m/s → knots', () => {
+      assert.equal(getWindSpeedFactor('metric', 'knots'), 1.94384)
     })
   })
 

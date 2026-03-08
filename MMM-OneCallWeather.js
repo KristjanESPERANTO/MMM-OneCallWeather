@@ -14,6 +14,7 @@ Module.register('MMM-OneCallWeather', {
     snowDensityFactor: 1.0,
     showWind: true,
     showWindDirection: true,
+    showWindSpeedUnit: false,
     showFeelsLike: true,
     tempUnits: 'c',
     windUnits: 'mph',
@@ -579,7 +580,8 @@ Module.register('MMM-OneCallWeather', {
       windySpeed.innerHTML = `F${this.convSpd}`
     }
     else {
-      windySpeed.innerHTML = ` ${currentWeather.windSpeed}`
+      const unitLabel = this.config.showWindSpeedUnit ? `\u00a0${this.getWindSpeedLabel()}` : ''
+      windySpeed.innerHTML = ` ${currentWeather.windSpeed}${unitLabel}`
     }
     windContainer.appendChild(windySpeed)
 
@@ -728,6 +730,10 @@ Module.register('MMM-OneCallWeather', {
 
   cardinalWindDirection(windDir) {
     return this.utils.cardinalWindDirection(windDir)
+  },
+
+  getWindSpeedLabel() {
+    return this.utils.getWindSpeedLabel(this.config.windUnits)
   },
 
   // Create a wind badge with centered speed value and compass direction indicator
