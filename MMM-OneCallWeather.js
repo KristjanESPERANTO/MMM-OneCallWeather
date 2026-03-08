@@ -386,6 +386,11 @@ Module.register('MMM-OneCallWeather', {
       minTempCell.className = 'min-temp'
       row.appendChild(minTempCell)
 
+      const tempSepCell = document.createElement('td')
+      tempSepCell.className = 'temp-sep dimmed'
+      tempSepCell.textContent = '–'
+      row.appendChild(tempSepCell)
+
       const maxTempCell = document.createElement('td')
       maxTempCell.innerHTML = `${dailyForecast.maxTemperature}${degreeLabel}`
       maxTempCell.className = 'bright max-temp'
