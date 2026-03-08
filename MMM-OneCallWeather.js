@@ -15,6 +15,7 @@ Module.register('MMM-OneCallWeather', {
     showWind: true,
     showWindDirection: true,
     showWindSpeedUnit: false,
+    showHumidity: true,
     showFeelsLike: true,
     tempUnits: 'c',
     windUnits: 'mph',
@@ -571,7 +572,7 @@ Module.register('MMM-OneCallWeather', {
 
     const windIcon = document.createElement('img')
     windIcon.className = 'wi wind-icon dimmed'
-    windIcon.src = 'modules/MMM-OneCallWeather/icons/8a/wind.svg'
+    windIcon.src = 'modules/MMM-OneCallWeather/icons/ui/wind.svg'
     windContainer.appendChild(windIcon)
 
     const windySpeed = document.createElement('span')
@@ -599,6 +600,22 @@ Module.register('MMM-OneCallWeather', {
     const spacer = document.createElement('span')
     spacer.innerHTML = '&nbsp;'
     windContainer.appendChild(spacer)
+
+    if (this.config.showHumidity) {
+      const humidityContainer = document.createElement('span')
+      humidityContainer.className = 'dimmed'
+
+      const humidityIcon = document.createElement('img')
+      humidityIcon.className = 'wi wind-icon dimmed'
+      humidityIcon.src = 'modules/MMM-OneCallWeather/icons/ui/humidity.svg'
+      humidityContainer.appendChild(humidityIcon)
+
+      const humidityValue = document.createElement('span')
+      humidityValue.textContent = `${currentWeather.humidity}%`
+      humidityContainer.appendChild(humidityValue)
+
+      windContainer.appendChild(humidityContainer)
+    }
 
     currentCell1.appendChild(windContainer)
     currentRow1.appendChild(currentCell1)
