@@ -48,7 +48,7 @@ cd ~/MagicMirror/modules
 Clone this repository:
 
 ```sh
-git clone https://github.com/KristjanESPERANTO/MMM-OneCallWeather
+git clone https://github.com/MagicMirrorModules/MMM-OneCallWeather
 ```
 
 Go to <https://openweathermap.org/api> and subscribe to One Call API. Its free to set up an account, and the free subscription level is fine for this app. The API returns a lot of information and can return 1000 calls a day on the free subscription level (approx once every 2 minutes maximum). The API is good as it uses their algorithms to give ultra local weather reports, even if you don't live in a named location, which some other apps suffer with.
